@@ -18,8 +18,11 @@ export class AuthService {
     const isExistEmail = await this.userService.getUserByEmail(signupUserInput.Email);
     const isExistUsername = await this.userService.getUserByUsername(signupUserInput.User_Name);
 
-    if(isExistEmail || isExistUsername) {
-      throw new UnauthorizedException("This email or username is already taken")
+    if(isExistEmail ) {
+      throw new UnauthorizedException("This email is already taken")
+    }
+    if(isExistUsername) {
+      throw new UnauthorizedException("This user name is already taken")
     }
 
     const randomCode: string = randomOtp(6);
