@@ -1,0 +1,401 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Address {
+  Address_ID: String!
+  Address_Name: String!
+  Address_District: String!
+  User_ID: User!
+}
+
+type Catalog {
+  Catalog_ID: String!
+  Catalog_Name: String!
+}
+
+type ProductImage {
+  Product_Image_ID: String!
+  Product_ID: Product!
+  Product_Image_Url: String!
+}
+
+type AuctionField {
+  Auction_Field_ID: String!
+  Start_Time: DateTime!
+  End_Time: DateTime!
+  Discount_Circle: Float!
+  isOperation: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ProductAuctionLog {
+  Product_Auction_Log_ID: String!
+  Price: Float!
+  Time: DateTime!
+  Product_Auction_ID: ProductAuction!
+}
+
+type UserBid {
+  User_ID: String!
+  Product_Auction_ID: String!
+  Price: Float!
+  Time: DateTime!
+}
+
+type Payment {
+  Payment_ID: String!
+  Order: Order!
+  Total: Float!
+  User_ID: User!
+}
+
+type Order {
+  Order_ID: String!
+  Total_Price: Float!
+  Status: Boolean!
+  User_ID: User!
+  Product_Auction_ID: ProductAuction!
+  Address_ID: Address!
+  Payment_ID: Payment!
+}
+
+type ProductAuction {
+  Product_Auction_ID: String!
+  Quantity: Float!
+  Starting_Price: Float!
+  Discount_Rate: Float!
+  Current_Price: Float!
+  Product_ID: Product!
+  Auction_Field_ID: AuctionField!
+  User_ID: User!
+}
+
+type Product {
+  Product_ID: String!
+  Product_Name: String!
+  Quantity: Float!
+  Weight: Float!
+  Price: Float!
+  User_Note: String
+  isActive: Boolean!
+  isBlock: Boolean!
+  Product_Info: String
+  User_ID: User!
+  Catalog_ID: Catalog!
+}
+
+type CurrencyLog {
+  Currency_Log_ID: String!
+  Currency_Log_Value: String!
+  Currency: Currency!
+}
+
+type Currency {
+  Currency_ID: String!
+  Total_Money: Float!
+  User_ID: User!
+}
+
+type User {
+  User_ID: String!
+  User_First_Name: String!
+  User_Last_Name: String!
+  User_Name: String!
+  Email: String!
+  Phone: String
+  Otp: String
+  User_Image_Url: String
+  isAdmin: Boolean
+  isActive: Boolean
+  isConfirmEmail: Boolean
+  Default_Address_ID: Address
+}
+
+type WeightFee {
+  Weight_Fee_ID: String!
+  Weight_From: Float!
+  Weight_To: Float!
+  Fee: Float!
+}
+
+type DeliveryFee {
+  Delivery_Fee_ID: String!
+  Address_District: String!
+  Fee: Float!
+}
+
+type UserBidLog {
+  User_Bid_Log_ID: String!
+  Price: Float!
+  Time: DateTime!
+  userBrid: UserBid!
+}
+
+type IJwtPayload {
+  id: String
+}
+
+type JwtPayload {
+  accessToken: String
+  userId: IJwtPayload
+}
+
+type Query {
+  address(id: Int!): Address!
+  product(id: Int!): Product!
+  catalog(id: Int!): Catalog!
+  productImage(id: Int!): ProductImage!
+  currency(id: Int!): Currency!
+  weightFee(id: Int!): WeightFee!
+  deliveryFee(id: Int!): DeliveryFee!
+  order(id: Int!): Order!
+  payment(id: Int!): Payment!
+  productAuction(id: Int!): ProductAuction!
+  auctionField(id: Int!): AuctionField!
+  productAuctionLog(id: Int!): ProductAuctionLog!
+  userBid(id: Int!): UserBid!
+  userBidLog(id: Int!): UserBidLog!
+  currencyLog(id: Int!): CurrencyLog!
+}
+
+type Mutation {
+  createAddress(createAddressInput: CreateAddressInput!): Address!
+  updateAddress(updateAddressInput: UpdateAddressInput!): Address!
+  removeAddress(id: Int!): Address!
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: Int!): Product!
+  createCatalog(createCatalogInput: CreateCatalogInput!): Catalog!
+  updateCatalog(updateCatalogInput: UpdateCatalogInput!): Catalog!
+  removeCatalog(id: Int!): Catalog!
+  createProductImage(createProductImageInput: CreateProductImageInput!): ProductImage!
+  updateProductImage(updateProductImageInput: UpdateProductImageInput!): ProductImage!
+  removeProductImage(id: Int!): ProductImage!
+  createCurrency(createCurrencyInput: CreateCurrencyInput!): Currency!
+  updateCurrency(updateCurrencyInput: UpdateCurrencyInput!): Currency!
+  removeCurrency(id: Int!): Currency!
+  createWeightFee(createWeightFeeInput: CreateWeightFeeInput!): WeightFee!
+  updateWeightFee(updateWeightFeeInput: UpdateWeightFeeInput!): WeightFee!
+  removeWeightFee(id: Int!): WeightFee!
+  createDeliveryFee(createDeliveryFeeInput: CreateDeliveryFeeInput!): DeliveryFee!
+  updateDeliveryFee(updateDeliveryFeeInput: UpdateDeliveryFeeInput!): DeliveryFee!
+  removeDeliveryFee(id: Int!): DeliveryFee!
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
+  removeOrder(id: Int!): Order!
+  createPayment(createPaymentInput: CreatePaymentInput!): Payment!
+  updatePayment(updatePaymentInput: UpdatePaymentInput!): Payment!
+  removePayment(id: Int!): Payment!
+  createProductAuction(createProductAuctionInput: CreateProductAuctionInput!): ProductAuction!
+  updateProductAuction(updateProductAuctionInput: UpdateProductAuctionInput!): ProductAuction!
+  removeProductAuction(id: Int!): ProductAuction!
+  createAuctionField(createAuctionFieldInput: CreateAuctionFieldInput!): AuctionField!
+  updateAuctionField(updateAuctionFieldInput: UpdateAuctionFieldInput!): AuctionField!
+  removeAuctionField(id: Int!): AuctionField!
+  createProductAuctionLog(createProductAuctionLogInput: CreateProductAuctionLogInput!): ProductAuctionLog!
+  updateProductAuctionLog(updateProductAuctionLogInput: UpdateProductAuctionLogInput!): ProductAuctionLog!
+  removeProductAuctionLog(id: Int!): ProductAuctionLog!
+  createUserBid(createUserBidInput: CreateUserBidInput!): UserBid!
+  updateUserBid(updateUserBidInput: UpdateUserBidInput!): UserBid!
+  removeUserBid(id: Int!): UserBid!
+  createUserBidLog(createUserBidLogInput: CreateUserBidLogInput!): UserBidLog!
+  updateUserBidLog(updateUserBidLogInput: UpdateUserBidLogInput!): UserBidLog!
+  removeUserBidLog(id: Int!): UserBidLog!
+  signup(signupUserInput: SignupUserInput!): JwtPayload!
+  login(loginUserInput: LoginUserInput!): JwtPayload!
+  activeOtp(activeOtpInput: ActiveOtpInput!): Boolean!
+  resendOtp: Boolean!
+  createCurrencyLog(createCurrencyLogInput: CreateCurrencyLogInput!): CurrencyLog!
+  updateCurrencyLog(updateCurrencyLogInput: UpdateCurrencyLogInput!): CurrencyLog!
+  removeCurrencyLog(id: Int!): CurrencyLog!
+}
+
+input CreateAddressInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateAddressInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateProductInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateProductInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateCatalogInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCatalogInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateProductImageInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateProductImageInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateCurrencyInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCurrencyInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateWeightFeeInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateWeightFeeInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateDeliveryFeeInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateDeliveryFeeInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateOrderInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateOrderInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreatePaymentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePaymentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateProductAuctionInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateProductAuctionInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateAuctionFieldInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateAuctionFieldInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateProductAuctionLogInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateProductAuctionLogInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateUserBidInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserBidInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateUserBidLogInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserBidLogInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input SignupUserInput {
+  User_First_Name: String!
+  User_Last_Name: String!
+  User_Name: String!
+  Email: String!
+  Password: String!
+  PassWordConfirm: String!
+}
+
+input LoginUserInput {
+  userName: String
+  email: String
+  passWord: String!
+}
+
+input ActiveOtpInput {
+  otp: String!
+  User_ID: String!
+}
+
+input CreateCurrencyLogInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCurrencyLogInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
