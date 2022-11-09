@@ -86,7 +86,7 @@ export class UserService {
   }
 
   async activeOtp(activeOtpInput: ActiveOtpInput) : Promise<boolean> {
-    const user: User = await this.userRepository.findOneBy({ User_ID: activeOtpInput.User_ID });
+    const user: User = await this.getUserById(activeOtpInput.User_ID);
     if(!user) {
       throw new NotFoundException("Not found user");
     }
@@ -100,7 +100,7 @@ export class UserService {
     user.Otp = null;
     user.isConfirmEmail = true;
 
-    return this.userRepository.save(user) ? true: false;
+    return await this.userRepository.save(user) ? true: false;
   }
 
   async createOtpResetPassword(user: User, randomCode: string) 

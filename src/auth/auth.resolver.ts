@@ -57,7 +57,7 @@ export class AuthResolver {
         resetPassWordInput
       )
     } catch(error) {
-      throw new HttpException(error.messages, error.status || HttpStatus.FORBIDDEN);
+      throw new HttpException(error.message, error.status || HttpStatus.FORBIDDEN);
     }
   }
 
@@ -68,7 +68,7 @@ export class AuthResolver {
     try {
       return await this.userService.activeOtp(activeOtpInput);
     } catch(error) {
-      throw new HttpException(error.messages, error.status || HttpStatus.FORBIDDEN);
+      throw new HttpException(error.message, error.status || HttpStatus.FORBIDDEN);
     }
   }
 
@@ -77,7 +77,7 @@ export class AuthResolver {
     try {
       return await this.authService.resendOtp(User_ID);
     } catch(error) {
-      throw new HttpException(error.messages, error.status || HttpStatus.FORBIDDEN);
+      throw new HttpException(error.message, error.status || HttpStatus.FORBIDDEN);
     }
   }
 }
