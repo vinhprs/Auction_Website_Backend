@@ -111,6 +111,7 @@ type User {
   Email: String!
   Phone: String
   Otp: String
+  ResetPasswordOtp: String
   User_Image_Url: String
   isAdmin: Boolean
   isActive: Boolean
@@ -210,6 +211,8 @@ type Mutation {
   removeUserBidLog(id: Int!): UserBidLog!
   signup(signupUserInput: SignupUserInput!): JwtPayload!
   login(loginUserInput: LoginUserInput!): JwtPayload!
+  forgotPassword(email: String!): Boolean!
+  resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
   activeOtp(activeOtpInput: ActiveOtpInput!): Boolean!
   resendOtp: Boolean!
   createCurrencyLog(createCurrencyLogInput: CreateCurrencyLogInput!): CurrencyLog!
@@ -384,6 +387,12 @@ input LoginUserInput {
   userName: String
   email: String
   passWord: String!
+}
+
+input ResetPasswordInput {
+  New_Password: String!
+  otp: String!
+  User_ID: String!
 }
 
 input ActiveOtpInput {

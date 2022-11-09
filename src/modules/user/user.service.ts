@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SignupUserInput, LoginUserInput, ActiveOtpInput } from '../../auth/dto/auth.input';
+import { SignupUserInput, LoginUserInput, ActiveOtpInput, ResetPasswordInput } from '../../auth/dto/auth.input';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
@@ -53,24 +53,22 @@ export class UserService {
     return user;
   }
 
-  async validateResetPasswordInput(
-    newPassword: string,
-    otp: string,
-    userId: string
-  ) : Promise<boolean> {
-    const user: User = await this.getUserById(userId);
+  async validateResetPasswordInput(resetPassWordInput : ResetPasswordInput) 
+  : Promise<boolean> {
+    const { User_ID, New_Password, otp } = resetPassWordInput;
+    const user: User = await this.getUserById(User_ID);
     if(!user) {
       throw new NotFoundException('Not found user');
     }
-    if(!user.Otp) {
+    if(!user.ResetPasswordOtp) {
       return false;
     }
-    const isMatch = await bcrypt.compare(otp, user.Otp);
+    const isMatch = await bcrypt.compare(otp, user.ResetPasswordOtp);
     if(!isMatch) {
       throw new UnauthorizedException("Incorrect Otp code");
     }
-    user.Otp = null;
-    user.Password = await bcrypt.hash(newPassword, 12);
+    user.ResetPasswordOtp = null;
+    user.Password = await bcrypt.hash(New_Password, 12);
     
     return await this.userRepository.save(user) ? true: false;
   }
@@ -107,7 +105,7 @@ export class UserService {
 
   async createOtpResetPassword(user: User, randomCode: string) 
   : Promise<User> {
-    user.Otp = await bcrypt.hash(randomCode, 12);
+    user.ResetPasswordOtp = await bcrypt.hash(randomCode, 12);
 
     return await this.userRepository.save(user);
   }

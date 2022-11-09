@@ -44,6 +44,10 @@ export class User {
   @Column({ nullable: true, default: null })
   Otp: string;
 
+  @Field({ nullable: true, defaultValue: null })
+  @Column({ nullable: true, default: null })
+  ResetPasswordOtp: string;
+
   @Field({nullable: true, defaultValue: null})
   @Column({nullable: true, default: null})
   User_Image_Url: string;

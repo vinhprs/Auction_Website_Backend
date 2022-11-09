@@ -54,9 +54,7 @@ export class AuthResolver {
   ) : Promise<boolean> {
     try { 
       return await this.userService.validateResetPasswordInput(
-        resetPassWordInput.New_Password,
-        resetPassWordInput.otp,
-        resetPassWordInput.User_ID
+        resetPassWordInput
       )
     } catch(error) {
       throw new HttpException(error.messages, error.status || HttpStatus.FORBIDDEN);

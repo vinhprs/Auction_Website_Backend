@@ -43,7 +43,7 @@ export class AuthService {
 
   async forgotPassword(email: string) : Promise<boolean> {
     const user: User = await this.userService.getUserByEmail(email);
-    if(!user || user.isConfirmEmail) {
+    if(!user || !user.isConfirmEmail) {
       throw new NotFoundException('Not found email!');
     }
     const randomCode = randomOtp(6);
