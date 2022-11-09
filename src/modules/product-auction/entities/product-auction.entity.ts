@@ -45,6 +45,10 @@ export class ProductAuction {
   @JoinColumn({name: "User_ID"})
   User_ID: User;
 
+  @Field()
+  @Column()
+  isSold: boolean
+
   @OneToMany(() => ProductAuctionLog, productAuctionLog => productAuctionLog.Product_Auction_ID)
   ProductAuctionLog: ProductAuctionLog [];
 

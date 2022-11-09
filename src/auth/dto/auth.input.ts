@@ -44,3 +44,17 @@ export class ActiveOtpInput {
   @Field()
   User_ID: string;
 }
+
+@InputType()
+export class ResetPasswordInput {
+  @Field()
+  @MinLength(6)
+  New_Password: string;
+
+  @Field()
+  otp: string;
+
+  @Field()
+  User_ID: string;
+}
+

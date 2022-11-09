@@ -25,15 +25,15 @@ export class User {
   User_Last_Name: string;
 
   @Field()
-  @Column()
+  @Column({unique: true})
   User_Name: string;
 
   @Field()
-  @Column()
+  @Column({unique: true})
   Email: string;
 
   @Field({nullable: true, defaultValue: null})
-  @Column({nullable: true, default: null})
+  @Column({nullable: true, default: null, unique: true})
   Phone: string;
 
   @HideField()

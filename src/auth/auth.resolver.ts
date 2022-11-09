@@ -1,7 +1,7 @@
 import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
 import { UserService } from '../modules/user/user.service';
 import { AuthService } from './auth.service';
-import { SignupUserInput, LoginUserInput, ActiveOtpInput } from './dto/auth.input';
+import { SignupUserInput, LoginUserInput, ActiveOtpInput, ResetPasswordInput } from './dto/auth.input';
 import { JwtPayload } from '../modules/common/entities/common.entity';
 import { Response } from 'express';
 import { HttpException, HttpStatus } from '@nestjs/common';
@@ -34,6 +34,32 @@ export class AuthResolver {
       return jwt;
     } catch(error) {
       throw new HttpException(error.message, error.status || HttpStatus.FORBIDDEN)
+    }
+  }
+
+  @Mutation(() => Boolean) 
+  async forgotPassword(
+    @Args('email', { nullable: false }) email: string
+  ) : Promise<boolean> {
+    try {
+      return await this.authService.forgotPassword(email);
+    } catch(error) {
+      throw new HttpException(error.message, error.status || HttpStatus.FORBIDDEN)
+    }
+  }
+
+  @Mutation(() => Boolean)
+  async resetPassword(
+    @Args('resetPasswordInput') resetPassWordInput: ResetPasswordInput
+  ) : Promise<boolean> {
+    try { 
+      return await this.userService.validateResetPasswordInput(
+        resetPassWordInput.New_Password,
+        resetPassWordInput.otp,
+        resetPassWordInput.User_ID
+      )
+    } catch(error) {
+      throw new HttpException(error.messages, error.status || HttpStatus.FORBIDDEN);
     }
   }
 

@@ -1,4 +1,4 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtPayload } from '../modules/common/entities/common.entity';
 import { UserService } from '../modules/user/user.service';
 import { SignupUserInput, LoginUserInput } from './dto/auth.input';
@@ -6,7 +6,7 @@ import { randomOtp } from '../utils/random.util';
 import { User } from '../modules/user/entities/user.entity';
 import { sign } from 'jsonwebtoken';
 import { Response } from 'express';
-import { sendVerifyEmail } from '../utils/sendEmail.util';
+import { sendVerifyEmail, sendResetPasswordEmail } from '../utils/sendEmail.util';
 
 @Injectable()
 export class AuthService {
@@ -16,8 +16,10 @@ export class AuthService {
 
   async signup (signupUserInput: SignupUserInput) : Promise<JwtPayload> {
     const isExistEmail = await this.userService.getUserByEmail(signupUserInput.Email);
-    if(isExistEmail) {
-      throw new UnauthorizedException("This email is exist")
+    const isExistUsername = await this.userService.getUserByUsername(signupUserInput.User_Name);
+
+    if(isExistEmail || isExistUsername) {
+      throw new UnauthorizedException("This email or username is already taken")
     }
 
     const randomCode: string = randomOtp(6);
@@ -37,6 +39,20 @@ export class AuthService {
     const user: User = await this.userService.validateUserInput(loginUserInput);
 
     return this.setJwt(user.User_ID);
+  }
+
+  async forgotPassword(email: string) : Promise<boolean> {
+    const user: User = await this.userService.getUserByEmail(email);
+    if(!user || user.isConfirmEmail) {
+      throw new NotFoundException('Not found email!');
+    }
+    const randomCode = randomOtp(6);
+
+    await Promise.all([
+      this.userService.createOtpResetPassword(user, randomCode),
+      sendResetPasswordEmail(email, randomCode)
+    ])
+    return true;
   }
 
   async setJwt(userId: string): Promise<JwtPayload> {

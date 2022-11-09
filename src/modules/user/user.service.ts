@@ -21,12 +21,28 @@ export class UserService {
     return user;
   }
 
+  async getUserByUsername(User_Name: string) : Promise<User> {
+    const user: User = await this.userRepository.findOneBy({ User_Name });
+
+    return user;
+  }
+
   async validateUserInput(loginUserInput: LoginUserInput) : Promise<User> {
-    const user = await this.getUserByEmail(loginUserInput.email);
-    if(!user) {
-      throw new UnauthorizedException("This email is not registered!");
+    const { email, userName, passWord  } = loginUserInput;
+    let user : User;
+
+    if(email) {
+      user = await this.getUserByEmail(email);
     }
-    const validPassword = await bcrypt.compare(loginUserInput.passWord, user.Password);
+
+    if(userName) {
+      user = await this.getUserByUsername(email);
+    }
+
+    if(!user) {
+      throw new UnauthorizedException("This user is not registered");
+    }
+    const validPassword = await bcrypt.compare(passWord, user.Password);
     if(!validPassword) {
       throw new UnauthorizedException("Please enter a correct password!");
     }
@@ -35,6 +51,28 @@ export class UserService {
       throw new UnauthorizedException("Your email is not activated. Please check your email and verity OTP before login!");
     }
     return user;
+  }
+
+  async validateResetPasswordInput(
+    newPassword: string,
+    otp: string,
+    userId: string
+  ) : Promise<boolean> {
+    const user: User = await this.getUserById(userId);
+    if(!user) {
+      throw new NotFoundException('Not found user');
+    }
+    if(!user.Otp) {
+      return false;
+    }
+    const isMatch = await bcrypt.compare(otp, user.Otp);
+    if(!isMatch) {
+      throw new UnauthorizedException("Incorrect Otp code");
+    }
+    user.Otp = null;
+    user.Password = await bcrypt.hash(newPassword, 12);
+    
+    return await this.userRepository.save(user) ? true: false;
   }
   
   async singup(signupUserInput: SignupUserInput, randomCode: string) 
@@ -65,6 +103,13 @@ export class UserService {
     user.isConfirmEmail = true;
 
     return this.userRepository.save(user) ? true: false;
+  }
+
+  async createOtpResetPassword(user: User, randomCode: string) 
+  : Promise<User> {
+    user.Otp = await bcrypt.hash(randomCode, 12);
+
+    return await this.userRepository.save(user);
   }
 
 }
