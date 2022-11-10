@@ -28,16 +28,8 @@ export class UserService {
   }
 
   async validateUserInput(loginUserInput: LoginUserInput) : Promise<User> {
-    const { email, userName, passWord  } = loginUserInput;
-    let user : User;
-
-    if(email) {
-      user = await this.getUserByEmail(email);
-    }
-
-    if(userName) {
-      user = await this.getUserByUsername(email);
-    }
+    const { userNameorPassword, passWord  } = loginUserInput;
+    const user: User = await this.getUserByEmail(userNameorPassword) || await this.getUserByUsername(userNameorPassword);
 
     if(!user) {
       throw new UnauthorizedException("This user is not registered");

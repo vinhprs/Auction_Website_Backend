@@ -384,8 +384,7 @@ input SignupUserInput {
 }
 
 input LoginUserInput {
-  userName: String
-  email: String
+  userNameorPassword: String!
   passWord: String!
 }
 

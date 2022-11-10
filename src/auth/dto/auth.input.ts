@@ -3,11 +3,8 @@ import { MinLength, IsEmail, Min } from 'class-validator';
 
 @InputType()
 export class LoginUserInput {
-  @Field({nullable: true})
-  userName?: string;
-
-  @Field({nullable: true})
-  email?: string;
+  @Field()
+  userNameorPassword: string;
 
   @Field()
   passWord: string; 
