@@ -73,7 +73,9 @@ export class AuthResolver {
   }
 
   @Mutation(() => Boolean) 
-  async resendOtp(User_ID: string) : Promise<boolean> {
+  async resendOtp(
+    @Args('User_ID') User_ID: string
+    ) : Promise<boolean> {
     try {
       return await this.authService.resendOtp(User_ID);
     } catch(error) {
