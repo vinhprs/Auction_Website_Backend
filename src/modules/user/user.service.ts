@@ -4,6 +4,8 @@ import { SignupUserInput, LoginUserInput, ActiveOtpInput, ResetPasswordInput } f
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { sendVerifyEmail } from '../../utils/sendEmail.util';
+import { randomOtp } from '../../utils/random.util';
 @Injectable()
 export class UserService {
   constructor(
@@ -93,6 +95,17 @@ export class UserService {
     user.isConfirmEmail = true;
 
     return await this.userRepository.save(user) ? true: false;
+  }
+
+  
+  async resendOtp(User_ID: string) : Promise<boolean> {
+    const user = await this.getUserById(User_ID);
+    const randomCode = randomOtp(6);
+
+    user.Otp = await bcrypt.hash(randomCode, 12)
+    await this.userRepository.save(user);
+
+    return await sendVerifyEmail(user.Email, randomCode);
   }
 
   async createOtpResetPassword(user: User, randomCode: string) 

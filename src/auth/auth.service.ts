@@ -7,7 +7,7 @@ import { User } from '../modules/user/entities/user.entity';
 import { sign } from 'jsonwebtoken';
 import { Response } from 'express';
 import { sendVerifyEmail, sendResetPasswordEmail } from '../utils/sendEmail.util';
-
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class AuthService {
   constructor(
@@ -70,13 +70,6 @@ export class AuthService {
     jwt.accessToken = accessToken;
 
     return jwt;
-  }
-
-  async resendOtp(User_ID: string) : Promise<boolean> {
-    const user = await this.userService.getUserById(User_ID);
-    const randomCode = randomOtp(6);
-
-    return await sendVerifyEmail(user.Email, randomCode);
   }
 
   getDateAfterSeconds(secs: number) {

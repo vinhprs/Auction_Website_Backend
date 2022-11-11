@@ -77,7 +77,7 @@ export class AuthResolver {
     @Args('User_ID') User_ID: string
     ) : Promise<boolean> {
     try {
-      return await this.authService.resendOtp(User_ID);
+      return await this.userService.resendOtp(User_ID);
     } catch(error) {
       throw new HttpException(error.message, error.status || HttpStatus.FORBIDDEN);
     }
