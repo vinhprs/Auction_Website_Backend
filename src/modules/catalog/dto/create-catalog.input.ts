@@ -2,6 +2,12 @@ import { InputType, Int, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateCatalogInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  Catalog_Name: string;
+
+  @Field()
+  Catalog_Image_Url: string;
+
+  @Field({nullable: true, defaultValue: null})
+  Catalog_Id_Ref: string;
 }

@@ -14,10 +14,14 @@ export class Catalog {
   @Column({unique: true})
   Catalog_Name: string;
 
+  @Field()
+  @Column()
+  Catalog_Image_Url: string;
+
   @TreeChildren()
   children: Catalog [];
 
-  @Field()
+  @Field({nullable: true})
   @TreeParent()
   @JoinColumn({name: "Catalog_Id_Ref"})
   Catalog_Id_Ref: string;

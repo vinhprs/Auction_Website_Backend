@@ -12,7 +12,8 @@ type Address {
 type Catalog {
   Catalog_ID: String!
   Catalog_Name: String!
-  Catalog_Id_Ref: String!
+  Catalog_Image_Url: String!
+  Catalog_Id_Ref: String
 }
 
 type ProductImage {
@@ -149,9 +150,11 @@ type JwtPayload {
 }
 
 type Query {
+  getUserByEmail(Email: String!): User!
+  getUserById(User_ID: String!): User!
   address(id: Int!): Address!
   product(id: Int!): Product!
-  catalog(id: Int!): Catalog!
+  getAllCatalog: [Catalog!]!
   productImage(id: Int!): ProductImage!
   currency(id: Int!): Currency!
   weightFee(id: Int!): WeightFee!
@@ -174,8 +177,6 @@ type Mutation {
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   removeProduct(id: Int!): Product!
   createCatalog(createCatalogInput: CreateCatalogInput!): Catalog!
-  updateCatalog(updateCatalogInput: UpdateCatalogInput!): Catalog!
-  removeCatalog(id: Int!): Catalog!
   createProductImage(createProductImageInput: CreateProductImageInput!): ProductImage!
   updateProductImage(updateProductImageInput: UpdateProductImageInput!): ProductImage!
   removeProductImage(id: Int!): ProductImage!
@@ -214,7 +215,7 @@ type Mutation {
   forgotPassword(email: String!): Boolean!
   resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
   activeOtp(activeOtpInput: ActiveOtpInput!): Boolean!
-  resendOtp: Boolean!
+  resendOtp(User_ID: String!): Boolean!
   createCurrencyLog(createCurrencyLogInput: CreateCurrencyLogInput!): CurrencyLog!
   updateCurrencyLog(updateCurrencyLogInput: UpdateCurrencyLogInput!): CurrencyLog!
   removeCurrencyLog(id: Int!): CurrencyLog!
@@ -243,14 +244,9 @@ input UpdateProductInput {
 }
 
 input CreateCatalogInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateCatalogInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  Catalog_Name: String!
+  Catalog_Image_Url: String!
+  Catalog_Id_Ref: String = null
 }
 
 input CreateProductImageInput {
