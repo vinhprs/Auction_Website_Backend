@@ -3,7 +3,7 @@ import { join } from "path";
 import { cwd } from "process";
 
 const storage = new Storage({
-    keyFilename: join(cwd(), process.env.KEY_FILE_NAME)
+    keyFilename: join(cwd(), JSON.parse(process.env.KEY_FILE_NAME))
 });
 
 storage.getBuckets().then(x => console.log(x));
