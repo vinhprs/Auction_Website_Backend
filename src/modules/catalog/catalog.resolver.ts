@@ -10,9 +10,9 @@ export class CatalogResolver {
   constructor(private readonly catalogService: CatalogService) {}
 
   @Query(() => [Catalog])
-  async getAllCatalog() : Promise<Catalog []> {
+  async getPopulateCatalog() : Promise<Catalog []> {
     try {
-      return await this.catalogService.getAll();
+      return await this.catalogService.getPopulateCatalog();
     } catch(e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }
@@ -20,8 +20,8 @@ export class CatalogResolver {
 
   @Mutation(() => Catalog)
   async createCatalog(
-    @Args("createCatalogInput") createCatalogInput: CreateCatalogInput
-  ){
+    @Args("createCatalogInput") createCatalogInput : CreateCatalogInput
+  ) : Promise<Catalog>{
     try {
       return await this.catalogService.createCatalog(createCatalogInput);
     } catch(e) {

@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # Environment variables
 .env
+
+# GG cloud storage
+fresh-auction-access.json

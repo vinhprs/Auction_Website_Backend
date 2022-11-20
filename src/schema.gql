@@ -12,7 +12,7 @@ type Address {
 type Catalog {
   Catalog_ID: String!
   Catalog_Name: String!
-  Catalog_Image_Url: String!
+  Catalog_Image_Url: String
   Catalog_Id_Ref: String
 }
 
@@ -154,7 +154,7 @@ type Query {
   getUserById(User_ID: String!): User!
   address(id: Int!): Address!
   product(id: Int!): Product!
-  getAllCatalog: [Catalog!]!
+  getPopulateCatalog: [Catalog!]!
   productImage(id: Int!): ProductImage!
   currency(id: Int!): Currency!
   weightFee(id: Int!): WeightFee!
@@ -245,9 +245,12 @@ input UpdateProductInput {
 
 input CreateCatalogInput {
   Catalog_Name: String!
-  Catalog_Image_Url: String!
+  image: Upload!
   Catalog_Id_Ref: String = null
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input CreateProductImageInput {
   """Example field (placeholder)"""

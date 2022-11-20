@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "@nestjs/graphql";
+import { Stream } from "stream";
 import { User } from "../../user/entities/user.entity";
 
 @ObjectType()
@@ -30,7 +31,11 @@ export class SendEmailData {
 
     @Field()
     template: string;
+}
 
-    // @Field()
-    // 'h:X-Mailgun-Variables': { test: string };
+export interface FileUpload {
+    filename: string;
+    mimetype: string;
+    encoding: string;
+    createReadStream: () => Stream;
 }

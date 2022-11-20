@@ -14,9 +14,9 @@ export class Catalog {
   @Column({unique: true})
   Catalog_Name: string;
 
-  @Field()
-  @Column()
-  Catalog_Image_Url: string;
+  @Field({nullable: true, defaultValue: null})
+  @Column({nullable: true, default: null})
+  Catalog_Image_Url?: string;
 
   @TreeChildren()
   children: Catalog [];
