@@ -1,7 +1,35 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
-
+import { InputType, Int, Field, Float } from '@nestjs/graphql';
+import * as GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
+import { FileUpload } from '../../common/entities/common.entity';
 @InputType()
 export class CreateProductInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field(() => [GraphQLUpload], {nullable: true, defaultValue: null})
+  Product_Image: Promise<FileUpload []>
+
+  @Field()
+  Product_Name: string;
+
+  @Field(() => Int)
+  Quantity: number;
+
+  @Field(() => Float)
+  Weight: number;
+
+  @Field(() => Float)
+  Price: number;
+
+  @Field({nullable: true, defaultValue: null})
+  User_Note?: string;
+
+  @Field({defaultValue: true})
+  isActive: boolean;
+
+  @Field({defaultValue: false})
+  isBlocked: boolean;
+
+  @Field({nullable: true, defaultValue: null})
+  Product_Info?: string;
+
+  @Field()
+  Catalog_ID: string;
 }

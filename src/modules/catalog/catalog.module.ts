@@ -8,6 +8,7 @@ import { Catalog } from './entities/catalog.entity';
   imports: [
     TypeOrmModule.forFeature([Catalog])
   ],
-  providers: [CatalogResolver, CatalogService]
+  providers: [CatalogResolver, CatalogService],
+  exports: [CatalogService]
 })
 export class CatalogModule {}

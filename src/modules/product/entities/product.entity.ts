@@ -24,25 +24,25 @@ export class Product {
   @Column({type: 'decimal'})
   Weight: number;
 
-  @Field()
+  @Field(() => Float)
   @Column({type: 'decimal'})
   Price: number;
 
   @Field({nullable: true, defaultValue: null})
   @Column({nullable: true, default: null})
-  User_Note: string;
+  User_Note?: string;
 
-  @Field()
-  @Column()
+  @Field({defaultValue: true})
+  @Column({default: true})
   isActive: boolean;
 
   @Field({defaultValue: false})
   @Column({default: false})
-  isBlock: boolean;
+  isBlocked: boolean;
 
   @Field({nullable: true, defaultValue: null})
   @Column({nullable: true, default: null, length: 2000})
-  Product_Info: string;
+  Product_Info?: string;
 
   // User relationship: n-1
   @ManyToOne(() => User, user => user.Product)
@@ -57,6 +57,7 @@ export class Product {
   Catalog_ID: Catalog;
 
   @OneToMany(() => ProductImage, productImage => productImage.Product_ID)
+  @Field(() => ProductImage ,{nullable: true, defaultValue: null})
   ProductImage: ProductImage [];
 
   @OneToOne(() => ProductAuction, pA => pA.Product_ID)

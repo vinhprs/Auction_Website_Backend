@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { CatalogService } from './catalog.service';
 import { Catalog } from './entities/catalog.entity';
 import { CreateCatalogInput } from './dto/create-catalog.input';
@@ -17,6 +17,16 @@ export class CatalogResolver {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }
   }
+
+  @Query(() => [Catalog]) 
+  async getListCatalog() : Promise<Catalog []> {
+    try {
+      return await this.catalogService.getListCatalog();
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
 
   @Mutation(() => Catalog)
   async createCatalog(

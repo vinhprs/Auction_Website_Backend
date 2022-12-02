@@ -7,9 +7,9 @@ export class CreateCatalogInput {
   @Field()
   Catalog_Name: string;
 
-  @Field(() => GraphQLUpload)
-  image: Promise<FileUpload>;
+  @Field(() => GraphQLUpload, {nullable: true, defaultValue: null})
+  image?: Promise<FileUpload>;
 
   @Field({nullable: true, defaultValue: null})
-  Catalog_Id_Ref: string;
+  Catalog_Id_Ref?: string;
 }

@@ -1,26 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Product } from '../product/entities/product.entity';
 import { CreateProductImageInput } from './dto/create-product-image.input';
-import { UpdateProductImageInput } from './dto/update-product-image.input';
+import { ProductImage } from './entities/product-image.entity';
 
 @Injectable()
 export class ProductImageService {
-  create(createProductImageInput: CreateProductImageInput) {
-    return 'This action adds a new productImage';
-  }
-
-  findAll() {
-    return `This action returns all productImage`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} productImage`;
-  }
-
-  update(id: number, updateProductImageInput: UpdateProductImageInput) {
-    return `This action updates a #${id} productImage`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} productImage`;
+  constructor(
+    @InjectRepository(ProductImage)
+    private readonly productImageRepository: Repository<ProductImage>,
+  ) {}
+  async create(newProductImg: ProductImage) {
+  
+    return await this.productImageRepository.save(newProductImg);
   }
 }

@@ -18,13 +18,14 @@ export class Catalog {
   @Column({nullable: true, default: null})
   Catalog_Image_Url?: string;
 
+  @Field(() => [Catalog],{nullable: true, defaultValue: null})
   @TreeChildren()
   children: Catalog [];
 
   @Field({nullable: true})
   @TreeParent()
   @JoinColumn({name: "Catalog_Id_Ref"})
-  Catalog_Id_Ref: string;
+  Catalog_Id_Ref: Catalog;
 
   // Product relationship: 1-n
   @OneToMany(() => Product, product => product.Catalog_ID)

@@ -70,7 +70,7 @@ import { CurrencyLog } from './modules/currency-log/entities/currency-log.entity
         UserBid,
         UserBidLog,
       ],
-      synchronize: true
+      synchronize: true,
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

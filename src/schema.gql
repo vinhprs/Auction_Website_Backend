@@ -13,7 +13,8 @@ type Catalog {
   Catalog_ID: String!
   Catalog_Name: String!
   Catalog_Image_Url: String
-  Catalog_Id_Ref: String
+  children: [Catalog!]
+  Catalog_Id_Ref: Catalog
 }
 
 type ProductImage {
@@ -86,10 +87,12 @@ type Product {
   Price: Float!
   User_Note: String
   isActive: Boolean!
-  isBlock: Boolean!
+  isBlocked: Boolean!
   Product_Info: String
   User_ID: User!
   Catalog_ID: Catalog!
+  ProductImage: ProductImage
+  Product_Image: [ProductImage!]!
 }
 
 type CurrencyLog {
@@ -153,9 +156,9 @@ type Query {
   getUserByEmail(Email: String!): User!
   getUserById(User_ID: String!): User!
   address(id: Int!): Address!
-  product(id: Int!): Product!
+  getAllProduct: [Product!]!
   getPopulateCatalog: [Catalog!]!
-  productImage(id: Int!): ProductImage!
+  getListCatalog: [Catalog!]!
   currency(id: Int!): Currency!
   weightFee(id: Int!): WeightFee!
   deliveryFee(id: Int!): DeliveryFee!
@@ -173,13 +176,8 @@ type Mutation {
   createAddress(createAddressInput: CreateAddressInput!): Address!
   updateAddress(updateAddressInput: UpdateAddressInput!): Address!
   removeAddress(id: Int!): Address!
-  createProduct(createProductInput: CreateProductInput!): Product!
-  updateProduct(updateProductInput: UpdateProductInput!): Product!
-  removeProduct(id: Int!): Product!
+  createProduct(createProductInput: CreateProductInput!): Boolean!
   createCatalog(createCatalogInput: CreateCatalogInput!): Catalog!
-  createProductImage(createProductImageInput: CreateProductImageInput!): ProductImage!
-  updateProductImage(updateProductImageInput: UpdateProductImageInput!): ProductImage!
-  removeProductImage(id: Int!): ProductImage!
   createCurrency(createCurrencyInput: CreateCurrencyInput!): Currency!
   updateCurrency(updateCurrencyInput: UpdateCurrencyInput!): Currency!
   removeCurrency(id: Int!): Currency!
@@ -233,34 +231,25 @@ input UpdateAddressInput {
 }
 
 input CreateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateCatalogInput {
-  Catalog_Name: String!
-  image: Upload!
-  Catalog_Id_Ref: String = null
+  Product_Image: [Upload!] = null
+  Product_Name: String!
+  Quantity: Int!
+  Weight: Float!
+  Price: Float!
+  User_Note: String = null
+  isActive: Boolean = true
+  isBlocked: Boolean = false
+  Product_Info: String = null
+  Catalog_ID: String!
 }
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
 
-input CreateProductImageInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateProductImageInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+input CreateCatalogInput {
+  Catalog_Name: String!
+  image: Upload = null
+  Catalog_Id_Ref: String = null
 }
 
 input CreateCurrencyInput {
