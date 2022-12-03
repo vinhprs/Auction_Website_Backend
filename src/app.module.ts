@@ -73,6 +73,8 @@ import { CurrencyLog } from './modules/currency-log/entities/currency-log.entity
       synchronize: true,
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
+      debug: process.env.NODE_ENV !== 'production',
+      playground: process.env.NODE_ENV !== 'production',
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       context: (({ req, res }) => ({ req, res })),
