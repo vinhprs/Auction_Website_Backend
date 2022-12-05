@@ -27,6 +27,9 @@ export class Catalog {
   @JoinColumn({name: "Catalog_Id_Ref"})
   Catalog_Id_Ref: Catalog;
 
+  @Field({nullable: true, defaultValue: false})
+  isOpened: boolean;
+
   // Product relationship: 1-n
   @OneToMany(() => Product, product => product.Catalog_ID)
   Product: Product [];
