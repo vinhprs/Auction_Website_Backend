@@ -73,6 +73,11 @@ export class ProductService {
     return catalog.Product;
   }
 
+  async getProductById(Product_ID: string) : Promise<Product> {
+    const product = await this.productRepository.findOneBy({Product_ID});
+    return product;
+  } 
+
   async getImgByProduct(Product_ID: string) : Promise<ProductImage[]> {
     const result = await this.productRepository.findOne({
       where: {Product_ID},
