@@ -158,7 +158,7 @@ type Query {
   getUserByEmail(Email: String!): User!
   getUserById(User_ID: String!): User!
   address(id: Int!): Address!
-  getAllProduct: [Product!]!
+  getAllProduct(page: Float!): [Product!]!
   getProductByCatalogName(Catalog_Name: String!): [Product!]!
   getPopulateCatalog: [Catalog!]!
   getListCatalog: [Catalog!]!

@@ -24,9 +24,11 @@ export class ProductResolver {
   }
 
   @Query(() => [Product])
-  async getAllProduct() : Promise<Product []> {
+  async getAllProduct(
+    @Args('page') page?: number
+  ) : Promise<Product []> {
     try {
-      return await this.productService.getAll();
+      return await this.productService.getAll(page);
     } catch(e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }

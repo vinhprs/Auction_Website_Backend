@@ -55,15 +55,21 @@ export class ProductService {
     return true;
   }
 
-  async getAll() : Promise<Product[]> {
-    const result = await this.productRepository.find({})
+  async getAll(page?: number) : Promise<Product[]> {
+    const take = 12;
+    const paging = page || 1;
+    const skip = (paging - 1) * take;
+    const result = await this.productRepository.find({
+      skip,
+      take
+    })
     return result;
   }
 
   async getProductByCatalogName(Catalog_Name: string)
   : Promise<Product[]> {
     const catalog = await this.catalogService.getCatalogByName(Catalog_Name);
-    
+
     return catalog.Product;
   }
 
