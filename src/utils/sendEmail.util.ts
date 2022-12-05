@@ -12,14 +12,16 @@ export async function sendVerifyEmail(
             .send({
                 from: process.env.SENDGRID_EMAIL,
                 to,
-                subject: "This is otp code to verify your account",
-                html: `<strong>and easy to do anywhere, even with Node.js ${randomCode}</strong>`,
+                dynamicTemplateData: {
+                    "OTP": randomCode
+                },
+                templateId: "d-a06ea697467b44e9bbe1441dafe88191"
             })
             .then(() => {
                 console.log('Email sent')
             })
             .catch((error) => {
-                console.error(error)
+                console.error(error.message)
             })
         return true;
     } catch (error) {
@@ -36,8 +38,10 @@ export async function sendResetPasswordEmail(
             .send({
                 from: process.env.SENDGRID_EMAIL,
                 to,
-                subject: "This is otp code to reset your password",
-                html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+                dynamicTemplateData: {
+                    "OTP": randomCode
+                },
+                templateId: "d-51d0aae25b904c8c8a9bf0ec4ac1d6c1"
             })
             .then(() => {
                 console.log('Email sent')

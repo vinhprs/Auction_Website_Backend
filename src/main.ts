@@ -16,6 +16,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
   app.use(graphqlUploadExpress({maxFileSize: 9999999999, maxFile: 10}));
-  await app.listen(process.env.PORT || 3000, () => console.log(`App is ruuning on http://localhost:${3000}/graphql `));
+  await app.listen(+process.env.PORT || 3000, () => console.log(`App is ruuning on http://localhost:${3000}/graphql `));
 }
 bootstrap();
