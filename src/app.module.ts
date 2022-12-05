@@ -81,7 +81,9 @@ import { CurrencyLog } from './modules/currency-log/entities/currency-log.entity
       installSubscriptionHandlers: true,
       cors: {
         credentials: true,
-        origin: true
+        origin: [
+          "http://localhost:3000"
+        ]
       }
     }),
     UserModule,
