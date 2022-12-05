@@ -160,6 +160,7 @@ type Query {
   address(id: Int!): Address!
   getAllProduct(page: Float!): [Product!]!
   getProductByCatalogName(Catalog_Name: String!): [Product!]!
+  getProductById: Product!
   getPopulateCatalog: [Catalog!]!
   getListCatalog: [Catalog!]!
   currency(id: Int!): Currency!

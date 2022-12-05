@@ -47,7 +47,9 @@ export class ProductResolver {
   }
 
   @Query(() => Product)
-  async getProductById(Product_ID: string) : Promise<Product>
+  async getProductById(
+   @Args('Product_ID') Product_ID: string
+  ) : Promise<Product>
   {
     try {
       return await this.productService.getProductById(Product_ID);
