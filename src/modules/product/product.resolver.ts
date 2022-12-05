@@ -32,6 +32,18 @@ export class ProductResolver {
     }
   }
 
+  @Query(() => [Product])
+  async getProductByCatalogName(
+    @Args('Catalog_Name') Catalog_Name: string
+  )
+  : Promise<Product[]> {
+    try {
+      return await this.productService.getProductByCatalogName(Catalog_Name);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
   @ResolveField(() => [ProductImage])
   async Product_Image(@Parent() product: Product) : Promise<ProductImage[]> {
     try {

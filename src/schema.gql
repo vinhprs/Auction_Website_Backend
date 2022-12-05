@@ -15,6 +15,8 @@ type Catalog {
   Catalog_Image_Url: String
   children: [Catalog!]
   Catalog_Id_Ref: Catalog
+  isOpened: Boolean
+  Product: [Product!]
 }
 
 type ProductImage {
@@ -157,6 +159,7 @@ type Query {
   getUserById(User_ID: String!): User!
   address(id: Int!): Address!
   getAllProduct: [Product!]!
+  getProductByCatalogName(Catalog_Name: String!): [Product!]!
   getPopulateCatalog: [Catalog!]!
   getListCatalog: [Catalog!]!
   currency(id: Int!): Currency!

@@ -31,6 +31,7 @@ export class Catalog {
   isOpened: boolean;
 
   // Product relationship: 1-n
+  @Field(() => [Product] ,{nullable: true, defaultValue: null})
   @OneToMany(() => Product, product => product.Catalog_ID)
   Product: Product [];
 }

@@ -28,7 +28,6 @@ export class CatalogService {
     return result;
   }
 
-
   async createCatalog(createCatalogInput: CreateCatalogInput) 
   : Promise<Catalog> {
     let catalog = null;
@@ -45,5 +44,12 @@ export class CatalogService {
     });
 
     return await this.catalogRepository.save(newCatalog);
+  }
+
+  async getCatalogByName(Catalog_Name: string) : Promise<Catalog> {
+    return await this.catalogRepository.findOne({
+      where: {Catalog_Name},
+      relations: {Product: true}
+    });
   }
 }
