@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateProductInput } from './dto/create-product.input';
+import { CreateProductInput, PaginationInput } from './dto/create-product.input';
 import { Product } from './entities/product.entity';
 import { Request } from 'express';
 import { getUserIdFromRequest } from '../../utils/user-from-header.util';
@@ -55,13 +55,11 @@ export class ProductService {
     return true;
   }
 
-  async getAll(page?: number) : Promise<Product[]> {
-    const take = 12;
-    const paging = page || 1;
-    const skip = (paging - 1) * take;
+  async getAll(paginationInput: PaginationInput) : Promise<Product[]> {
+    const { limit, offset } = paginationInput;
     const result = await this.productRepository.find({
-      skip,
-      take
+      skip: offset,
+      take : limit
     })
     return result;
   }

@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args, Int, Context, ResolveField, Parent } from '@nestjs/graphql';
 import { ProductService } from './product.service';
 import { Product } from './entities/product.entity';
-import { CreateProductInput } from './dto/create-product.input';
+import { CreateProductInput, PaginationInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Request } from 'express';
@@ -25,10 +25,10 @@ export class ProductResolver {
 
   @Query(() => [Product])
   async getAllProduct(
-    @Args('page') page?: number
+    @Args('paginationInput') paginationInput: PaginationInput
   ) : Promise<Product []> {
     try {
-      return await this.productService.getAll(page);
+      return await this.productService.getAll(paginationInput);
     } catch(e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }

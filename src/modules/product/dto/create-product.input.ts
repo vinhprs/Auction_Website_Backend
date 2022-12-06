@@ -33,3 +33,12 @@ export class CreateProductInput {
   @Field()
   Catalog_ID: string;
 }
+
+@InputType()
+export class PaginationInput {
+  @Field(() => Int)
+  limit: number;
+
+  @Field(() => Int)
+  offset:  number;
+}
