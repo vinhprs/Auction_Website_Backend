@@ -5,15 +5,12 @@ import { CreateProductInput, PaginationInput } from './dto/create-product.input'
 import { Product } from './entities/product.entity';
 import { Request } from 'express';
 import { getUserIdFromRequest } from '../../utils/user-from-header.util';
-import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
-import { Catalog } from '../catalog/entities/catalog.entity';
 import { CatalogService } from '../catalog/catalog.service';
-import { uploadFile, uploadFileSync } from '../common/services/handleUpload.service';
+import { uploadFile } from '../common/services/handleUpload.service';
 import { ProductImage } from '../product-image/entities/product-image.entity';
 import { ProductImageService } from '../product-image/product-image.service';
-import { resolve } from 'path';
-
+import { removeElement } from '../../utils/array.util';
 @Injectable()
 export class ProductService {
   constructor(
@@ -94,8 +91,13 @@ export class ProductService {
     const product = await this.getProductById(Product_ID);
 
     const productCatalog = await this.getProductByCatalogName(product.Catalog_ID.Catalog_Name);
-    const productIndex = productCatalog.indexOf(product);
-    productCatalog.splice(productIndex, 1);
+   
+
+    productCatalog.filter((p, index) => {
+      if(p.Product_ID === product.Product_ID) {
+        productCatalog.splice(index, 1)
+      }
+    });
     const relatedProduct = productCatalog.slice(0,3);
 
     return relatedProduct;
