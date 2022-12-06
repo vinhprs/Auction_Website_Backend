@@ -58,6 +58,28 @@ export class ProductResolver {
     }
   }
 
+  @Query(() => [Product])
+  async getSimilarProduct(
+    @Args("Product_ID") Product_ID: string
+  ) : Promise<Product[]> {
+    try {
+      return await this.productService.getSimilarProduct(Product_ID);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @Query(() => [Product])
+  async searchProduct(
+    @Args("keywords") keywords: string
+  ) : Promise<Product[]> {
+    try {
+      return await this.productService.searchProduct(keywords);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
   @ResolveField(() => [ProductImage])
   async Product_Image(@Parent() product: Product) : Promise<ProductImage[]> {
     try {

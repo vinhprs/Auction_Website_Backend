@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CreateProductInput, PaginationInput } from './dto/create-product.input';
 import { Product } from './entities/product.entity';
 import { Request } from 'express';
@@ -83,9 +83,35 @@ export class ProductService {
   }
 
   async getProductById(Product_ID: string) : Promise<Product> {
-    const product = await this.productRepository.findOneBy({Product_ID});
+    const product = await this.productRepository.findOne({
+      where: { Product_ID },
+      relations: { Catalog_ID: true }
+    });
     return product;
-  } 
+  }
+  
+  async getSimilarProduct(Product_ID: string) : Promise<Product[]> {
+    const product = await this.getProductById(Product_ID);
+
+    const productCatalog = await this.getProductByCatalogName(product.Catalog_ID.Catalog_Name);
+    const productIndex = productCatalog.indexOf(product);
+    productCatalog.splice(productIndex, 1);
+    const relatedProduct = productCatalog.slice(0,3);
+
+    return relatedProduct;
+  }
+
+  async searchProduct(keywords: string) : Promise<Product[]> {
+    const result = await this.productRepository.find({
+      where: [{
+        Product_Name: Like(`%${keywords}%`)
+      }, {
+        Product_Info: Like(`%${keywords}%`)
+      }]
+});
+    console.log(result)
+    return result;
+  }
 
   async getImgByProduct(Product_ID: string) : Promise<ProductImage[]> {
     const result = await this.productRepository.findOne({

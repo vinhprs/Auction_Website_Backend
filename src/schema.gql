@@ -161,6 +161,8 @@ type Query {
   getAllProduct(paginationInput: PaginationInput!): [Product!]!
   getProductByCatalogName(Catalog_Name: String!): [Product!]!
   getProductById(Product_ID: String!): Product!
+  getSimilarProduct(Product_ID: String!): [Product!]!
+  searchProduct(keywords: String!): [Product!]!
   getPopulateCatalog: [Catalog!]!
   getListCatalog: [Catalog!]!
   currency(id: Int!): Currency!
