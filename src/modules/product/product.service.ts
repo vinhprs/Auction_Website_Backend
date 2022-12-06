@@ -23,7 +23,7 @@ export class ProductService {
 
   async create(createProductInput: CreateProductInput, req: Request): Promise<boolean> {
     const { Product_Name, Price, Weight, Quantity, User_Note,
-      isActive, isBlocked, Product_Info, Product_Image } = createProductInput;
+      isActive, Product_Info, Product_Image } = createProductInput;
     // get User create product
     const userId = getUserIdFromRequest(req);
     const [user, catalog] = await Promise.all([
@@ -40,10 +40,9 @@ export class ProductService {
     newProduct.Quantity = Quantity;
     newProduct.User_Note = User_Note;
     newProduct.isActive = isActive;
-    newProduct.isBlocked = isBlocked;
     newProduct.Product_Info = Product_Info;
     await this.productRepository.save(newProduct);
-    
+
     await Promise.all(Product_Image.map(async (img) => {
       const newProductImg = new ProductImage();
       newProductImg.Product_Image_Url = (await uploadFile(img, process.env.CLOUDINARY_PRODUCT_FOLDER)).url
@@ -53,71 +52,72 @@ export class ProductService {
     return true;
   }
 
-  async getAll(paginationInput: PaginationInput) : Promise<Product[]> {
+  async getAll(paginationInput: PaginationInput): Promise<Product[]> {
     const { limit, offset } = paginationInput;
     const result = await this.productRepository.find({
       skip: offset,
-      take : limit
+      take: limit
     })
     return result;
   }
 
   async getProductByCatalogName(Catalog_Name: string)
-  : Promise<Product[]> {
+    : Promise<Product[]> {
     const catalog = await this.catalogService.getCatalogByName(Catalog_Name);
     // sub catalog
-    if(catalog.length <= 1) {
+    if (catalog.length <= 1) {
       return catalog[0] ? catalog[0].Product : [];
     }
     // remove parent element
     catalog.splice(0, 1);
 
-    let result : Product[] = [];
+    let result: Product[] = [];
     catalog.forEach(c => {
       result = result.concat(c.Product)
     })
     return result;
   }
 
-  async getProductById(Product_ID: string) : Promise<Product> {
+  async getProductById(Product_ID: string): Promise<Product> {
     const product = await this.productRepository.findOne({
       where: { Product_ID },
       relations: { Catalog_ID: true }
     });
     return product;
   }
-  
-  async getSimilarProduct(Product_ID: string) : Promise<Product[]> {
+
+  async getSimilarProduct(Product_ID: string): Promise<Product[]> {
     const product = await this.getProductById(Product_ID);
 
     const productCatalog = await this.getProductByCatalogName(product.Catalog_ID.Catalog_Name);
-   
+
 
     productCatalog.filter((p, index) => {
-      if(p.Product_ID === product.Product_ID) {
+      if (p.Product_ID === product.Product_ID) {
         productCatalog.splice(index, 1)
       }
     });
-    const relatedProduct = productCatalog.slice(0,3);
+    const relatedProduct = productCatalog.slice(0, 3);
 
     return relatedProduct;
   }
 
-  async searchProduct(keywords: string) : Promise<Product[]> {
-    const result = await this.productRepository.find({
+  async searchProduct(keywords: string): Promise<Product[]> {
+    const product = await this.productRepository.find({
+      relations: ['Catalog_ID'],
       where: [{
         Product_Name: Like(`%${keywords}%`)
       }, {
         Product_Info: Like(`%${keywords}%`)
       }]
-});
-    console.log(result)
-    return result;
+    });
+
+    return product;
   }
 
-  async getImgByProduct(Product_ID: string) : Promise<ProductImage[]> {
+  async getImgByProduct(Product_ID: string): Promise<ProductImage[]> {
     const result = await this.productRepository.findOne({
-      where: {Product_ID},
+      where: { Product_ID },
       relations: { ProductImage: true }
     })
     return result.ProductImage;

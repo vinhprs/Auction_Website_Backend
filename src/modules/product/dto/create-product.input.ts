@@ -24,9 +24,6 @@ export class CreateProductInput {
   @Field({defaultValue: true})
   isActive: boolean;
 
-  @Field({defaultValue: false})
-  isBlocked: boolean;
-
   @Field({nullable: true, defaultValue: null})
   Product_Info?: string;
 

@@ -36,10 +36,6 @@ export class Product {
   @Column({default: true})
   isActive: boolean;
 
-  @Field({defaultValue: false})
-  @Column({default: false})
-  isBlocked: boolean;
-
   @Field({nullable: true, defaultValue: null})
   @Column({nullable: true, default: null, length: 2000})
   Product_Info?: string;
