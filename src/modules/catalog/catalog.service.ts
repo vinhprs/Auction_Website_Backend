@@ -46,10 +46,15 @@ export class CatalogService {
     return await this.catalogRepository.save(newCatalog);
   }
 
-  async getCatalogByName(Catalog_Name: string) : Promise<Catalog> {
-    return await this.catalogRepository.findOne({
+  async getCatalogByName(Catalog_Name: string) : Promise<Catalog[]> {
+    const parent =  await this.catalogRepository.findOne({
       where: {Catalog_Name},
       relations: {Product: true}
     });
+
+    const result = await this.dataSource.getTreeRepository(Catalog).findDescendants(parent, {
+      relations: ["Product"]
+    });
+    return result;
   }
 }

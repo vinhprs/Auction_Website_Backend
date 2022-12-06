@@ -12,6 +12,7 @@ import { CatalogService } from '../catalog/catalog.service';
 import { uploadFile, uploadFileSync } from '../common/services/handleUpload.service';
 import { ProductImage } from '../product-image/entities/product-image.entity';
 import { ProductImageService } from '../product-image/product-image.service';
+import { resolve } from 'path';
 
 @Injectable()
 export class ProductService {
@@ -44,11 +45,14 @@ export class ProductService {
     newProduct.isActive = isActive;
     newProduct.isBlocked = isBlocked;
     newProduct.Product_Info = Product_Info;
-    // await this.productRepository.save(newProduct);
+    await this.productRepository.save(newProduct);
     
-    Promise.all(Product_Image).then(p => {
-      console.log(p);
-    })
+    await Promise.all(Product_Image.map(async (img) => {
+      const newProductImg = new ProductImage();
+      newProductImg.Product_Image_Url = (await uploadFile(img, process.env.CLOUDINARY_PRODUCT_FOLDER)).url
+      newProductImg.Product_ID = newProduct;
+      await this.productImageService.create(newProductImg);
+    }))
     return true;
   }
 
@@ -64,8 +68,18 @@ export class ProductService {
   async getProductByCatalogName(Catalog_Name: string)
   : Promise<Product[]> {
     const catalog = await this.catalogService.getCatalogByName(Catalog_Name);
+    // sub catalog
+    if(catalog.length <= 1) {
+      return catalog[0] ? catalog[0].Product : [];
+    }
+    // remove parent element
+    catalog.splice(0, 1);
 
-    return catalog.Product;
+    let result : Product[] = [];
+    catalog.forEach(c => {
+      result = result.concat(c.Product)
+    })
+    return result;
   }
 
   async getProductById(Product_ID: string) : Promise<Product> {
