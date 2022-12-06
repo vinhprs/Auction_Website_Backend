@@ -52,9 +52,11 @@ export class ProductService {
     return true;
   }
 
-  async getAll() : Promise<Product[]> {
+  async getAll(paginationInput: PaginationInput) : Promise<Product[]> {
+    const { limit, offset } = paginationInput;
     const result = await this.productRepository.find({
- 
+      skip: offset,
+      take : limit
     })
     return result;
   }
