@@ -25,10 +25,10 @@ export class ProductResolver {
 
   @Query(() => [Product])
   async getAllProduct(
-    @Args('paginationInput') paginationInput: PaginationInput
+    
   ) : Promise<Product []> {
     try {
-      return await this.productService.getAll(paginationInput);
+      return await this.productService.getAll();
     } catch(e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }

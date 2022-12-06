@@ -44,22 +44,17 @@ export class ProductService {
     newProduct.isActive = isActive;
     newProduct.isBlocked = isBlocked;
     newProduct.Product_Info = Product_Info;
-    await this.productRepository.save(newProduct);
+    // await this.productRepository.save(newProduct);
     
-    for (let img of await Product_Image) {
-      const newProductImg = new ProductImage();
-      newProductImg.Product_Image_Url = (await uploadFileSync(img, process.env.CLOUDINARY_PRODUCT_FOLDER)).url
-      newProductImg.Product_ID = newProduct;
-      await this.productImageService.create(newProductImg);
-    }
+    Promise.all(Product_Image).then(p => {
+      console.log(p);
+    })
     return true;
   }
 
-  async getAll(paginationInput: PaginationInput) : Promise<Product[]> {
-    const { limit, offset } = paginationInput;
+  async getAll() : Promise<Product[]> {
     const result = await this.productRepository.find({
-      skip: offset,
-      take : limit
+ 
     })
     return result;
   }
@@ -81,7 +76,6 @@ export class ProductService {
       where: {Product_ID},
       relations: { ProductImage: true }
     })
-    console.log(result.ProductImage)
     return result.ProductImage;
   }
 }

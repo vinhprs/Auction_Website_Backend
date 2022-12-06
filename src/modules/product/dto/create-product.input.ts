@@ -4,7 +4,7 @@ import { FileUpload } from '../../common/entities/common.entity';
 @InputType()
 export class CreateProductInput {
   @Field(() => [GraphQLUpload], {nullable: true, defaultValue: null})
-  Product_Image: Promise<FileUpload []>
+  Product_Image: Array<Promise<FileUpload>>
 
   @Field()
   Product_Name: string;
