@@ -39,7 +39,10 @@ import { UserBidLog } from './modules/user-bid-log/entities/user-bid-log.entity'
 import { AuthModule } from './auth/auth.module';
 import { CurrencyLogModule } from './modules/currency-log/currency-log.module';
 import { CurrencyLog } from './modules/currency-log/entities/currency-log.entity';
-
+import { ScheduleModule } from '@nestjs/schedule'; 
+import { TasksModule } from './tasks/tasks.module';
+import { EvaluateModule } from './modules/evaluate/evaluate.module';
+import { Evaluate } from './modules/evaluate/entities/evaluate.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -69,6 +72,7 @@ import { CurrencyLog } from './modules/currency-log/entities/currency-log.entity
         ProductAuctionLog,
         UserBid,
         UserBidLog,
+        Evaluate
       ],
       synchronize: true,
     }),
@@ -86,6 +90,8 @@ import { CurrencyLog } from './modules/currency-log/entities/currency-log.entity
         ]
       }
     }),
+    ScheduleModule.forRoot()
+    ,
     UserModule,
     AddressModule,
     ProductModule,
@@ -102,7 +108,9 @@ import { CurrencyLog } from './modules/currency-log/entities/currency-log.entity
     UserBidModule,
     UserBidLogModule,
     AuthModule,
-    CurrencyLogModule
+    CurrencyLogModule,
+    TasksModule,
+    EvaluateModule
   ],
   controllers: [AppController],
   providers: [AppService],

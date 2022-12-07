@@ -7,6 +7,7 @@ import { UserBid } from '../../user-bid/entities/user-bid.entity';
 import { Payment } from '../../payment/entities/payment.entity';
 import { Order } from '../../order/entities/order.entity';
 import { Currency } from '../../currency/entities/currency.entity';
+import { Evaluate } from '../../evaluate/entities/evaluate.entity';
 
 
 @ObjectType()
@@ -93,4 +94,10 @@ export class User {
 
   @OneToOne(() => Currency, currency => currency.User_ID)
   Currency: Currency;
+
+  @OneToMany(() => Evaluate, evaluate => evaluate.User_Evaluating)
+  Evaluating: Evaluate[];
+
+  @OneToMany(() => Evaluate, evaluate => evaluate.User_Evaluated)
+  Evaluated: Evaluate[];
 }

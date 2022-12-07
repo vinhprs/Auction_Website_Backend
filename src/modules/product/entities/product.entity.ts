@@ -37,6 +37,10 @@ export class Product {
   isActive: boolean;
 
   @Field({nullable: true, defaultValue: null})
+  @Column({ nullable: true, default: true })
+  ShopName: string;
+
+  @Field({nullable: true, defaultValue: null})
   @Column({nullable: true, default: null, length: 2000})
   Product_Info?: string;
 

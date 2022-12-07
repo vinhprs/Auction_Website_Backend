@@ -25,6 +25,9 @@ export class CreateProductInput {
   isActive: boolean;
 
   @Field({nullable: true, defaultValue: null})
+  ShopName: string;
+
+  @Field({nullable: true, defaultValue: null})
   Product_Info?: string;
 
   @Field()

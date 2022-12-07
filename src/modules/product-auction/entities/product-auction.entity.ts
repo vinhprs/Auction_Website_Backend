@@ -6,6 +6,7 @@ import { User } from '../../user/entities/user.entity';
 import { ProductAuctionLog } from '../../product-auction-log/entities/product-auction-log.entity';
 import { UserBid } from '../../user-bid/entities/user-bid.entity';
 import { Order } from '../../order/entities/order.entity';
+import { Evaluate } from '../../evaluate/entities/evaluate.entity';
 
 @ObjectType()
 @Entity()
@@ -57,4 +58,9 @@ export class ProductAuction {
 
   @OneToOne(() => Order, order => order.Product_Auction_ID)
   Order: Order;
+
+  @OneToOne(() => Evaluate, evaluate => evaluate.Product_Auction)
+  Evaluate: Evaluate;
+
 }
+
