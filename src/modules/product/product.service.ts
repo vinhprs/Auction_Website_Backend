@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
-import { CreateProductInput, PaginationInput } from './dto/create-product.input';
+import { CreateProductInput, PaginationInput, SearchProductInput } from './dto/create-product.input';
 import { Product } from './entities/product.entity';
 import { Request } from 'express';
 import { getUserIdFromRequest } from '../../utils/user-from-header.util';
@@ -10,7 +10,7 @@ import { CatalogService } from '../catalog/catalog.service';
 import { uploadFile } from '../common/services/handleUpload.service';
 import { ProductImage } from '../product-image/entities/product-image.entity';
 import { ProductImageService } from '../product-image/product-image.service';
-import { removeElement } from '../../utils/array.util';
+import { Args } from '@nestjs/graphql';
 @Injectable()
 export class ProductService {
   constructor(
@@ -102,14 +102,19 @@ export class ProductService {
     return relatedProduct;
   }
 
-  async searchProduct(keywords: string): Promise<Product[]> {
+  async searchProduct(
+    @Args('searchProductInput') searchProductInput: SearchProductInput
+  ): Promise<Product[]> {
+    const { keywords, limit, offset }  = searchProductInput;
     const product = await this.productRepository.find({
       relations: ['Catalog_ID'],
       where: [{
         Product_Name: Like(`%${keywords}%`)
       }, {
         Product_Info: Like(`%${keywords}%`)
-      }]
+      }],
+      skip: offset,
+      take: limit
     });
 
     return product;

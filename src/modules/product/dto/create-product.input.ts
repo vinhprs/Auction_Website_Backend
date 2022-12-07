@@ -1,4 +1,4 @@
-import { InputType, Int, Field, Float } from '@nestjs/graphql';
+import {Int, Field, Float, InputType } from '@nestjs/graphql';
 import * as GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
 import { FileUpload } from '../../common/entities/common.entity';
 @InputType()
@@ -38,4 +38,16 @@ export class PaginationInput {
 
   @Field(() => Int)
   offset:  number;
+}
+
+@InputType()
+export class SearchProductInput extends PaginationInput {
+  @Field(() => String)
+  keywords: string;
+}
+
+@InputType()
+export class GetProductByCatalog extends PaginationInput {
+  @Field(() => String)
+  Catalog_Name: string;
 }
