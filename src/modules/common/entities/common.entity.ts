@@ -16,6 +16,8 @@ export class JwtPayload {
     @Field(() => IJwtPayload, { nullable: true })
     userId: IJwtPayload;
 
+    @Field(() => User, {nullable: true})
+    userInfo: User
 }
 
 @ObjectType()

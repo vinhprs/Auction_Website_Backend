@@ -64,10 +64,12 @@ export class AuthService {
     const accessToken = sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, {
       expiresIn: +process.env.ACCESS_TOKEN_AGE
     });
+    const user = await this.userService.getUserById(userId);
   
     const jwt: JwtPayload = new JwtPayload();
     jwt.userId = payload;
     jwt.accessToken = accessToken;
+    jwt.userInfo = user;
 
     return jwt;
   }

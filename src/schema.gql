@@ -151,6 +151,7 @@ type IJwtPayload {
 type JwtPayload {
   accessToken: String
   userId: IJwtPayload
+  userInfo: User
 }
 
 type Query {
@@ -161,7 +162,7 @@ type Query {
   getProductByCatalogName(Catalog_Name: String!): [Product!]!
   getProductById(Product_ID: String!): Product!
   getSimilarProduct(Product_ID: String!): [Product!]!
-  searchProduct(keywords: String!): [Product!]!
+  searchProduct(searchProductInput: SearchProductInput!): [Product!]!
   getPopulateCatalog: [Catalog!]!
   getListCatalog: [Catalog!]!
   currency(id: Int!): Currency!
@@ -180,6 +181,12 @@ type Query {
 input PaginationInput {
   limit: Int!
   offset: Int!
+}
+
+input SearchProductInput {
+  limit: Int!
+  offset: Int!
+  keywords: String!
 }
 
 type Mutation {
