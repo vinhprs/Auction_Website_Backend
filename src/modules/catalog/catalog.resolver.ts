@@ -27,6 +27,19 @@ export class CatalogResolver {
     }
   }
 
+  @Query(() => [Catalog])
+  async getSubCatalogByName(
+    @Args('Catalog_Name') catalogName: string
+  ) {
+    try {
+      const result = await this.catalogService.getCatalogByName(catalogName);
+      // remove parent
+      result.splice(0,1)
+      return result ;
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
 
   @Mutation(() => Catalog)
   async createCatalog(

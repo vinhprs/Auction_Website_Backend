@@ -166,6 +166,7 @@ type Query {
   searchProduct(searchProductInput: SearchProductInput!): [Product!]!
   getPopulateCatalog: [Catalog!]!
   getListCatalog: [Catalog!]!
+  getSubCatalogByName(Catalog_Name: String!): [Catalog!]!
   currency(id: Int!): Currency!
   weightFee(id: Int!): WeightFee!
   deliveryFee(id: Int!): DeliveryFee!
