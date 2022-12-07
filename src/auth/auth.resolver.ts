@@ -2,7 +2,7 @@ import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
 import { UserService } from '../modules/user/user.service';
 import { AuthService } from './auth.service';
 import { SignupUserInput, LoginUserInput, ActiveOtpInput, ResetPasswordInput } from './dto/auth.input';
-import { JwtPayload } from '../modules/common/entities/common.entity';
+import { JwtPayload } from '../common/entities/common.entity';
 import { Response } from 'express';
 import { HttpException, HttpStatus } from '@nestjs/common';
 

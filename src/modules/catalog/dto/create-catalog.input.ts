@@ -1,6 +1,6 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
 import * as GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
-import { FileUpload } from '../../common/entities/common.entity';
+import { FileUpload } from '../../../common/entities/common.entity';
 
 @InputType()
 export class CreateCatalogInput {

@@ -7,7 +7,7 @@ import { Request } from 'express';
 import { getUserIdFromRequest } from '../../utils/user-from-header.util';
 import { UserService } from '../user/user.service';
 import { CatalogService } from '../catalog/catalog.service';
-import { uploadFile } from '../common/services/handleUpload.service';
+import { uploadFile } from '../../common/services/handleUpload.service';
 import { ProductImage } from '../product-image/entities/product-image.entity';
 import { ProductImageService } from '../product-image/product-image.service';
 import { Args } from '@nestjs/graphql';

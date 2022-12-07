@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, IsNull, Not, Repository } from 'typeorm';
 import { CreateCatalogInput } from './dto/create-catalog.input';
 import { Catalog } from './entities/catalog.entity';
-import { uploadFile } from '../common/services/handleUpload.service';
+import { uploadFile } from '../../common/services/handleUpload.service';
 
 @Injectable()
 export class CatalogService {

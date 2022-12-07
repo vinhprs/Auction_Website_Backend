@@ -1,6 +1,6 @@
 import {Int, Field, Float, InputType } from '@nestjs/graphql';
 import * as GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
-import { FileUpload } from '../../common/entities/common.entity';
+import { FileUpload } from '../../../common/entities/common.entity';
 @InputType()
 export class CreateProductInput {
   @Field(() => [GraphQLUpload], {nullable: true, defaultValue: null})

@@ -1,4 +1,4 @@
-import { cloudinary_config } from "../../../config/cloudinary.config";
+import { cloudinary_config } from "../../config/cloudinary.config";
 import { FileUpload } from "../entities/common.entity";
 
 export async function uploadFile(image: Promise<FileUpload>, folder: string)

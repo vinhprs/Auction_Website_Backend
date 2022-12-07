@@ -1,5 +1,5 @@
 import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { JwtPayload } from '../modules/common/entities/common.entity';
+import { JwtPayload } from '../common/entities/common.entity';
 import { UserService } from '../modules/user/user.service';
 import { SignupUserInput, LoginUserInput } from './dto/auth.input';
 import { randomOtp } from '../utils/random.util';

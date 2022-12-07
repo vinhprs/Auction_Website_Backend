@@ -1,6 +1,6 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 import { Stream } from "stream";
-import { User } from "../../user/entities/user.entity";
+import { User } from "../../modules/user/entities/user.entity";
 
 @ObjectType()
 export class IJwtPayload {
