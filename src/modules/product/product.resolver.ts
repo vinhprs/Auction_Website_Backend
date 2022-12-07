@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args, Int, Context, ResolveField, Parent } from '@nestjs/graphql';
 import { ProductService } from './product.service';
 import { Product } from './entities/product.entity';
-import { CreateProductInput, PaginationInput } from './dto/create-product.input';
+import { CreateProductInput, PaginationInput, SearchProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Request } from 'express';
@@ -71,10 +71,10 @@ export class ProductResolver {
 
   @Query(() => [Product])
   async searchProduct(
-    @Args("keywords") keywords: string
+    @Args("searchProductInput") searchProductInput: SearchProductInput
   ) : Promise<Product[]> {
     try {
-      return await this.productService.searchProduct(keywords);
+      return await this.productService.searchProduct(searchProductInput);
     } catch(e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }

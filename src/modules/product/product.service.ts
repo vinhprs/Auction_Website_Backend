@@ -103,7 +103,7 @@ export class ProductService {
   }
 
   async searchProduct(
-    @Args('searchProductInput') searchProductInput: SearchProductInput
+    searchProductInput: SearchProductInput
   ): Promise<Product[]> {
     const { keywords, limit, offset }  = searchProductInput;
     const product = await this.productRepository.find({
