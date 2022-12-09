@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Product } from '../../product/entities/product.entity';
 import { AuctionField } from '../../auction-field/entities/auction-field.entity';
@@ -19,16 +19,21 @@ export class ProductAuction {
   @Column()
   Quantity: number;
 
-  @Field()
-  @Column()
+  @Field(() => Float)
+  @Column({ type: 'decimal' })
+  Weight: number;
+
+
+  @Field(() => Float)
+  @Column({ type: 'decimal' })
   Starting_Price: number;
 
-  @Field()
-  @Column()
+  @Field(() => Float)
+  @Column({ type: 'decimal' })
   Discount_Rate: number;
 
-  @Field()
-  @Column()
+  @Field(() => Float)
+  @Column({ type: 'decimal' })
   Current_Price: number;
 
   @OneToOne(() => Product, product => product.Product_Auction)

@@ -29,7 +29,7 @@ type AuctionField {
   Auction_Field_ID: String!
   Start_Time: DateTime!
   End_Time: DateTime!
-  Discount_Circle: Float!
+  Discount_Circle: Int!
   isOperation: Boolean!
 }
 
@@ -72,6 +72,7 @@ type Order {
 type ProductAuction {
   Product_Auction_ID: String!
   Quantity: Float!
+  Weight: Float!
   Starting_Price: Float!
   Discount_Rate: Float!
   Current_Price: Float!
@@ -173,7 +174,6 @@ type Query {
   order(id: Int!): Order!
   payment(id: Int!): Payment!
   productAuction(id: Int!): ProductAuction!
-  auctionField(id: Int!): AuctionField!
   productAuctionLog(id: Int!): ProductAuctionLog!
   userBid(id: Int!): UserBid!
   userBidLog(id: Int!): UserBidLog!
@@ -216,8 +216,6 @@ type Mutation {
   updateProductAuction(updateProductAuctionInput: UpdateProductAuctionInput!): ProductAuction!
   removeProductAuction(id: Int!): ProductAuction!
   createAuctionField(createAuctionFieldInput: CreateAuctionFieldInput!): AuctionField!
-  updateAuctionField(updateAuctionFieldInput: UpdateAuctionFieldInput!): AuctionField!
-  removeAuctionField(id: Int!): AuctionField!
   createProductAuctionLog(createProductAuctionLogInput: CreateProductAuctionLogInput!): ProductAuctionLog!
   updateProductAuctionLog(updateProductAuctionLogInput: UpdateProductAuctionLogInput!): ProductAuctionLog!
   removeProductAuctionLog(id: Int!): ProductAuctionLog!
@@ -338,14 +336,10 @@ input UpdateProductAuctionInput {
 }
 
 input CreateAuctionFieldInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateAuctionFieldInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  Start_Time: DateTime!
+  End_Time: DateTime!
+  Discount_Circle: Int!
+  isOperation: Boolean = false
 }
 
 input CreateProductAuctionLogInput {

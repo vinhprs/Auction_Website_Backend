@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateAuctionFieldInput } from './dto/create-auction-field.input';
-import { UpdateAuctionFieldInput } from './dto/update-auction-field.input';
+import { AuctionField } from './entities/auction-field.entity';
 
 @Injectable()
 export class AuctionFieldService {
-  create(createAuctionFieldInput: CreateAuctionFieldInput) {
-    return 'This action adds a new auctionField';
+  constructor(
+    @InjectRepository(AuctionField)
+    private readonly auctionFieldRepository: Repository<AuctionField>
+  ) {}
+
+  async create(createAuctionFieldInput: CreateAuctionFieldInput) 
+  : Promise<AuctionField> {
+    const { Start_Time, End_Time, Discount_Circle } = createAuctionFieldInput;
+  
+    const newAuctionField = this.auctionFieldRepository.create(createAuctionFieldInput);
+    return await this.auctionFieldRepository.save(newAuctionField);
   }
 
-  findAll() {
-    return `This action returns all auctionField`;
+  async getAll() : Promise<AuctionField[]> {
+    console.log("chay di con")
+    return await this.auctionFieldRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auctionField`;
+  async setOperation(auctionField: AuctionField) : Promise<AuctionField> {
+    auctionField.isOperation = true;
+    return await this.auctionFieldRepository.save(auctionField);
   }
 
-  update(id: number, updateAuctionFieldInput: UpdateAuctionFieldInput) {
-    return `This action updates a #${id} auctionField`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auctionField`;
-  }
 }

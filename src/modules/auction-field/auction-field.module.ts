@@ -8,6 +8,7 @@ import { AuctionField } from './entities/auction-field.entity';
   imports: [
     TypeOrmModule.forFeature([AuctionField])
  ],
-  providers: [AuctionFieldResolver, AuctionFieldService]
+  providers: [AuctionFieldResolver, AuctionFieldService],
+  exports: [ AuctionFieldService ]
 })
 export class AuctionFieldModule {}

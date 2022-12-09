@@ -9,20 +9,20 @@ export class AuctionField {
   @PrimaryGeneratedColumn('uuid')
   Auction_Field_ID: string;
 
-  @Field()
+  @Field(() => Date)
   @Column()
   Start_Time: Date;
 
-  @Field()
+  @Field(() => Date)
   @Column()
   End_Time: Date;
 
-  @Field()
-  @Column()
+  @Field(() => Int)
+  @Column({ type: 'int' })
   Discount_Circle: number;
 
-  @Field()
-  @Column()
+  @Field({ defaultValue: false })
+  @Column({ default: false })
   isOperation: boolean;
 
   @OneToMany(() => ProductAuction, productAuction => productAuction.Auction_Field_ID)
