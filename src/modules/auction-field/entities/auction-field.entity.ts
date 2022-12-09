@@ -9,12 +9,12 @@ export class AuctionField {
   @PrimaryGeneratedColumn('uuid')
   Auction_Field_ID: string;
 
-  @Field(() => Date)
-  @Column()
+  @Field()
+  @Column({type: 'datetime'})
   Start_Time: Date;
 
-  @Field(() => Date)
-  @Column()
+  @Field()
+  @Column({type: 'datetime'})
   End_Time: Date;
 
   @Field(() => Int)

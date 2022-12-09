@@ -14,7 +14,7 @@ export class AuctionFieldService {
   async create(createAuctionFieldInput: CreateAuctionFieldInput) 
   : Promise<AuctionField> {
     const { Start_Time, End_Time, Discount_Circle } = createAuctionFieldInput;
-  
+    
     const newAuctionField = this.auctionFieldRepository.create(createAuctionFieldInput);
     return await this.auctionFieldRepository.save(newAuctionField);
   }
@@ -24,15 +24,15 @@ export class AuctionFieldService {
   }
 
   async getOperatingAuctionField() : Promise<AuctionField[]> {
-    return await this.auctionFieldRepository.find({
+    const result = await this.auctionFieldRepository.find({
       where: [
         {
-          isOperation: false
-        }, {
-          Start_Time: MoreThan(new Date(Date.now()))
+          isOperation: false,
+          Start_Time: MoreThan(new Date())
         }
       ]
     })
+    return result;
   }
 
   async setOperation(auctionField: AuctionField) : Promise<AuctionField> {

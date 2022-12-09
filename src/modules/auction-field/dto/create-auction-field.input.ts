@@ -2,10 +2,10 @@ import { InputType, Int, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateAuctionFieldInput {
-  @Field(() => Date)
+  @Field()
   Start_Time: Date;
 
-  @Field(() => Date)
+  @Field()
   End_Time: Date;
 
   @Field(() => Int)

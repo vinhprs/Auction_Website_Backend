@@ -45,6 +45,7 @@
     "graphql-upload": "^14.0.0",
     "jsonwebtoken": "^8.5.1",
     "mailgun-js": "^0.22.0",
+    "moment": "^2.29.4",
     "mysql2": "^2.3.3",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
