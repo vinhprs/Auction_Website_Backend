@@ -22,7 +22,7 @@ export class AuctionFieldResolver {
   @Query(() => [AuctionField])
   async getOperatingAuctionField() : Promise<AuctionField[]> {
     try {
-      return await this.auctionFieldService.
+      return await this.auctionFieldService.getOperatingAuctionField();
     } catch(e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }
