@@ -15,7 +15,16 @@ export class AuctionFieldResolver {
     try {
       return await this.auctionFieldService.create(createAuctionFieldInput);
     } catch(e) {
-      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN)
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @Query(() => [AuctionField])
+  async getOperatingAuctionField() : Promise<AuctionField[]> {
+    try {
+      return await this.auctionFieldService.
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }
   }
 }

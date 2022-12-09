@@ -12,22 +12,18 @@ export class TasksService {
   ) {}
   private readonly logger = new Logger(TasksService.name);
 
-  @Cron('00 37 16 * * *')
+  @Cron('0 29 17 * * *')
   async handleCron() {
-    const auctionField = await this.auctionFieldService.getAll();
+    let auctionField = await this.auctionFieldService.getAll();
     const now = new Date(Date.now())
-    const sameDateAuction = auctionField.filter(a => {
+    const sameDateAuction = auctionField.filter(a => 
       a.Start_Time.getFullYear() === now.getFullYear() &&
       a.Start_Time.getMonth() === now.getMonth() &&
       a.Start_Time.getDate() === now.getDate()
-    });
-
-    this.logger.debug("chay chay chay")
+    );
 
     sameDateAuction.forEach(async (a) => {
-      
       const startTime = a.Start_Time;
-      console.log("start time:", startTime)
       const { hour, minute, second } = formatTime(startTime);
       await this.auctionOperate(a, hour, minute, second);
     });
@@ -36,8 +32,7 @@ export class TasksService {
   async auctionOperate(auctionField: AuctionField , hour: number, 
     minute: number, second: number) {
     const job = new CronJob(`${second} ${minute} ${hour} * * *`,async () => {
-      console.log("save db")
-       await this.auctionFieldService.setOperation(auctionField);
+      await this.auctionFieldService.setOperation(auctionField);
     })
     job.start()
   }

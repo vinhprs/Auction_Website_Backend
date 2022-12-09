@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import { CreateAuctionFieldInput } from './dto/create-auction-field.input';
 import { AuctionField } from './entities/auction-field.entity';
 
@@ -20,8 +20,19 @@ export class AuctionFieldService {
   }
 
   async getAll() : Promise<AuctionField[]> {
-    console.log("chay di con")
     return await this.auctionFieldRepository.find();
+  }
+
+  async getOperatingAuctionField() : Promise<AuctionField[]> {
+    return await this.auctionFieldRepository.find({
+      where: [
+        {
+          isOperation: false
+        }, {
+          Start_Time: MoreThan(new Date(Date.now()))
+        }
+      ]
+    })
   }
 
   async setOperation(auctionField: AuctionField) : Promise<AuctionField> {
