@@ -25,7 +25,7 @@ export class AuctionFieldService {
 
   async getOperatingAuctionField() : Promise<AuctionField[]> {
     const now = new Date();
-    now.setHours(now.getHours() + 7);
+    // now.setHours(now.getHours() + 7);
     const result = await this.auctionFieldRepository.find({
       where: [
         {
