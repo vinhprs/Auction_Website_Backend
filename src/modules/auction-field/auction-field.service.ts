@@ -24,11 +24,13 @@ export class AuctionFieldService {
   }
 
   async getOperatingAuctionField() : Promise<AuctionField[]> {
+    const now = new Date();
+    now.setHours(now.getHours() + 7);
     const result = await this.auctionFieldRepository.find({
       where: [
         {
           isOperation: false,
-          Start_Time: MoreThan(new Date())
+          Start_Time: MoreThan(now)
         }
       ]
     })

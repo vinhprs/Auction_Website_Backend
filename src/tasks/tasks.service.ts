@@ -12,7 +12,7 @@ export class TasksService {
   ) {}
   private readonly logger = new Logger(TasksService.name);
 
-  @Cron('0 29 17 * * *')
+  @Cron('0 10 21 * * *')
   async handleCron() {
     let auctionField = await this.auctionFieldService.getAll();
     const now = new Date(Date.now())

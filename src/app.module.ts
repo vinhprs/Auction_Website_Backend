@@ -75,7 +75,6 @@ import { Evaluate } from './modules/evaluate/entities/evaluate.entity';
         Evaluate
       ],
       synchronize: true,
-      timezone: 'Z'
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       debug: process.env.NODE_ENV !== 'production',
