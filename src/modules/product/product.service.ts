@@ -10,7 +10,6 @@ import { CatalogService } from '../catalog/catalog.service';
 import { uploadFile } from '../../common/services/handleUpload.service';
 import { ProductImage } from '../product-image/entities/product-image.entity';
 import { ProductImageService } from '../product-image/product-image.service';
-import { Args } from '@nestjs/graphql';
 @Injectable()
 export class ProductService {
   constructor(
@@ -64,13 +63,13 @@ export class ProductService {
 
   async getProductByCatalogName(Catalog_Name: string)
     : Promise<Product[]> {
-    const catalog = await this.catalogService.getCatalogByName(Catalog_Name);
+    let catalog = await this.catalogService.getCatalogByName(Catalog_Name);
     // sub catalog
     if (catalog.length <= 1) {
       return catalog[0] ? catalog[0].Product : [];
     }
     // remove parent element
-    catalog.splice(0, 1);
+    catalog.filter(tree => tree.Catalog_Name.toLowerCase() != Catalog_Name);
 
     let result: Product[] = [];
     catalog.forEach(c => {
@@ -101,6 +100,12 @@ export class ProductService {
     const relatedProduct = productCatalog.slice(0, 3);
 
     return relatedProduct;
+  }
+
+  async getProductByUser(userId: string) : Promise<Product[]>  {
+    const user  = await this.userService.getUserById(userId);
+
+    return user.Product;
   }
 
   async searchProduct(

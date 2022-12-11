@@ -70,6 +70,17 @@ export class ProductResolver {
   }
 
   @Query(() => [Product])
+  async getProductByUser(
+    @Args('User_ID') User_ID: string
+  ) : Promise<Product[]> {
+    try {
+      return await this.productService.getProductByUser(User_ID);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @Query(() => [Product])
   async searchProduct(
     @Args("searchProductInput") searchProductInput: SearchProductInput
   ) : Promise<Product[]> {

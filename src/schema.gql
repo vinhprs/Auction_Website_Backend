@@ -164,6 +164,7 @@ type Query {
   getProductByCatalogName(Catalog_Name: String!): [Product!]!
   getProductById(Product_ID: String!): Product!
   getSimilarProduct(Product_ID: String!): [Product!]!
+  getProductByUser(User_ID: String!): [Product!]!
   searchProduct(searchProductInput: SearchProductInput!): [Product!]!
   getPopulateCatalog: [Catalog!]!
   getListCatalog: [Catalog!]!
