@@ -10,7 +10,7 @@ export class UserBidLog {
   User_Bid_Log_ID: string;
 
   @Field(() => Float)
-  @Column({ type: 'decimal' })
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   Price: number;
 
   @Field()

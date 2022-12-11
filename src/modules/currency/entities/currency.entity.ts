@@ -11,7 +11,7 @@ export class Currency {
   Currency_ID: string;
 
   @Field(() => Float)
-  @Column({type: 'decimal'})
+  @Column({type: 'decimal' , precision: 10, scale: 2})
   Total_Money: number;
 
   @OneToOne(() => User, user => user.Currency)

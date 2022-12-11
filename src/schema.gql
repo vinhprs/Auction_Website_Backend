@@ -92,6 +92,7 @@ type Product {
 type CurrencyLog {
   Currency_Log_ID: String!
   Currency_Log_Value: String!
+  Total_Amount: Float!
   Currency: Currency!
 }
 

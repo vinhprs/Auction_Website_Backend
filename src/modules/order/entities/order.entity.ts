@@ -13,7 +13,7 @@ export class Order {
   Order_ID: string;
 
   @Field(() => Float)
-  @Column({type: 'decimal'})
+  @Column({type: 'decimal', precision: 10, scale: 2})
   Total_Price: number;
 
   @Field()

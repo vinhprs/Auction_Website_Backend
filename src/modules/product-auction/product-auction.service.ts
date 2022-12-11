@@ -45,6 +45,9 @@ export class ProductAuctionService {
     await this.productAuctionRepository.save(newProductAuction);
 
     const currentWeight = productRef.Weight - Weight;
+    if(currentWeight < 0) {
+      throw new Error("Exceed your product's max weight!");
+    }
     await Promise.all([
       this.creatProductAuctionLog(Starting_Price, newProductAuction),
       this.productService.updateCurrentProduct(Product_ID, currentWeight)

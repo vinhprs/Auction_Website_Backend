@@ -16,20 +16,20 @@ export class ProductAuction {
   Product_Auction_ID: string;
 
   @Field(() => Float)
-  @Column({ type: 'decimal' })
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   Weight: number;
 
 
   @Field(() => Float)
-  @Column({ type: 'decimal' })
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   Starting_Price: number;
 
   @Field(() => Float)
-  @Column({ type: 'decimal' })
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   Discount_Rate: number;
 
   @Field(() => Float)
-  @Column({ type: 'decimal' })
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   Current_Price: number;
 
   @OneToOne(() => Product, product => product.Product_Auction)

@@ -13,6 +13,6 @@ export class DeliveryFee {
   Address_District: string;
 
   @Field(() => Float)
-  @Column({ type: 'decimal' })
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   Fee: number;
 }

@@ -16,7 +16,7 @@ export class Payment {
   Order: Order [];
 
   @Field(() => Float)
-  @Column({type: 'decimal'})
+  @Column({type: 'decimal', precision: 10, scale: 2})
   Total: number;
 
   @ManyToOne(() => User, user => user.Payment)
