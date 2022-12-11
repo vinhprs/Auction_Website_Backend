@@ -107,6 +107,14 @@ export class ProductService {
     return user.Product;
   }
 
+  async updateCurrentProduct(Product_ID: string, weight: number)
+  : Promise<Product> {
+    const product = await this.getProductById(Product_ID);
+    product.Weight = weight;
+
+    return await this.productRepository.save(product);
+  }
+
   async searchProduct(
     searchProductInput: SearchProductInput
   ): Promise<Product[]> {

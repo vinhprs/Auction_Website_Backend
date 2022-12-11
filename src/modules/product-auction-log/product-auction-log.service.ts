@@ -10,21 +10,13 @@ export class ProductAuctionLogService {
   
   constructor(
     @InjectRepository(ProductAuctionLog)
-    private readonly productAuctionLogRepository: Repository<ProductAuctionLog>,
-    private readonly productAuctionService: ProductAuctionService
+    private readonly productAuctionLogRepository: Repository<ProductAuctionLog>
   ) {}
 
-  async create(createProductAuctionLogInput: CreateProductAuctionLogInput)
+  async create(newProductAuctionLog: ProductAuctionLog)
   : Promise<ProductAuctionLog> {
-    const { Price, Time, Product_Auction_ID } = createProductAuctionLogInput;
-    const productAuctionRef = await this.productAuctionService.getProductAuctionById(Product_Auction_ID);
-
-    const newLog = new ProductAuctionLog();
-    newLog.Price = Price;
-    newLog.Time = Time;
-    newLog.Product_Auction_ID = productAuctionRef;
-
-    return await this.productAuctionLogRepository.save(newLog);
+    
+    return await this.productAuctionLogRepository.save(newProductAuctionLog);
   }
 
 }

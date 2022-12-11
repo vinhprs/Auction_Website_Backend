@@ -8,6 +8,8 @@ import { CreateProductAuctionInput } from './dto/create-product-auction.input';
 import { ProductAuction } from './entities/product-auction.entity';
 import { Request } from 'express';
 import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
+import { ProductAuctionLogService } from '../product-auction-log/product-auction-log.service';
+import { ProductAuctionLog } from '../product-auction-log/entities/product-auction-log.entity';
 @Injectable()
 export class ProductAuctionService {
   
@@ -16,7 +18,8 @@ export class ProductAuctionService {
     private readonly productAuctionRepository: Repository<ProductAuction>,
     private readonly productService: ProductService,
     private readonly userService: UserService,
-    private readonly auctionFieldService: AuctionFieldService
+    private readonly auctionFieldService: AuctionFieldService,
+    private readonly productAuctionLogService: ProductAuctionLogService
   ) {}
 
   async create(createProductAuctionInput: CreateProductAuctionInput , req: Request)
@@ -39,12 +42,27 @@ export class ProductAuctionService {
     newProductAuction.Starting_Price = Starting_Price;
     newProductAuction.Discount_Rate = Discount_Rate;
     newProductAuction.Current_Price = Starting_Price;
+    await this.productAuctionRepository.save(newProductAuction);
 
-    return await this.productAuctionRepository.save(newProductAuction);
+    const currentWeight = productRef.Weight - Weight;
+    await Promise.all([
+      this.creatProductAuctionLog(Starting_Price, newProductAuction),
+      this.productService.updateCurrentProduct(Product_ID, currentWeight)
+    ]);
+
+    return newProductAuction;
   }
 
   async getProductAuctionById(Product_Auction_ID: string)
   : Promise<ProductAuction> {
     return await this.productAuctionRepository.findOneBy({Product_Auction_ID});
+  }
+
+  async creatProductAuctionLog(price: number, productAuction: ProductAuction) {
+    const newAuctionLog = new ProductAuctionLog();
+    newAuctionLog.Price = price;
+    newAuctionLog.Time = new Date();
+    newAuctionLog.Product_Auction_ID = productAuction;
+    await this.productAuctionLogService.create(newAuctionLog);
   }
 }

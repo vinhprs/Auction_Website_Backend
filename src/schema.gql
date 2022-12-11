@@ -38,13 +38,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type ProductAuctionLog {
-  Product_Auction_Log_ID: String!
-  Price: Float!
-  Time: DateTime!
-  Product_Auction_ID: ProductAuction!
-}
-
 type UserBid {
   User_ID: String!
   Product_Auction_ID: String!
@@ -173,7 +166,6 @@ type Query {
   order(id: Int!): Order!
   payment(id: Int!): Payment!
   getOperatingAuctionField: [AuctionField!]!
-  productAuctionLog(id: Int!): ProductAuctionLog!
   userBid(id: Int!): UserBid!
   userBidLog(id: Int!): UserBidLog!
   currencyLog(id: Int!): CurrencyLog!
@@ -213,9 +205,6 @@ type Mutation {
   removePayment(id: Int!): Payment!
   createProductAuction(CreateProductAuctionInput: CreateProductAuctionInput!): ProductAuction!
   createAuctionField(createAuctionFieldInput: CreateAuctionFieldInput!): AuctionField!
-  createProductAuctionLog(createProductAuctionLogInput: CreateProductAuctionLogInput!): ProductAuctionLog!
-  updateProductAuctionLog(updateProductAuctionLogInput: UpdateProductAuctionLogInput!): ProductAuctionLog!
-  removeProductAuctionLog(id: Int!): ProductAuctionLog!
   createUserBid(createUserBidInput: CreateUserBidInput!): UserBid!
   updateUserBid(updateUserBidInput: UpdateUserBidInput!): UserBid!
   removeUserBid(id: Int!): UserBid!
@@ -333,17 +322,6 @@ input CreateAuctionFieldInput {
   End_Time: DateTime!
   Discount_Circle: Int!
   isOperation: Boolean = false
-}
-
-input CreateProductAuctionLogInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateProductAuctionLogInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }
 
 input CreateUserBidInput {

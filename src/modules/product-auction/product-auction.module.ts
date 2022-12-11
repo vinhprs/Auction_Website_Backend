@@ -6,15 +6,16 @@ import { ProductAuction } from './entities/product-auction.entity';
 import { ProductModule } from '../product/product.module';
 import { AuctionFieldModule } from '../auction-field/auction-field.module';
 import { UserModule } from '../user/user.module';
+import { ProductAuctionLogModule } from '../product-auction-log/product-auction-log.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ProductAuction]),
     ProductModule,
     AuctionFieldModule,
-    UserModule
+    UserModule,
+    ProductAuctionLogModule
   ],
   providers: [ProductAuctionResolver, ProductAuctionService],
-  exports: [ProductAuctionService]
 })
 export class ProductAuctionModule {}

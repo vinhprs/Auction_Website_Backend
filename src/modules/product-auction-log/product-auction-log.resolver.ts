@@ -7,9 +7,9 @@ import { CreateProductAuctionLogInput } from './dto/create-product-auction-log.i
 export class ProductAuctionLogResolver {
   constructor(private readonly productAuctionLogService: ProductAuctionLogService) {}
 
-  @Mutation(() => ProductAuctionLog)
-  createProductAuctionLog(@Args('createProductAuctionLogInput') createProductAuctionLogInput: CreateProductAuctionLogInput) {
-    return this.productAuctionLogService.create(createProductAuctionLogInput);
-  }
+  // @Mutation(() => ProductAuctionLog)
+  // createProductAuctionLog(@Args('createProductAuctionLogInput') createProductAuctionLogInput: CreateProductAuctionLogInput) {
+  //   return this.productAuctionLogService.create(createProductAuctionLogInput);
+  // }
 
 }

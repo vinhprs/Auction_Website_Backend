@@ -3,13 +3,12 @@ import { ProductAuctionLogService } from './product-auction-log.service';
 import { ProductAuctionLogResolver } from './product-auction-log.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductAuctionLog } from './entities/product-auction-log.entity';
-import { ProductAuctionModule } from '../product-auction/product-auction.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ProductAuctionLog]),
-    ProductAuctionModule
+    TypeOrmModule.forFeature([ProductAuctionLog])
   ],
-  providers: [ProductAuctionLogResolver, ProductAuctionLogService]
+  providers: [ProductAuctionLogResolver, ProductAuctionLogService],
+  exports: [ ProductAuctionLogService ]
 })
 export class ProductAuctionLogModule {}
