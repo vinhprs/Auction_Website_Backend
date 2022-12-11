@@ -1,35 +1,23 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { ProductAuctionService } from './product-auction.service';
 import { ProductAuction } from './entities/product-auction.entity';
 import { CreateProductAuctionInput } from './dto/create-product-auction.input';
-import { UpdateProductAuctionInput } from './dto/update-product-auction.input';
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { Request } from 'express';
 
 @Resolver(() => ProductAuction)
 export class ProductAuctionResolver {
   constructor(private readonly productAuctionService: ProductAuctionService) {}
 
   @Mutation(() => ProductAuction)
-  createProductAuction(@Args('createProductAuctionInput') createProductAuctionInput: CreateProductAuctionInput) {
-    return this.productAuctionService.create(createProductAuctionInput);
-  }
-
-  @Query(() => [ProductAuction], { name: 'productAuction' })
-  findAll() {
-    return this.productAuctionService.findAll();
-  }
-
-  @Query(() => ProductAuction, { name: 'productAuction' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.productAuctionService.findOne(id);
-  }
-
-  @Mutation(() => ProductAuction)
-  updateProductAuction(@Args('updateProductAuctionInput') updateProductAuctionInput: UpdateProductAuctionInput) {
-    return this.productAuctionService.update(updateProductAuctionInput.id, updateProductAuctionInput);
-  }
-
-  @Mutation(() => ProductAuction)
-  removeProductAuction(@Args('id', { type: () => Int }) id: number) {
-    return this.productAuctionService.remove(id);
+  async createProductAuction(
+    @Args('CreateProductAuctionInput') createProductAuctionInput: CreateProductAuctionInput,
+    @Context('req') req: Request
+  ) {
+    try {
+      return await this.productAuctionService.create(createProductAuctionInput, req);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
   }
 }

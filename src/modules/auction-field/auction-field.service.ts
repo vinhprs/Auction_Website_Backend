@@ -23,6 +23,11 @@ export class AuctionFieldService {
     return await this.auctionFieldRepository.find();
   }
 
+  async getAuctionFieldById(Auction_Field_ID: string) 
+  : Promise<AuctionField> {
+    return await this.auctionFieldRepository.findOneBy({Auction_Field_ID});
+  }
+
   async getOperatingAuctionField() : Promise<AuctionField[]> {
     const now = new Date();
     // now.setHours(now.getHours() + 7);

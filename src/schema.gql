@@ -174,7 +174,6 @@ type Query {
   deliveryFee(id: Int!): DeliveryFee!
   order(id: Int!): Order!
   payment(id: Int!): Payment!
-  productAuction(id: Int!): ProductAuction!
   getOperatingAuctionField: [AuctionField!]!
   productAuctionLog(id: Int!): ProductAuctionLog!
   userBid(id: Int!): UserBid!
@@ -214,9 +213,7 @@ type Mutation {
   createPayment(createPaymentInput: CreatePaymentInput!): Payment!
   updatePayment(updatePaymentInput: UpdatePaymentInput!): Payment!
   removePayment(id: Int!): Payment!
-  createProductAuction(createProductAuctionInput: CreateProductAuctionInput!): ProductAuction!
-  updateProductAuction(updateProductAuctionInput: UpdateProductAuctionInput!): ProductAuction!
-  removeProductAuction(id: Int!): ProductAuction!
+  createProductAuction(CreateProductAuctionInput: CreateProductAuctionInput!): ProductAuction!
   createAuctionField(createAuctionFieldInput: CreateAuctionFieldInput!): AuctionField!
   createProductAuctionLog(createProductAuctionLogInput: CreateProductAuctionLogInput!): ProductAuctionLog!
   updateProductAuctionLog(updateProductAuctionLogInput: UpdateProductAuctionLogInput!): ProductAuctionLog!
@@ -327,14 +324,12 @@ input UpdatePaymentInput {
 }
 
 input CreateProductAuctionInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateProductAuctionInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  Quantity: Int!
+  Weight: Float!
+  Starting_Price: Float!
+  Discount_Rate: Int!
+  Product_ID: String!
+  Auction_Field_ID: String!
 }
 
 input CreateAuctionFieldInput {

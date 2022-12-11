@@ -15,5 +15,6 @@ import { ProductImageModule } from '../product-image/product-image.module';
     ProductImageModule
   ],
   providers: [ProductResolver, ProductService],
+  exports: [ ProductService ]
 })
 export class ProductModule {}

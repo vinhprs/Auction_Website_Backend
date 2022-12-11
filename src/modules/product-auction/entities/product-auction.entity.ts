@@ -51,8 +51,8 @@ export class ProductAuction {
   @JoinColumn({name: "User_ID"})
   User_ID: User;
 
-  @Field()
-  @Column()
+  @Field({defaultValue: false})
+  @Column({ default: false})
   isSold: boolean
 
   @OneToMany(() => ProductAuctionLog, productAuctionLog => productAuctionLog.Product_Auction_ID)

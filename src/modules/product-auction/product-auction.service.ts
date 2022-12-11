@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { AuctionFieldService } from '../auction-field/auction-field.service';
+import { ProductService } from '../product/product.service';
+import { UserService } from '../user/user.service';
 import { CreateProductAuctionInput } from './dto/create-product-auction.input';
-import { UpdateProductAuctionInput } from './dto/update-product-auction.input';
-
+import { ProductAuction } from './entities/product-auction.entity';
+import { Request } from 'express';
+import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
 @Injectable()
 export class ProductAuctionService {
-  create(createProductAuctionInput: CreateProductAuctionInput) {
-    return 'This action adds a new productAuction';
-  }
+  
+  constructor(
+    @InjectRepository(ProductAuction)
+    private readonly productAuctionRepository: Repository<ProductAuction>,
+    private readonly productService: ProductService,
+    private readonly userService: UserService,
+    private readonly auctionFieldService: AuctionFieldService
+  ) {}
 
-  findAll() {
-    return `This action returns all productAuction`;
-  }
+  async create(createProductAuctionInput: CreateProductAuctionInput , req: Request)
+  : Promise<ProductAuction> {
+    const { Product_ID,  Quantity, Weight, Starting_Price,
+      Discount_Rate, Auction_Field_ID  } = createProductAuctionInput;
+    const userID = getUserIdFromRequest(req);
 
-  findOne(id: number) {
-    return `This action returns a #${id} productAuction`;
-  }
+    const [ productRef, userRef, auctionFieldRef ] = await Promise.all([
+      this.productService.getProductById(Product_ID),
+      this.userService.getUserById(userID),
+      this.auctionFieldService.getAuctionFieldById(Auction_Field_ID)
+    ]);
 
-  update(id: number, updateProductAuctionInput: UpdateProductAuctionInput) {
-    return `This action updates a #${id} productAuction`;
-  }
+    const newProductAuction = new ProductAuction();
+    newProductAuction.Product_ID = productRef;
+    newProductAuction.Auction_Field_ID = auctionFieldRef;
+    newProductAuction.User_ID = userRef;
+    newProductAuction.Quantity = Quantity;
+    newProductAuction.Weight = Weight;
+    newProductAuction.Starting_Price = Starting_Price;
+    newProductAuction.Discount_Rate = Discount_Rate;
+    newProductAuction.Current_Price = Starting_Price;
 
-  remove(id: number) {
-    return `This action removes a #${id} productAuction`;
+    return await this.productAuctionRepository.save(newProductAuction);
   }
 }
