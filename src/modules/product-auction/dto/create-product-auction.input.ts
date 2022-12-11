@@ -2,8 +2,6 @@ import { InputType, Int, Field, Float } from '@nestjs/graphql';
 
 @InputType()
 export class CreateProductAuctionInput {
-  @Field(() => Int)
-  Quantity: number;
 
   @Field(() => Float)
   Weight: number;

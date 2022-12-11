@@ -8,10 +8,7 @@ export class CreateProductInput {
 
   @Field()
   Product_Name: string;
-
-  @Field(() => Int)
-  Quantity: number;
-
+  
   @Field(() => Float)
   Weight: number;
 

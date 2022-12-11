@@ -21,7 +21,7 @@ export class ProductService {
   ) { }
 
   async create(createProductInput: CreateProductInput, req: Request): Promise<boolean> {
-    const { Product_Name, Price, Weight, Quantity, User_Note,
+    const { Product_Name, Price, Weight, User_Note,
       isActive, ShopName, Product_Info, Product_Image } = createProductInput;
     // get User create product
     const userId = getUserIdFromRequest(req);
@@ -36,7 +36,6 @@ export class ProductService {
     newProduct.Product_Name = Product_Name;
     newProduct.Price = Price;
     newProduct.Weight = Weight;
-    newProduct.Quantity = Quantity;
     newProduct.User_Note = User_Note;
     newProduct.isActive = isActive;
     newProduct.ShopName = ShopName;

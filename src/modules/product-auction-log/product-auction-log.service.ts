@@ -1,26 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ProductAuctionService } from '../product-auction/product-auction.service';
 import { CreateProductAuctionLogInput } from './dto/create-product-auction-log.input';
-import { UpdateProductAuctionLogInput } from './dto/update-product-auction-log.input';
+import { ProductAuctionLog } from './entities/product-auction-log.entity';
 
 @Injectable()
 export class ProductAuctionLogService {
-  create(createProductAuctionLogInput: CreateProductAuctionLogInput) {
-    return 'This action adds a new productAuctionLog';
+  
+  constructor(
+    @InjectRepository(ProductAuctionLog)
+    private readonly productAuctionLogRepository: Repository<ProductAuctionLog>,
+    private readonly productAuctionService: ProductAuctionService
+  ) {}
+
+  async create(createProductAuctionLogInput: CreateProductAuctionLogInput)
+  : Promise<ProductAuctionLog> {
+    const { Price, Time, Product_Auction_ID } = createProductAuctionLogInput;
+    const productAuctionRef = await this.productAuctionService.getProductAuctionById(Product_Auction_ID);
+
+    const newLog = new ProductAuctionLog();
+    newLog.Price = Price;
+    newLog.Time = Time;
+    newLog.Product_Auction_ID = productAuctionRef;
+
+    return await this.productAuctionLogRepository.save(newLog);
   }
 
-  findAll() {
-    return `This action returns all productAuctionLog`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} productAuctionLog`;
-  }
-
-  update(id: number, updateProductAuctionLogInput: UpdateProductAuctionLogInput) {
-    return `This action updates a #${id} productAuctionLog`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} productAuctionLog`;
-  }
 }

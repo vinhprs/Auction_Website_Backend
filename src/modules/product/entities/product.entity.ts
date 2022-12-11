@@ -16,10 +16,6 @@ export class Product {
   @Column()
   Product_Name: string;
 
-  @Field()
-  @Column()
-  Quantity: number;
-
   @Field(() => Float)
   @Column({type: 'decimal'})
   Weight: number;

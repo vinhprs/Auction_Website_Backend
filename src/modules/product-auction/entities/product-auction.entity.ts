@@ -15,10 +15,6 @@ export class ProductAuction {
   @PrimaryGeneratedColumn('uuid')
   Product_Auction_ID: string;
 
-  @Field()
-  @Column()
-  Quantity: number;
-
   @Field(() => Float)
   @Column({ type: 'decimal' })
   Weight: number;

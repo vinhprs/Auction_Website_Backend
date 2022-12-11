@@ -71,7 +71,6 @@ type Order {
 
 type ProductAuction {
   Product_Auction_ID: String!
-  Quantity: Float!
   Weight: Float!
   Starting_Price: Float!
   Discount_Rate: Float!
@@ -85,7 +84,6 @@ type ProductAuction {
 type Product {
   Product_ID: String!
   Product_Name: String!
-  Quantity: Float!
   Weight: Float!
   Price: Float!
   User_Note: String
@@ -249,7 +247,6 @@ input UpdateAddressInput {
 input CreateProductInput {
   Product_Image: [Upload!] = null
   Product_Name: String!
-  Quantity: Int!
   Weight: Float!
   Price: Float!
   User_Note: String = null
@@ -324,7 +321,6 @@ input UpdatePaymentInput {
 }
 
 input CreateProductAuctionInput {
-  Quantity: Int!
   Weight: Float!
   Starting_Price: Float!
   Discount_Rate: Int!

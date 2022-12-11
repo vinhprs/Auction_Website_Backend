@@ -14,6 +14,7 @@ import { UserModule } from '../user/user.module';
     AuctionFieldModule,
     UserModule
   ],
-  providers: [ProductAuctionResolver, ProductAuctionService]
+  providers: [ProductAuctionResolver, ProductAuctionService],
+  exports: [ProductAuctionService]
 })
 export class ProductAuctionModule {}

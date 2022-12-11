@@ -21,7 +21,7 @@ export class ProductAuctionService {
 
   async create(createProductAuctionInput: CreateProductAuctionInput , req: Request)
   : Promise<ProductAuction> {
-    const { Product_ID,  Quantity, Weight, Starting_Price,
+    const { Product_ID,  Weight, Starting_Price,
       Discount_Rate, Auction_Field_ID  } = createProductAuctionInput;
     const userID = getUserIdFromRequest(req);
 
@@ -35,12 +35,16 @@ export class ProductAuctionService {
     newProductAuction.Product_ID = productRef;
     newProductAuction.Auction_Field_ID = auctionFieldRef;
     newProductAuction.User_ID = userRef;
-    newProductAuction.Quantity = Quantity;
     newProductAuction.Weight = Weight;
     newProductAuction.Starting_Price = Starting_Price;
     newProductAuction.Discount_Rate = Discount_Rate;
     newProductAuction.Current_Price = Starting_Price;
 
     return await this.productAuctionRepository.save(newProductAuction);
+  }
+
+  async getProductAuctionById(Product_Auction_ID: string)
+  : Promise<ProductAuction> {
+    return await this.productAuctionRepository.findOneBy({Product_Auction_ID});
   }
 }
