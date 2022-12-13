@@ -47,7 +47,9 @@ export class Product {
   User_ID: User;
 
   // Catalog relationship: n-1
-  @ManyToOne(() => Catalog, catalog => catalog.Product)
+  @ManyToOne(() => Catalog, catalog => catalog.Product, {
+    eager: true
+  })
   @Field(() => Catalog)
   @JoinColumn({name: "Catalog_ID"})
   Catalog_ID: Catalog;

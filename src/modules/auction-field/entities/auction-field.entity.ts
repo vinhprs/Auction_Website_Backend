@@ -25,6 +25,8 @@ export class AuctionField {
   @Column({ default: false })
   isOperation: boolean;
 
-  @OneToMany(() => ProductAuction, productAuction => productAuction.Auction_Field_ID)
+  @OneToMany(() => ProductAuction, productAuction => productAuction.Auction_Field_ID, {
+    eager: true
+  })
   Product_Auction: ProductAuction [];
 }

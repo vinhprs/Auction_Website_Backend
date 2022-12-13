@@ -32,7 +32,9 @@ export class ProductAuction {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   Current_Price: number;
 
-  @OneToOne(() => Product, product => product.Product_Auction)
+  @OneToOne(() => Product, product => product.Product_Auction, {
+    eager: true
+  })
   @Field(() => Product)
   @JoinColumn({name: "Product_ID"})
   Product_ID: Product;

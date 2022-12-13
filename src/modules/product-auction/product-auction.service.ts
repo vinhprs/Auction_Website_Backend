@@ -12,6 +12,7 @@ import { ProductAuctionLogService } from '../product-auction-log/product-auction
 import { ProductAuctionLog } from '../product-auction-log/entities/product-auction-log.entity';
 import { Product } from '../product/entities/product.entity';
 import { AuctionField } from '../auction-field/entities/auction-field.entity';
+import { PaginationInput } from '../product/dto/create-product.input';
 @Injectable()
 export class ProductAuctionService {
   
@@ -60,7 +61,7 @@ export class ProductAuctionService {
 
   async getProductAuctionById(Product_Auction_ID: string)
   : Promise<ProductAuction> {
-    return await this.productAuctionRepository.findOne({
+    const result = await this.productAuctionRepository.findOne({
       where: {
         Product_Auction_ID
       },
@@ -69,6 +70,8 @@ export class ProductAuctionService {
         Auction_Field_ID: true
       }
     });
+
+    return result;
   }
 
   async getAuctioningProduct() : Promise<ProductAuction[]> {

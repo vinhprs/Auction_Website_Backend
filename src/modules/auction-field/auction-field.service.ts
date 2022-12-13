@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThan, Repository } from 'typeorm';
+import { ProductAuction } from '../product-auction/entities/product-auction.entity';
 import { CreateAuctionFieldInput } from './dto/create-auction-field.input';
 import { AuctionField } from './entities/auction-field.entity';
 
@@ -51,10 +52,7 @@ export class AuctionFieldService {
           isOperation: true,
           End_Time: MoreThan(now)
         },
-      ],
-      relations: { 
-        Product_Auction: true
-      }
+      ]
     });
     return result;
   }
