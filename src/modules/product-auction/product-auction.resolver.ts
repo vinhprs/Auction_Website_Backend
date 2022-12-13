@@ -5,6 +5,7 @@ import { CreateProductAuctionInput } from './dto/create-product-auction.input';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Request } from 'express';
 import { Product } from '../product/entities/product.entity';
+import { AuctionField } from '../auction-field/entities/auction-field.entity';
 
 @Resolver(() => ProductAuction)
 export class ProductAuctionResolver {
@@ -38,6 +39,18 @@ export class ProductAuctionResolver {
     try {
       const { Product_Auction_ID } = productAuction;
       return await this.productAuctionService.getProducByAuctioning(Product_Auction_ID);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @ResolveField(() => [AuctionField])
+  async Auction_Field_ID(
+    @Parent() productAuction: ProductAuction
+  ) : Promise<AuctionField> {
+    try {
+      const { Product_Auction_ID } = productAuction;
+      return await this.productAuctionService.getFieldAuctioning(Product_Auction_ID);
     } catch(e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }

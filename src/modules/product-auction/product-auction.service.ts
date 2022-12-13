@@ -11,6 +11,7 @@ import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
 import { ProductAuctionLogService } from '../product-auction-log/product-auction-log.service';
 import { ProductAuctionLog } from '../product-auction-log/entities/product-auction-log.entity';
 import { Product } from '../product/entities/product.entity';
+import { AuctionField } from '../auction-field/entities/auction-field.entity';
 @Injectable()
 export class ProductAuctionService {
   
@@ -63,7 +64,10 @@ export class ProductAuctionService {
       where: {
         Product_Auction_ID
       },
-      relations: { Product_ID: true }
+      relations: { 
+        Product_ID: true,
+        Auction_Field_ID: true
+      }
     });
   }
 
@@ -82,6 +86,13 @@ export class ProductAuctionService {
     const result = await this.getProductAuctionById(Product_Auction_ID);
 
     return result.Product_ID;
+  }
+
+  async getFieldAuctioning(Product_Auction_ID: string)
+  : Promise<AuctionField> {
+    const result = await this.getProductAuctionById(Product_Auction_ID);
+
+    return result.Auction_Field_ID;
   }
 
   async creatProductAuctionLog(price: number, productAuction: ProductAuction) {
