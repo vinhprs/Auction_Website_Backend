@@ -4,6 +4,8 @@
 
 type Address {
   Address_ID: String!
+  Reciever_Name: String
+  Phone: String!
   Address_Name: String!
   Address_District: String!
   User_ID: User!
@@ -167,6 +169,7 @@ type Query {
   order(id: Int!): Order!
   payment(id: Int!): Payment!
   getOperatingAuctionField: [AuctionField!]!
+  getAvailableAuctionField: [AuctionField!]!
   userBid(id: Int!): UserBid!
   userBidLog(id: Int!): UserBidLog!
   currencyLog(id: Int!): CurrencyLog!

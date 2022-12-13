@@ -28,7 +28,7 @@ export class AuctionFieldService {
     return await this.auctionFieldRepository.findOneBy({Auction_Field_ID});
   }
 
-  async getOperatingAuctionField() : Promise<AuctionField[]> {
+  async getAvailableAuctionField() : Promise<AuctionField[]> {
     const now = new Date();
     // now.setHours(now.getHours() + 7);
     const result = await this.auctionFieldRepository.find({
@@ -38,7 +38,21 @@ export class AuctionFieldService {
           Start_Time: MoreThan(now)
         }
       ]
-    })
+    });
+    return result;
+  }
+
+  async getOperatingAuctionField() : Promise<AuctionField[]> {
+    const now = new Date();
+
+    const result = await this.auctionFieldRepository.find({
+      where: [
+        {
+          isOperation: true,
+          End_Time: MoreThan(now)
+        }
+      ]
+    });
     return result;
   }
 

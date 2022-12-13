@@ -10,6 +10,15 @@ export class Address {
   @PrimaryGeneratedColumn('uuid')
   Address_ID: string;
 
+  @Field({nullable: true, defaultValue: null})
+  @Column({ nullable: true, default: null })
+  Reciever_Name: string;
+
+  @Field(() => String)
+  @Column()
+  Phone: string;
+  
+
   @Field()
   @Column()
   Address_Name: string;
