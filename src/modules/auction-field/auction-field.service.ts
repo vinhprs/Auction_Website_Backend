@@ -26,7 +26,12 @@ export class AuctionFieldService {
 
   async getAuctionFieldById(Auction_Field_ID: string) 
   : Promise<AuctionField> {
-    return await this.auctionFieldRepository.findOneBy({Auction_Field_ID});
+    return await this.auctionFieldRepository.findOne({
+      where: { Auction_Field_ID },
+      relations: {
+        Product_Auction: true
+      }
+    });
   }
 
   async getAvailableAuctionField() : Promise<AuctionField[]> {

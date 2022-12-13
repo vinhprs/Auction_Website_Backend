@@ -114,11 +114,15 @@ export class ProductAuctionService {
     return result.Product_ID;
   }
 
-  // async getSimilarProductAuctioning(Product_Auction_ID: string)
-  // : Promise<Product> {
-  //   const result = await this.getProductAuctionById(Product_Auction_ID);
+  async getSimilarProductAuctioning(Product_Auction_ID: string)
+  : Promise<ProductAuction[]> {
+    const productAuction = await this.getProductAuctionById(Product_Auction_ID);
 
-  // }
+    let onField = await this.auctionFieldService.getAuctionFieldById(productAuction.Auction_Field_ID.Auction_Field_ID);
+    const result = onField.Product_Auction.filter(pA => pA.Product_Auction_ID !== Product_Auction_ID)
+
+    return result;
+  }
 
   async getFieldAuctioning(Product_Auction_ID: string)
   : Promise<AuctionField> {

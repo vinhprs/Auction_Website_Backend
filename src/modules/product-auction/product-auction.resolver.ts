@@ -35,6 +35,17 @@ export class ProductAuctionResolver {
   }
 
   @Query(() => [ProductAuction])
+  async getSimilartProductAuction(
+    @Args('Product_Auction_ID') Product_Auction_ID: string
+  ) : Promise<ProductAuction[]> {
+    try {
+      return await this.productAuctionService.getSimilarProductAuctioning(Product_Auction_ID);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @Query(() => [ProductAuction])
   async getAuctioningProduct() : Promise<ProductAuction[]> {
     try {
       return await this.productAuctionService.getAuctioningProduct();

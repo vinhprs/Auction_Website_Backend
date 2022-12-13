@@ -168,6 +168,8 @@ type Query {
   deliveryFee(id: Int!): DeliveryFee!
   order(id: Int!): Order!
   payment(id: Int!): Payment!
+  getProductAuctionById(Product_Auction_ID: String!): ProductAuction!
+  getSimilartProductAuction(Product_Auction_ID: String!): [ProductAuction!]!
   getAuctioningProduct: [ProductAuction!]!
   getAuctioningProductByCatalog(Catalog_Name: String!): [ProductAuction!]!
   searchAuctioningProduct(Product_Name: String!): [ProductAuction!]!
