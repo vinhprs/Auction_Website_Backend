@@ -89,7 +89,7 @@ export class ProductAuctionService {
     let auctioningProduct = await this.getAuctioningProduct();
     
     const result = auctioningProduct.filter(aP => {
-      return aP.Product_ID.Catalog_ID.Catalog_Name.toLowerCase().includes(Catalog_Name)
+      return aP.Product_ID.Catalog_ID.Catalog_Name.toLowerCase().includes(Catalog_Name.toLowerCase())
     })
 
     return result;
@@ -113,6 +113,12 @@ export class ProductAuctionService {
 
     return result.Product_ID;
   }
+
+  // async getSimilarProductAuctioning(Product_Auction_ID: string)
+  // : Promise<Product> {
+  //   const result = await this.getProductAuctionById(Product_Auction_ID);
+
+  // }
 
   async getFieldAuctioning(Product_Auction_ID: string)
   : Promise<AuctionField> {

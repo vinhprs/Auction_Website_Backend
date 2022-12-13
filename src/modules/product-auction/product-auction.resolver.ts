@@ -6,7 +6,6 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { Request } from 'express';
 import { Product } from '../product/entities/product.entity';
 import { AuctionField } from '../auction-field/entities/auction-field.entity';
-import { PaginationInput } from '../product/dto/create-product.input';
 
 @Resolver(() => ProductAuction)
 export class ProductAuctionResolver {
