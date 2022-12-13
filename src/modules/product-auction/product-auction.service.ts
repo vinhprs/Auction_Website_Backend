@@ -84,6 +84,29 @@ export class ProductAuctionService {
     return result;
   }
 
+  async getAuctioningProductByCatalog(Catalog_Name: string)
+  : Promise<ProductAuction[]> {
+    let auctioningProduct = await this.getAuctioningProduct();
+    
+    const result = auctioningProduct.filter(aP => {
+      return aP.Product_ID.Catalog_ID.Catalog_Name.toLowerCase().includes(Catalog_Name)
+    })
+
+    return result;
+  }
+
+  async searchAuctioningProduct(Product_Name: string)
+  : Promise<ProductAuction[]> {
+    let auctioningProduct = await this.getAuctioningProduct();
+
+    const result = auctioningProduct.filter(aP => {
+      return aP.Product_ID.Product_Name.toLowerCase().includes(Product_Name.toLowerCase()) ||
+      aP.Product_ID.Catalog_ID.Catalog_Name.toLowerCase().includes(Product_Name.toLowerCase())
+    });
+
+    return result;
+  }
+
   async getProducByAuctioning(Product_Auction_ID: string)
   : Promise<Product> {
     const result = await this.getProductAuctionById(Product_Auction_ID);

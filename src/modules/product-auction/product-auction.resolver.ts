@@ -33,6 +33,28 @@ export class ProductAuctionResolver {
     }
   }
 
+  @Query(() => [ProductAuction])
+  async getAuctioningProductByCatalog(
+    @Args('Catalog_Name') Catalog_Name: string
+  ) : Promise<ProductAuction[]> {
+    try {
+      return await this.productAuctionService.getAuctioningProductByCatalog(Catalog_Name);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @Query(() => [ProductAuction])
+  async searchAuctioningProduct(
+    @Args('Product_Name') Product_Name: string
+  ) : Promise<ProductAuction[]> {
+    try {
+      return await this.productAuctionService.searchAuctioningProduct(Product_Name);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
   @ResolveField(() => [ProductAuction])
   async Product_ID(
     @Parent() productAuction: ProductAuction

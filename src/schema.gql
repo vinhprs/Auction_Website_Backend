@@ -169,6 +169,8 @@ type Query {
   order(id: Int!): Order!
   payment(id: Int!): Payment!
   getAuctioningProduct: [ProductAuction!]!
+  getAuctioningProductByCatalog(Catalog_Name: String!): [ProductAuction!]!
+  searchAuctioningProduct(Product_Name: String!): [ProductAuction!]!
   getOperatingAuctionField: [AuctionField!]!
   getAvailableAuctionField: [AuctionField!]!
   userBid(id: Int!): UserBid!
