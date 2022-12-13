@@ -10,6 +10,7 @@ import { Request } from 'express';
 import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
 import { ProductAuctionLogService } from '../product-auction-log/product-auction-log.service';
 import { ProductAuctionLog } from '../product-auction-log/entities/product-auction-log.entity';
+import { Product } from '../product/entities/product.entity';
 @Injectable()
 export class ProductAuctionService {
   
@@ -58,7 +59,29 @@ export class ProductAuctionService {
 
   async getProductAuctionById(Product_Auction_ID: string)
   : Promise<ProductAuction> {
-    return await this.productAuctionRepository.findOneBy({Product_Auction_ID});
+    return await this.productAuctionRepository.findOne({
+      where: {
+        Product_Auction_ID
+      },
+      relations: { Product_ID: true }
+    });
+  }
+
+  async getAuctioningProduct() : Promise<ProductAuction[]> {
+    const operatingAuction = await this.auctionFieldService.getOperatingAuctionField();
+
+    let result : ProductAuction[] = [];
+    operatingAuction.forEach(p => {
+      result = result.concat(p.Product_Auction)
+    });
+    return result;
+  }
+
+  async getProducByAuctioning(Product_Auction_ID: string)
+  : Promise<Product> {
+    const result = await this.getProductAuctionById(Product_Auction_ID);
+
+    return result.Product_ID;
   }
 
   async creatProductAuctionLog(price: number, productAuction: ProductAuction) {
