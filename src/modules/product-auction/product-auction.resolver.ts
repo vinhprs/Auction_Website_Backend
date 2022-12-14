@@ -6,10 +6,14 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { Request } from 'express';
 import { Product } from '../product/entities/product.entity';
 import { AuctionField } from '../auction-field/entities/auction-field.entity';
+import { AuctionFieldService } from '../auction-field/auction-field.service';
 
 @Resolver(() => ProductAuction)
 export class ProductAuctionResolver {
-  constructor(private readonly productAuctionService: ProductAuctionService) {}
+  constructor(
+    private readonly productAuctionService: ProductAuctionService,
+    private readonly auctionFieldService: AuctionFieldService
+  ) {}
 
   @Mutation(() => ProductAuction)
   async createProductAuction(
@@ -33,6 +37,31 @@ export class ProductAuctionResolver {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }
   }
+  private sameDateAuction: AuctionField[] = [];
+  @Query(() => Number)
+  async getMinTimeToDiscount() : Promise<number>{
+  const now = new Date(Date.now())
+  let auctionField = await this.auctionFieldService.getAll();
+  this.sameDateAuction = auctionField.filter(x=>
+    x.Start_Time.getFullYear() === now.getFullYear() &&
+    x.Start_Time.getMonth() === now.getMonth() &&
+     x.Start_Time.getDate() === now.getDate() 
+
+    )
+    let minTime = Number.MAX_VALUE
+
+    this.sameDateAuction.forEach(x=>{
+      for(let i = x.Start_Time.getTime();i< x.End_Time.getTime();i+= x.Discount_Circle*60*1000){
+        if(i> now.getTime()){
+          if(minTime> i - now.getTime()){
+            minTime = i - now.getTime()
+          }
+          break
+        }
+      }
+    })
+    return minTime/60000
+ }
 
   @Query(() => [ProductAuction])
   async getSimilartProductAuction(

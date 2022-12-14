@@ -167,6 +167,7 @@ type Query {
   order(id: Int!): Order!
   payment(id: Int!): Payment!
   getProductAuctionById(Product_Auction_ID: String!): ProductAuction!
+  getMinTimeToDiscount: Float!
   getSimilartProductAuction(Product_Auction_ID: String!): [ProductAuction!]!
   getAuctioningProduct: [ProductAuction!]!
   getAuctioningProductByCatalog(Catalog_Name: String!): [ProductAuction!]!
