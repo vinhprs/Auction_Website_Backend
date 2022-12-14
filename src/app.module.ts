@@ -86,7 +86,8 @@ import { Evaluate } from './modules/evaluate/entities/evaluate.entity';
       cors: {
         credentials: true,
         origin: [
-          "http://localhost:3000"
+          "http://localhost:3000",
+          "https://freshauc.netlify.app"
         ]
       }
     }),
