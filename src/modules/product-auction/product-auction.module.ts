@@ -17,5 +17,6 @@ import { ProductAuctionLogModule } from '../product-auction-log/product-auction-
     ProductAuctionLogModule
   ],
   providers: [ProductAuctionResolver, ProductAuctionService],
+  exports: [ ProductAuctionService ]
 })
 export class ProductAuctionModule {}

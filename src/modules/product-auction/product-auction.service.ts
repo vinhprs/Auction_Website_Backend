@@ -137,4 +137,13 @@ export class ProductAuctionService {
     newAuctionLog.Product_Auction_ID = productAuction;
     await this.productAuctionLogService.create(newAuctionLog);
   }
+
+  async productDiscount(Product_Auction: ProductAuction)
+  : Promise<ProductAuction> {
+    let { Current_Price, Discount_Rate } = Product_Auction;
+    Current_Price = Current_Price - (Current_Price * (Discount_Rate/100));
+    Product_Auction.Current_Price = Current_Price;
+
+    return await this.productAuctionRepository.save(Product_Auction);
+  }
 }
