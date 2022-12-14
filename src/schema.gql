@@ -82,8 +82,6 @@ type Product {
   Weight: Float!
   Price: Float!
   User_Note: String
-  isActive: Boolean!
-  ShopName: String
   Product_Info: String
   User_ID: User!
   Catalog_ID: Catalog!
@@ -248,8 +246,6 @@ input CreateProductInput {
   Weight: Float!
   Price: Float!
   User_Note: String = null
-  isActive: Boolean = true
-  ShopName: String = null
   Product_Info: String = null
   Catalog_ID: String!
 }

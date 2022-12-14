@@ -28,14 +28,6 @@ export class Product {
   @Column({nullable: true, default: null})
   User_Note?: string;
 
-  @Field({defaultValue: true})
-  @Column({default: true})
-  isActive: boolean;
-
-  @Field({nullable: true, defaultValue: null})
-  @Column({ nullable: true, default: true })
-  ShopName: string;
-
   @Field({nullable: true, defaultValue: null})
   @Column({nullable: true, default: null, length: 2000})
   Product_Info?: string;

@@ -22,7 +22,7 @@ export class ProductService {
 
   async create(createProductInput: CreateProductInput, req: Request): Promise<boolean> {
     const { Product_Name, Price, Weight, User_Note,
-      isActive, ShopName, Product_Info, Product_Image } = createProductInput;
+      Product_Info, Product_Image } = createProductInput;
     // get User create product
     const userId = getUserIdFromRequest(req);
     const [user, catalog] = await Promise.all([
@@ -37,8 +37,6 @@ export class ProductService {
     newProduct.Price = Price;
     newProduct.Weight = Weight;
     newProduct.User_Note = User_Note;
-    newProduct.isActive = isActive;
-    newProduct.ShopName = ShopName;
     newProduct.Product_Info = Product_Info;
     await this.productRepository.save(newProduct);
 

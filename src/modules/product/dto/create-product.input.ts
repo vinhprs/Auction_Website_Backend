@@ -18,12 +18,6 @@ export class CreateProductInput {
   @Field({nullable: true, defaultValue: null})
   User_Note?: string;
 
-  @Field({defaultValue: true})
-  isActive: boolean;
-
-  @Field({nullable: true, defaultValue: null})
-  ShopName: string;
-
   @Field({nullable: true, defaultValue: null})
   Product_Info?: string;
 

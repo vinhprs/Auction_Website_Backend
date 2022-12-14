@@ -12,7 +12,6 @@ import { ProductAuctionLogService } from '../product-auction-log/product-auction
 import { ProductAuctionLog } from '../product-auction-log/entities/product-auction-log.entity';
 import { Product } from '../product/entities/product.entity';
 import { AuctionField } from '../auction-field/entities/auction-field.entity';
-import { PaginationInput } from '../product/dto/create-product.input';
 @Injectable()
 export class ProductAuctionService {
   

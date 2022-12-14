@@ -2,7 +2,6 @@ import { Resolver, Query, Mutation, Args, Int, Context, ResolveField, Parent } f
 import { ProductService } from './product.service';
 import { Product } from './entities/product.entity';
 import { CreateProductInput, PaginationInput, SearchProductInput } from './dto/create-product.input';
-import { UpdateProductInput } from './dto/update-product.input';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Request } from 'express';
 import { ProductImage } from '../product-image/entities/product-image.entity';
