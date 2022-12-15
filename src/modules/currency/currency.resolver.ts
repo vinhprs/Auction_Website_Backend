@@ -13,14 +13,14 @@ export class CurrencyResolver {
 
   @Mutation(() => Currency)
   @UseGuards(JwtAuthGuard)
-  async recharge(
+  async rechargeMoney(
+    @Args('amount') amount: number,
     @Context('req') req: Request
   ) : Promise<Currency> {
     try {
-      return await this.currencyService.create( req);
+      return await this.currencyService.rechargeMoney(amount, req);
     } catch(e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }
   }
-
 }

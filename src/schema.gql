@@ -98,7 +98,7 @@ type CurrencyLog {
 
 type Currency {
   Currency_ID: String!
-  Total_Money: Float
+  Total_Money: Float!
   User_ID: User!
 }
 
@@ -190,12 +190,12 @@ input SearchProductInput {
 }
 
 type Mutation {
+  rechargeMoney(amount: Float!): Currency!
   createAddress(createAddressInput: CreateAddressInput!): Address!
   updateAddress(updateAddressInput: UpdateAddressInput!): Address!
   removeAddress(id: Int!): Address!
   createProduct(createProductInput: CreateProductInput!): Boolean!
   createCatalog(createCatalogInput: CreateCatalogInput!): Catalog!
-  recharge: Currency!
   createWeightFee(createWeightFeeInput: CreateWeightFeeInput!): WeightFee!
   updateWeightFee(updateWeightFeeInput: UpdateWeightFeeInput!): WeightFee!
   removeWeightFee(id: Int!): WeightFee!

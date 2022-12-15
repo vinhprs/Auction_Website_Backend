@@ -10,8 +10,8 @@ export class Currency {
   @PrimaryGeneratedColumn('uuid')
   Currency_ID: string;
 
-  @Field(() => Float, { nullable: true, defaultValue: 0.00  })
-  @Column({type: 'decimal' , precision: 10, scale: 2, nullable: true, default: 0.00})
+  @Field(() => Float)
+  @Column({type: 'decimal', precision: 10, scale: 2})
   Total_Money: number;
 
   @OneToOne(() => User, user => user.Currency)

@@ -6,18 +6,24 @@ import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { sendVerifyEmail } from '../../utils/sendEmail.util';
 import { randomOtp } from '../../utils/random.util';
+import { Inject } from '@nestjs/common/decorators';
+import { forwardRef } from '@nestjs/common/utils';
+import { CurrencyService } from '../currency/currency.service';
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    private readonly userRepository: Repository<User>,
+    @Inject(forwardRef(() => CurrencyService))
+    private readonly currencyService: CurrencyService
   ) {}
 
   async getUserById(User_ID: string) : Promise<User> {
     return await this.userRepository.findOne({
       where: { User_ID },
       relations: {
-        Product: true
+        Product: true,
+        Currency: true
       }
     });
   }
@@ -80,7 +86,10 @@ export class UserService {
       bcrypt.hash(randomCode, 12)
     ]);
     
-    await this.userRepository.save(user);
+    await Promise.all([
+      this.userRepository.save(user),
+      this.currencyService.signupInit(user)
+    ]) 
     return user;
   }
 

@@ -5,6 +5,10 @@ import { getUserIdFromRequest } from '../../utils/user-from-header.util';
 import { Repository } from 'typeorm';
 import { Currency } from './entities/currency.entity';
 import { UserService } from '../user/user.service';
+import { User } from '../user/entities/user.entity';
+import { forwardRef } from '@nestjs/common/utils';
+import { Inject } from '@nestjs/common/decorators';
+
 
 @Injectable()
 export class CurrencyService {
@@ -12,17 +16,32 @@ export class CurrencyService {
   constructor(
     @InjectRepository(Currency)
     private readonly currencyRepository: Repository<Currency>,
+    @Inject(forwardRef(() => UserService))
     private readonly userService: UserService
   ) {}
 
-  async create(req: Request) : Promise<Currency> {
-    const userId = getUserIdFromRequest(req);
-    const user = await this.userService.getUserById(userId);
+  async signupInit(user : User) : Promise<Currency> {
     
     const newCurrency = new Currency();
     newCurrency.Total_Money = 0;
     newCurrency.User_ID = user;
 
     return await this.currencyRepository.save(newCurrency);
+  }
+
+  async findUserCurrency(User_ID: string) : Promise<Currency> {
+    let currency = await this.currencyRepository.find({relations: { User_ID: true }});
+    const result = currency.filter(c => c.User_ID.User_ID === User_ID)[0];
+    
+    return result
+  }
+
+  async rechargeMoney(amount: number, req: Request) : Promise<Currency> {
+    const userId = getUserIdFromRequest(req);
+
+    const userCurrency = await this.findUserCurrency(userId);
+    userCurrency.Total_Money = +userCurrency.Total_Money + (+amount);
+    console.log(userCurrency)
+    return await this.currencyRepository.save(userCurrency);
   }
 }
