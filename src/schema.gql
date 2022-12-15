@@ -89,13 +89,6 @@ type Product {
   Product_Image: [ProductImage!]!
 }
 
-type CurrencyLog {
-  Currency_Log_ID: String!
-  Currency_Log_Value: String!
-  Total_Amount: Float!
-  Currency: Currency!
-}
-
 type Currency {
   Currency_ID: String!
   Total_Money: Float!
@@ -176,7 +169,6 @@ type Query {
   getAvailableAuctionField: [AuctionField!]!
   userBid(id: Int!): UserBid!
   userBidLog(id: Int!): UserBidLog!
-  currencyLog(id: Int!): CurrencyLog!
 }
 
 input PaginationInput {
@@ -223,9 +215,6 @@ type Mutation {
   resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
   activeOtp(activeOtpInput: ActiveOtpInput!): Boolean!
   resendOtp(User_ID: String!): Boolean!
-  createCurrencyLog(createCurrencyLogInput: CreateCurrencyLogInput!): CurrencyLog!
-  updateCurrencyLog(updateCurrencyLogInput: UpdateCurrencyLogInput!): CurrencyLog!
-  removeCurrencyLog(id: Int!): CurrencyLog!
 }
 
 input CreateAddressInput {
@@ -362,15 +351,4 @@ input ResetPasswordInput {
 input ActiveOtpInput {
   otp: String!
   User_ID: String!
-}
-
-input CreateCurrencyLogInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateCurrencyLogInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }

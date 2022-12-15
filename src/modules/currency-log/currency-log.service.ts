@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Currency } from '../currency/entities/currency.entity';
 import { CreateCurrencyLogInput } from './dto/create-currency-log.input';
-import { UpdateCurrencyLogInput } from './dto/update-currency-log.input';
+import { CurrencyLog } from './entities/currency-log.entity';
 
 @Injectable()
 export class CurrencyLogService {
-  create(createCurrencyLogInput: CreateCurrencyLogInput) {
-    return 'This action adds a new currencyLog';
-  }
+  
+  constructor(
+    @InjectRepository(CurrencyLog)
+    private readonly currencyLogRepository: Repository<CurrencyLog>
+  ) {}
 
-  findAll() {
-    return `This action returns all currencyLog`;
-  }
+  async genCurrencyLog(currency: Currency) : Promise<CurrencyLog> {
+    const { Total_Money } = currency;
 
-  findOne(id: number) {
-    return `This action returns a #${id} currencyLog`;
-  }
+    const newLog = new CurrencyLog();
+    newLog.Total_Amount = Total_Money;
+    newLog.Currency = currency;
 
-  update(id: number, updateCurrencyLogInput: UpdateCurrencyLogInput) {
-    return `This action updates a #${id} currencyLog`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} currencyLog`;
+    return await this.currencyLogRepository.save(newLog);
   }
 }

@@ -67,4 +67,12 @@ export class AuctionFieldService {
     return await this.auctionFieldRepository.save(auctionField);
   }
 
+  async stopOperating(auctionField: AuctionField) : Promise<AuctionField> {
+    if(auctionField.isOperation) {
+      auctionField.isOperation = false
+    }
+
+    return await this.auctionFieldRepository.save(auctionField);
+  }
+
 }

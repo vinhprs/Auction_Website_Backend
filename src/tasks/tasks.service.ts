@@ -6,7 +6,6 @@ import { AuctionField } from '../modules/auction-field/entities/auction-field.en
 import { CronJob } from 'cron';
 import { ProductAuctionService } from '../modules/product-auction/product-auction.service';
 import { ProductAuction } from '../modules/product-auction/entities/product-auction.entity';
-import { ProductAuctionLogService } from '../modules/product-auction-log/product-auction-log.service';
 
 @Injectable()
 export class TasksService {
@@ -17,7 +16,7 @@ export class TasksService {
   
   private sameDateAuction: AuctionField[] = [];
 
-  @Cron('0 45 14 * * *')
+  @Cron('30 40 17 * * *')
   async fieldOperating() {
     let auctionField = await this.auctionFieldService.getAll();
     const now = new Date(Date.now())
@@ -28,10 +27,13 @@ export class TasksService {
     );
 
     this.sameDateAuction.forEach(async (a) => {
-      const startTime = a.Start_Time;
-      const { hour, minute, second } = formatTime(startTime);
+      const { hour, minute, second } = formatTime(a.Start_Time);
+      const endTime = a.End_Time;
 
-      await this.auctionOperate(a, hour, minute, second);
+      await Promise.all([
+        this.auctionOperate(a, hour, minute, second),
+        this.stopAuctionField(a, endTime.getHours(), endTime.getMinutes(), endTime.getSeconds())
+      ]);
     });
   }
 
@@ -57,6 +59,15 @@ export class TasksService {
 
     job.start();
   }
+
+  async stopAuctionField(auctionField: AuctionField, hour: number,
+    minute: number, second: number) : Promise<void> {
+      const job = new CronJob(`${second} ${minute} ${hour} * * *`, async() => {
+        await this.auctionFieldService.stopOperating(auctionField)
+      });
+    
+      job.start();
+    }
 
   async discountProduct(Product_Auction: ProductAuction ,nextDiscount: Date) : Promise<void> {
     const { hour, minute, second } = formatTime(nextDiscount);
