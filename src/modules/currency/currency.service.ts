@@ -8,6 +8,7 @@ import { UserService } from '../user/user.service';
 import { User } from '../user/entities/user.entity';
 import { forwardRef } from '@nestjs/common/utils';
 import { Inject } from '@nestjs/common/decorators';
+import { CurrencyLogService } from '../currency-log/currency-log.service';
 
 
 @Injectable()
@@ -17,7 +18,8 @@ export class CurrencyService {
     @InjectRepository(Currency)
     private readonly currencyRepository: Repository<Currency>,
     @Inject(forwardRef(() => UserService))
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly currencyLogService: CurrencyLogService
   ) {}
 
   async signupInit(user : User) : Promise<Currency> {
@@ -42,6 +44,12 @@ export class CurrencyService {
     const userCurrency = await this.findUserCurrency(userId);
     userCurrency.Total_Money = +userCurrency.Total_Money + (+amount);
     
-    return await this.currencyRepository.save(userCurrency);
+    await Promise.all([
+      this.currencyRepository.save(userCurrency),
+      this.currencyLogService.genCurrencyLog(userCurrency, `+${amount}`)
+    ]);
+    
+    return userCurrency;
+    
   }
 }

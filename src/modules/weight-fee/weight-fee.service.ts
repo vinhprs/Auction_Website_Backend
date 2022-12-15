@@ -1,26 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateWeightFeeInput } from './dto/create-weight-fee.input';
-import { UpdateWeightFeeInput } from './dto/update-weight-fee.input';
+import { WeightFee } from './entities/weight-fee.entity';
 
 @Injectable()
 export class WeightFeeService {
-  create(createWeightFeeInput: CreateWeightFeeInput) {
-    return 'This action adds a new weightFee';
-  }
 
-  findAll() {
-    return `This action returns all weightFee`;
-  }
+  constructor(
+    @InjectRepository(WeightFee)
+    private readonly weightFeeRepository: Repository<WeightFee>
+  ) {}
 
-  findOne(id: number) {
-    return `This action returns a #${id} weightFee`;
-  }
+  async create(createWeightFeeInput: CreateWeightFeeInput)
+  : Promise<WeightFee> {
+    const newWeightFee = this.weightFeeRepository.create(createWeightFeeInput);
 
-  update(id: number, updateWeightFeeInput: UpdateWeightFeeInput) {
-    return `This action updates a #${id} weightFee`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} weightFee`;
+    return await this.weightFeeRepository.save(newWeightFee);
   }
 }

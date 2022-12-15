@@ -13,12 +13,13 @@ export class CurrencyLogService {
     private readonly currencyLogRepository: Repository<CurrencyLog>
   ) {}
 
-  async genCurrencyLog(currency: Currency) : Promise<CurrencyLog> {
+  async genCurrencyLog(currency: Currency, value: string) : Promise<CurrencyLog> {
     const { Total_Money } = currency;
 
     const newLog = new CurrencyLog();
     newLog.Total_Amount = Total_Money;
     newLog.Currency = currency;
+    newLog.Currency_Log_Value = value;
 
     return await this.currencyLogRepository.save(newLog);
   }

@@ -8,6 +8,7 @@ import { CurrencyLog } from './entities/currency-log.entity';
   imports: [
     TypeOrmModule.forFeature([CurrencyLog])
   ],
-  providers: [CurrencyLogResolver, CurrencyLogService]
+  providers: [CurrencyLogResolver, CurrencyLogService],
+  exports: [ CurrencyLogService ]
 })
 export class CurrencyLogModule {}
