@@ -89,6 +89,13 @@ type Product {
   Product_Image: [ProductImage!]!
 }
 
+type CurrencyLog {
+  Currency_Log_ID: String!
+  Currency_Log_Value: String!
+  Total_Amount: Float!
+  Currency: Currency!
+}
+
 type Currency {
   Currency_ID: String!
   Total_Money: Float!
@@ -145,6 +152,7 @@ type Query {
   getUserByEmail(Email: String!): User!
   getUserById(User_ID: String!): User!
   getCurrentByUser(User_ID: String!): Currency!
+  getLastCurrencyLog(User_ID: String!): [CurrencyLog!]!
   address(id: Int!): Address!
   getAllProduct(paginationInput: PaginationInput!): [Product!]!
   getProductByCatalogName(Catalog_Name: String!): [Product!]!

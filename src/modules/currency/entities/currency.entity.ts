@@ -14,7 +14,9 @@ export class Currency {
   @Column({type: 'decimal', precision: 10, scale: 2})
   Total_Money: number;
 
-  @OneToOne(() => User, user => user.Currency)
+  @OneToOne(() => User, user => user.Currency, {
+    eager: true
+  })
   @Field(() => User)
   @JoinColumn({name: "User_ID"})
   User_ID: User;

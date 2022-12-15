@@ -23,4 +23,19 @@ export class CurrencyLogService {
 
     return await this.currencyLogRepository.save(newLog);
   }
+
+  async getLastCurrencyLog(User_ID: string)
+  : Promise<CurrencyLog[]> {
+    let currencyLog = await this.currencyLogRepository.find({
+      relations: {
+        Currency: true
+      }
+    });
+    
+    const result = currencyLog.filter(cL => {
+      return cL.Currency.User_ID.User_ID === User_ID
+    });
+
+    return result.slice(0, 5);
+  }
 }
