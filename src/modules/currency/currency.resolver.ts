@@ -25,7 +25,6 @@ export class CurrencyResolver {
   }
 
   @Query(() => Currency)
-  @UseGuards(JwtAuthGuard)
   async getCurrentByUser(
     @Args('User_ID') User_ID: string
   ) : Promise<Currency> {
