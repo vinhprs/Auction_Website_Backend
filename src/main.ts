@@ -10,7 +10,8 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       "http://localhost:3000",
-      "https://freshauc.netlify.app"
+      "https://freshauc.netlify.app",
+      "https://www.sandbox.paypal.com"
     ],
     credentials: true,
   })
