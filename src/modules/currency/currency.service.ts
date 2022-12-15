@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCurrencyInput } from './dto/create-currency.input';
-import { UpdateCurrencyInput } from './dto/update-currency.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Request } from 'express';
+import { getUserIdFromRequest } from '../../utils/user-from-header.util';
+import { Repository } from 'typeorm';
+import { Currency } from './entities/currency.entity';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class CurrencyService {
-  create(createCurrencyInput: CreateCurrencyInput) {
-    return 'This action adds a new currency';
-  }
+  
+  constructor(
+    @InjectRepository(Currency)
+    private readonly currencyRepository: Repository<Currency>,
+    private readonly userService: UserService
+  ) {}
 
-  findAll() {
-    return `This action returns all currency`;
-  }
+  async create(req: Request) : Promise<Currency> {
+    const userId = getUserIdFromRequest(req);
+    const user = await this.userService.getUserById(userId);
+    
+    const newCurrency = new Currency();
+    newCurrency.Total_Money = 0;
+    newCurrency.User_ID = user;
 
-  findOne(id: number) {
-    return `This action returns a #${id} currency`;
-  }
-
-  update(id: number, updateCurrencyInput: UpdateCurrencyInput) {
-    return `This action updates a #${id} currency`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} currency`;
+    return await this.currencyRepository.save(newCurrency);
   }
 }

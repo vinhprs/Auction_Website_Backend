@@ -7,7 +7,6 @@ import { User } from '../modules/user/entities/user.entity';
 import { sign } from 'jsonwebtoken';
 import { Response } from 'express';
 import { sendVerifyEmail, sendResetPasswordEmail } from '../utils/sendEmail.util';
-import * as bcrypt from 'bcrypt';
 @Injectable()
 export class AuthService {
   constructor(
@@ -15,8 +14,10 @@ export class AuthService {
   ) {}
 
   async signup (signupUserInput: SignupUserInput) : Promise<JwtPayload> {
-    const isExistEmail = await this.userService.getUserByEmail(signupUserInput.Email);
-    const isExistUsername = await this.userService.getUserByUsername(signupUserInput.User_Name);
+    const [ isExistEmail, isExistUsername ] = await Promise.all([
+      this.userService.getUserByEmail(signupUserInput.Email),
+      this.userService.getUserByUsername(signupUserInput.User_Name)
+    ]) 
 
     if(isExistEmail ) {
       throw new UnauthorizedException("This email is already taken")

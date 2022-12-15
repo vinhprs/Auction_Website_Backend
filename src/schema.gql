@@ -98,7 +98,7 @@ type CurrencyLog {
 
 type Currency {
   Currency_ID: String!
-  Total_Money: Float!
+  Total_Money: Float
   User_ID: User!
 }
 
@@ -161,7 +161,6 @@ type Query {
   getPopulateCatalog: [Catalog!]!
   getListCatalog: [Catalog!]!
   getSubCatalogByName(Catalog_Name: String!): [Catalog!]!
-  currency(id: Int!): Currency!
   weightFee(id: Int!): WeightFee!
   deliveryFee(id: Int!): DeliveryFee!
   order(id: Int!): Order!
@@ -196,9 +195,7 @@ type Mutation {
   removeAddress(id: Int!): Address!
   createProduct(createProductInput: CreateProductInput!): Boolean!
   createCatalog(createCatalogInput: CreateCatalogInput!): Catalog!
-  createCurrency(createCurrencyInput: CreateCurrencyInput!): Currency!
-  updateCurrency(updateCurrencyInput: UpdateCurrencyInput!): Currency!
-  removeCurrency(id: Int!): Currency!
+  recharge: Currency!
   createWeightFee(createWeightFeeInput: CreateWeightFeeInput!): WeightFee!
   updateWeightFee(updateWeightFeeInput: UpdateWeightFeeInput!): WeightFee!
   removeWeightFee(id: Int!): WeightFee!
@@ -258,17 +255,6 @@ input CreateCatalogInput {
   Catalog_Name: String!
   image: Upload = null
   Catalog_Id_Ref: String = null
-}
-
-input CreateCurrencyInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateCurrencyInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }
 
 input CreateWeightFeeInput {

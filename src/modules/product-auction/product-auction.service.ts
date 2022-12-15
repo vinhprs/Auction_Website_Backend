@@ -139,11 +139,14 @@ export class ProductAuctionService {
   }
 
   async productDiscount(Product_Auction: ProductAuction)
-  : Promise<ProductAuction> {
+  : Promise<void> {
     let { Current_Price, Discount_Rate } = Product_Auction;
     Current_Price = Current_Price - (Current_Price * (Discount_Rate/100));
     Product_Auction.Current_Price = Current_Price;
 
-    return await this.productAuctionRepository.save(Product_Auction);
+    await Promise.all([
+      this.productAuctionRepository.save(Product_Auction),
+      this.creatProductAuctionLog(Current_Price, Product_Auction)
+    ]);
   }
 }

@@ -1,35 +1,26 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common/decorators';
+import { HttpStatus } from '@nestjs/common/enums';
+import { HttpException } from '@nestjs/common/exceptions';
+import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
+import { Request } from 'express';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CurrencyService } from './currency.service';
 import { Currency } from './entities/currency.entity';
-import { CreateCurrencyInput } from './dto/create-currency.input';
-import { UpdateCurrencyInput } from './dto/update-currency.input';
 
 @Resolver(() => Currency)
 export class CurrencyResolver {
   constructor(private readonly currencyService: CurrencyService) {}
 
   @Mutation(() => Currency)
-  createCurrency(@Args('createCurrencyInput') createCurrencyInput: CreateCurrencyInput) {
-    return this.currencyService.create(createCurrencyInput);
+  @UseGuards(JwtAuthGuard)
+  async recharge(
+    @Context('req') req: Request
+  ) : Promise<Currency> {
+    try {
+      return await this.currencyService.create( req);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
   }
 
-  @Query(() => [Currency], { name: 'currency' })
-  findAll() {
-    return this.currencyService.findAll();
-  }
-
-  @Query(() => Currency, { name: 'currency' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.currencyService.findOne(id);
-  }
-
-  @Mutation(() => Currency)
-  updateCurrency(@Args('updateCurrencyInput') updateCurrencyInput: UpdateCurrencyInput) {
-    return this.currencyService.update(updateCurrencyInput.id, updateCurrencyInput);
-  }
-
-  @Mutation(() => Currency)
-  removeCurrency(@Args('id', { type: () => Int }) id: number) {
-    return this.currencyService.remove(id);
-  }
 }
