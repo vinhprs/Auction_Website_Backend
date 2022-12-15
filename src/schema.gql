@@ -151,6 +151,7 @@ type JwtPayload {
 type Query {
   getUserByEmail(Email: String!): User!
   getUserById(User_ID: String!): User!
+  getCurrentByUser(User_ID: String!): Currency!
   address(id: Int!): Address!
   getAllProduct(paginationInput: PaginationInput!): [Product!]!
   getProductByCatalogName(Catalog_Name: String!): [Product!]!

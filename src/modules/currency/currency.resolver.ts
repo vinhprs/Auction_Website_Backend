@@ -23,4 +23,16 @@ export class CurrencyResolver {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }
   }
+
+  @Query(() => Currency)
+  @UseGuards(JwtAuthGuard)
+  async getCurrentByUser(
+    @Args('User_ID') User_ID: string
+  ) : Promise<Currency> {
+    try {
+      return await this.currencyService.findUserCurrency(User_ID);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
 }

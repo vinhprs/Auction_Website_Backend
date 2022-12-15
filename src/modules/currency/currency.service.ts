@@ -41,7 +41,7 @@ export class CurrencyService {
 
     const userCurrency = await this.findUserCurrency(userId);
     userCurrency.Total_Money = +userCurrency.Total_Money + (+amount);
-    console.log(userCurrency)
+    
     return await this.currencyRepository.save(userCurrency);
   }
 }
