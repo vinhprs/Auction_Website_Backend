@@ -155,7 +155,6 @@ type Query {
   getPopulateCatalog: [Catalog!]!
   getListCatalog: [Catalog!]!
   getSubCatalogByName(Catalog_Name: String!): [Catalog!]!
-  weightFee(id: Int!): WeightFee!
   deliveryFee(id: Int!): DeliveryFee!
   order(id: Int!): Order!
   payment(id: Int!): Payment!
@@ -190,8 +189,6 @@ type Mutation {
   createProduct(createProductInput: CreateProductInput!): Boolean!
   createCatalog(createCatalogInput: CreateCatalogInput!): Catalog!
   createWeightFee(createWeightFeeInput: CreateWeightFeeInput!): WeightFee!
-  updateWeightFee(updateWeightFeeInput: UpdateWeightFeeInput!): WeightFee!
-  removeWeightFee(id: Int!): WeightFee!
   createDeliveryFee(createDeliveryFeeInput: CreateDeliveryFeeInput!): DeliveryFee!
   updateDeliveryFee(updateDeliveryFeeInput: UpdateDeliveryFeeInput!): DeliveryFee!
   removeDeliveryFee(id: Int!): DeliveryFee!
@@ -248,14 +245,9 @@ input CreateCatalogInput {
 }
 
 input CreateWeightFeeInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateWeightFeeInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  Weight_From: Float!
+  Weight_To: Float!
+  Fee: Float!
 }
 
 input CreateDeliveryFeeInput {
