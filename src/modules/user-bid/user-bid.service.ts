@@ -10,7 +10,7 @@ import { UserBidLog } from '../user-bid-log/entities/user-bid-log.entity';
 import { UserBidLogService } from '../user-bid-log/user-bid-log.service';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
-import { CreateUserBidInput } from './dto/create-user-bid.input';
+import { CreateUserBidInput, GetCurrentBidInput } from './dto/create-user-bid.input';
 import { UserBid } from './entities/user-bid.entity';
 
 @Injectable()
@@ -98,5 +98,18 @@ export class UserBidService {
       this.currencyService.changeCurrency(userCurrency),
       this.currencyService.genCurrencyLog(userCurrency, `-${bidFee} for your bid`)
     ]);
+  }
+
+  async getCurrentBid(getCurrentBidInput: GetCurrentBidInput)
+  : Promise<UserBid> {
+    const { User_ID, Product_Auction_ID } = getCurrentBidInput;
+    const result = await this.userBidRepository.findOne({
+      where: {
+        User: { User_ID },
+        Product_Auction: { Product_Auction_ID }
+      }
+    });
+
+    return result;
   }
 }

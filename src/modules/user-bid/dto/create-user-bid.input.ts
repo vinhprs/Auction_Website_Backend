@@ -9,3 +9,13 @@ export class CreateUserBidInput {
   Price: number;
 
 }
+
+@InputType()
+export class GetCurrentBidInput {
+  @Field(() => String)
+  Product_Auction_ID: string;
+
+  @Field(() => String)
+  User_ID: string;
+
+}

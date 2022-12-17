@@ -167,6 +167,7 @@ type Query {
   searchAuctioningProduct(Product_Name: String!): [ProductAuction!]!
   getOperatingAuctionField: [AuctionField!]!
   getAvailableAuctionField: [AuctionField!]!
+  getCurrentBid(getCurrentBidInput: GetCurrentBidInput!): UserBid!
 }
 
 input PaginationInput {
@@ -178,6 +179,11 @@ input SearchProductInput {
   limit: Int!
   offset: Int!
   keywords: String!
+}
+
+input GetCurrentBidInput {
+  Product_Auction_ID: String!
+  User_ID: String!
 }
 
 type Mutation {
