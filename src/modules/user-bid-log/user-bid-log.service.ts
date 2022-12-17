@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { time } from 'console';
+import { Repository } from 'typeorm';
+import { UserBid } from '../user-bid/entities/user-bid.entity';
 import { CreateUserBidLogInput } from './dto/create-user-bid-log.input';
-import { UpdateUserBidLogInput } from './dto/update-user-bid-log.input';
+import { UserBidLog } from './entities/user-bid-log.entity';
 
 @Injectable()
 export class UserBidLogService {
-  create(createUserBidLogInput: CreateUserBidLogInput) {
-    return 'This action adds a new userBidLog';
+
+  constructor(
+    @InjectRepository(UserBidLog)
+    private readonly userBidLogRepository: Repository<UserBidLog>
+  ) {}
+
+  async genUserBidLog(userBid: UserBid)
+  : Promise<UserBidLog> {
+    const { Price, Time } = userBid;
+
+    const newBidLog = new UserBidLog();
+    newBidLog.Price = Price;
+    newBidLog.Time = Time;
+    newBidLog.userBrid = userBid;
+
+    return await this.userBidLogRepository.save(newBidLog);
   }
 
-  findAll() {
-    return `This action returns all userBidLog`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} userBidLog`;
-  }
-
-  update(id: number, updateUserBidLogInput: UpdateUserBidLogInput) {
-    return `This action updates a #${id} userBidLog`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userBidLog`;
-  }
 }

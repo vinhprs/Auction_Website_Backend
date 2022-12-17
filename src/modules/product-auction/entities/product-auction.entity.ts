@@ -44,8 +44,10 @@ export class ProductAuction {
   @JoinColumn({name: "Auction_Field_ID"})
   Auction_Field_ID: AuctionField;
 
-  @ManyToOne(() => User, user => user.Product_Auction)
-  @Field(() => User)
+  @ManyToOne(() => User, user => user.Product_Auction, {
+    eager: true
+  })
+  @Field(() => User, { nullable: true, defaultValue: null })
   @JoinColumn({name: "User_ID"})
   User_ID: User;
 

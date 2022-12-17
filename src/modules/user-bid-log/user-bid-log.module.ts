@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     TypeOrmModule.forFeature([UserBidLog])
   ],
-  providers: [UserBidLogResolver, UserBidLogService]
+  providers: [UserBidLogResolver, UserBidLogService],
+  exports: [ UserBidLogService ]
 })
 export class UserBidLogModule {}

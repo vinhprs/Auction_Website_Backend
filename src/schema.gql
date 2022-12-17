@@ -72,7 +72,7 @@ type ProductAuction {
   Current_Price: Float!
   Product_ID: Product!
   Auction_Field_ID: AuctionField!
-  User_ID: User!
+  User_ID: User
   isSold: Boolean!
 }
 
@@ -131,13 +131,6 @@ type DeliveryFee {
   Fee: Float!
 }
 
-type UserBidLog {
-  User_Bid_Log_ID: String!
-  Price: Float!
-  Time: DateTime!
-  userBrid: UserBid!
-}
-
 type IJwtPayload {
   id: String
 }
@@ -174,8 +167,6 @@ type Query {
   searchAuctioningProduct(Product_Name: String!): [ProductAuction!]!
   getOperatingAuctionField: [AuctionField!]!
   getAvailableAuctionField: [AuctionField!]!
-  userBid(id: Int!): UserBid!
-  userBidLog(id: Int!): UserBidLog!
 }
 
 input PaginationInput {
@@ -209,11 +200,6 @@ type Mutation {
   createProductAuction(CreateProductAuctionInput: CreateProductAuctionInput!): ProductAuction!
   createAuctionField(createAuctionFieldInput: CreateAuctionFieldInput!): AuctionField!
   createUserBid(createUserBidInput: CreateUserBidInput!): UserBid!
-  updateUserBid(updateUserBidInput: UpdateUserBidInput!): UserBid!
-  removeUserBid(id: Int!): UserBid!
-  createUserBidLog(createUserBidLogInput: CreateUserBidLogInput!): UserBidLog!
-  updateUserBidLog(updateUserBidLogInput: UpdateUserBidLogInput!): UserBidLog!
-  removeUserBidLog(id: Int!): UserBidLog!
   signup(signupUserInput: SignupUserInput!): JwtPayload!
   login(loginUserInput: LoginUserInput!): JwtPayload!
   forgotPassword(email: String!): Boolean!
@@ -307,25 +293,8 @@ input CreateAuctionFieldInput {
 }
 
 input CreateUserBidInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateUserBidInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateUserBidLogInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateUserBidLogInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  Product_Auction_ID: String!
+  Price: Float!
 }
 
 input SignupUserInput {

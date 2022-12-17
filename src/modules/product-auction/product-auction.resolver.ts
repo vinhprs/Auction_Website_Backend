@@ -7,6 +7,7 @@ import { Request } from 'express';
 import { Product } from '../product/entities/product.entity';
 import { AuctionField } from '../auction-field/entities/auction-field.entity';
 import { AuctionFieldService } from '../auction-field/auction-field.service';
+import { User } from '../user/entities/user.entity';
 
 @Resolver(() => ProductAuction)
 export class ProductAuctionResolver {
@@ -126,6 +127,18 @@ export class ProductAuctionResolver {
     try {
       const { Product_Auction_ID } = productAuction;
       return await this.productAuctionService.getFieldAuctioning(Product_Auction_ID);
+    } catch (e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @ResolveField(() => [User])
+  async User_ID(
+    @Parent() productAuction: ProductAuction
+  ) : Promise<User> {
+    try {
+      const { Product_Auction_ID } = productAuction;
+      return await this.productAuctionService.getAuctioningOwner(Product_Auction_ID);
     } catch (e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }

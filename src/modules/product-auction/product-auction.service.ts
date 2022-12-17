@@ -12,6 +12,7 @@ import { ProductAuctionLogService } from '../product-auction-log/product-auction
 import { ProductAuctionLog } from '../product-auction-log/entities/product-auction-log.entity';
 import { Product } from '../product/entities/product.entity';
 import { AuctionField } from '../auction-field/entities/auction-field.entity';
+import { User } from '../user/entities/user.entity';
 @Injectable()
 export class ProductAuctionService {
   
@@ -128,6 +129,13 @@ export class ProductAuctionService {
     const result = await this.getProductAuctionById(Product_Auction_ID);
 
     return result.Auction_Field_ID;
+  }
+
+  async getAuctioningOwner(Product_Auction_ID: string)
+  : Promise<User> {
+    const result = await this.getProductAuctionById(Product_Auction_ID);
+
+    return result.User_ID;
   }
 
   async creatProductAuctionLog(price: number, productAuction: ProductAuction) {

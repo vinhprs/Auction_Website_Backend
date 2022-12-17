@@ -9,6 +9,7 @@ import { User } from '../user/entities/user.entity';
 import { forwardRef } from '@nestjs/common/utils';
 import { Inject } from '@nestjs/common/decorators';
 import { CurrencyLogService } from '../currency-log/currency-log.service';
+import { CurrencyLog } from '../currency-log/entities/currency-log.entity';
 
 
 @Injectable()
@@ -46,10 +47,20 @@ export class CurrencyService {
     
     await Promise.all([
       this.currencyRepository.save(userCurrency),
-      this.currencyLogService.genCurrencyLog(userCurrency, `+${amount}`)
+      this.genCurrencyLog(userCurrency, `+${amount}`)
     ]);
     
     return userCurrency;
     
+  }
+
+  async changeCurrency(currency: Currency) : Promise<Currency>
+  {
+    return await this.currencyRepository.save(currency);
+  }
+
+  async genCurrencyLog(userCurrency: Currency, amount: string)
+  : Promise<CurrencyLog> {
+    return await this.currencyLogService.genCurrencyLog(userCurrency, amount);
   }
 }
