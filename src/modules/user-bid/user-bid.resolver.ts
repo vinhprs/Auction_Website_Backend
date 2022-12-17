@@ -21,10 +21,10 @@ export class UserBidResolver {
     }
   }
 
-  @Query(() => UserBid)
+  @Query(() => UserBid || null)
   async getCurrentBid(
     @Args('getCurrentBidInput') getCurrentBidInput: GetCurrentBidInput
-  ) : Promise<UserBid> {
+  ) : Promise<UserBid | null> {
     try {
       return await this.userBidService.getCurrentBid(getCurrentBidInput);
     } catch(e) {

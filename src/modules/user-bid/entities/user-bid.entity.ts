@@ -11,21 +11,21 @@ export class UserBid {
   User_ID: string;
   @ManyToOne(() => User, user => user.User_Bid)
   @JoinColumn({name: "User_ID"})
-  User: User;
+  User?: User;
 
   @Field({nullable: true, defaultValue: null})
   @PrimaryColumn()
   Product_Auction_ID: string;
   @ManyToOne(() => ProductAuction, productAuction => productAuction.User_Bid)
   @JoinColumn({name: "Product_Auction_ID"})
-  Product_Auction: ProductAuction;
+  Product_Auction?: ProductAuction;
 
-  @Field(() => Float)
+  @Field(() => Float, {nullable: true, defaultValue: null})
   @Column({ type: 'decimal', precision: 10, scale: 2 })
-  Price: number;
+  Price?: number;
 
-  @Field()
+  @Field({nullable: true, defaultValue: null})
   @Column()
-  Time: Date;
+  Time?: Date;
 
 }

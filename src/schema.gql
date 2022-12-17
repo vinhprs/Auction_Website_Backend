@@ -41,10 +41,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type UserBid {
-  User_ID: String!
-  Product_Auction_ID: String!
-  Price: Float!
-  Time: DateTime!
+  User_ID: String
+  Product_Auction_ID: String
+  Price: Float
+  Time: DateTime
 }
 
 type Payment {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
@@ -101,7 +101,7 @@ export class UserBidService {
   }
 
   async getCurrentBid(getCurrentBidInput: GetCurrentBidInput)
-  : Promise<UserBid> {
+  : Promise<UserBid | null> {
     const { User_ID, Product_Auction_ID } = getCurrentBidInput;
     const result = await this.userBidRepository.findOne({
       where: {
@@ -109,7 +109,9 @@ export class UserBidService {
         Product_Auction: { Product_Auction_ID }
       }
     });
-
+    if(!result) {
+      throw new NotFoundException("Can not find current bid!")
+    }
     return result;
   }
 }
