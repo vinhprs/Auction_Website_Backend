@@ -53,6 +53,10 @@ export class User {
   @Column({nullable: true, default: null})
   User_Image_Url: string;
 
+  @Field({nullable: true, defaultValue: null})
+  @Column({nullable: true, default: null})
+  Shop_Name: string;
+
   @Field({nullable: true, defaultValue: false})
   @Column({nullable: true, default: false})
   isAdmin: boolean;

@@ -9,6 +9,10 @@ import { randomOtp } from '../../utils/random.util';
 import { Inject } from '@nestjs/common/decorators';
 import { forwardRef } from '@nestjs/common/utils';
 import { CurrencyService } from '../currency/currency.service';
+import { UpdateUserInput } from './dto/update-user.input';
+import { Request } from 'express';
+import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
+import { Address } from '../address/entities/address.entity';
 @Injectable()
 export class UserService {
   constructor(
@@ -126,6 +130,36 @@ export class UserService {
     user.ResetPasswordOtp = await bcrypt.hash(randomCode, 12);
 
     return await this.userRepository.save(user);
+  }
+
+  async updateUserInfo(updateUserInput: UpdateUserInput, req: Request)
+  : Promise<User> {
+    const { User_First_Name, User_Last_Name, Phone, Shop_Name } = updateUserInput;
+    const userId = getUserIdFromRequest(req);
+    const user = await this.getUserById(userId);
+
+    if(User_First_Name) {
+      user.User_First_Name = User_First_Name
+    }
+    if(User_Last_Name) {
+      user.User_Last_Name = User_Last_Name
+    }
+    if(Phone) {
+      user.Phone = Phone;
+    }
+    if(Shop_Name) {
+      user.Shop_Name = Shop_Name
+    }
+
+    return await this.userRepository.save(user)
+
+  }
+
+  async updateDefaultAddress(user: User ,address: Address)
+  : Promise<void> {
+    user.Default_Address_ID = address;
+
+    await this.userRepository.save(user);
   }
 
 }

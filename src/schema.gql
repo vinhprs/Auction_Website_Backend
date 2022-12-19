@@ -112,6 +112,7 @@ type User {
   Otp: String
   ResetPasswordOtp: String
   User_Image_Url: String
+  Shop_Name: String
   isAdmin: Boolean
   isActive: Boolean
   isConfirmEmail: Boolean
@@ -146,7 +147,6 @@ type Query {
   getUserById(User_ID: String!): User!
   getCurrentByUser(User_ID: String!): Currency!
   getLastCurrencyLog(User_ID: String!): [CurrencyLog!]!
-  address(id: Int!): Address!
   getAllProduct(paginationInput: PaginationInput!): [Product!]!
   getProductByCatalogName(Catalog_Name: String!): [Product!]!
   getProductById(Product_ID: String!): Product!
@@ -187,10 +187,9 @@ input GetCurrentBidInput {
 }
 
 type Mutation {
+  updateUserInfo(updateUserInput: UpdateUserInput!): User!
   rechargeMoney(amount: Float!): Currency!
   createAddress(createAddressInput: CreateAddressInput!): Address!
-  updateAddress(updateAddressInput: UpdateAddressInput!): Address!
-  removeAddress(id: Int!): Address!
   createProduct(createProductInput: CreateProductInput!): Boolean!
   createCatalog(createCatalogInput: CreateCatalogInput!): Catalog!
   createWeightFee(createWeightFeeInput: CreateWeightFeeInput!): WeightFee!
@@ -214,15 +213,20 @@ type Mutation {
   resendOtp(User_ID: String!): Boolean!
 }
 
-input CreateAddressInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateAddressInput {
+input UpdateUserInput {
   """Example field (placeholder)"""
   exampleField: Int
-  id: Int!
+  User_First_Name: String = null
+  User_Last_Name: String = null
+  Phone: String = null
+  Shop_Name: String = null
+}
+
+input CreateAddressInput {
+  Address_Name: String!
+  Address_District: String!
+  Reciever_Name: String!
+  Phone: String!
 }
 
 input CreateProductInput {
