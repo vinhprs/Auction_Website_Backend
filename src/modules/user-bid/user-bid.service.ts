@@ -38,7 +38,6 @@ export class UserBidService {
     });
 
     if(!existBid) {
-      console.log("not exist")
       return await this.createFirstBid(createUserBidInput, User_ID)
     }
 

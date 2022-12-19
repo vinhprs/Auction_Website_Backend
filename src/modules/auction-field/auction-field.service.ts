@@ -57,7 +57,10 @@ export class AuctionFieldService {
           isOperation: true,
           End_Time: MoreThan(now)
         },
-      ]
+      ],
+      relations: {
+        Product_Auction: true
+      }
     });
     return result;
   }

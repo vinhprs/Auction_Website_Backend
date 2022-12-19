@@ -13,6 +13,8 @@ import { ProductAuctionLog } from '../product-auction-log/entities/product-aucti
 import { Product } from '../product/entities/product.entity';
 import { AuctionField } from '../auction-field/entities/auction-field.entity';
 import { User } from '../user/entities/user.entity';
+import { CatalogService } from '../catalog/catalog.service';
+import { Catalog } from '../catalog/entities/catalog.entity';
 @Injectable()
 export class ProductAuctionService {
   
@@ -22,7 +24,8 @@ export class ProductAuctionService {
     private readonly productService: ProductService,
     private readonly userService: UserService,
     private readonly auctionFieldService: AuctionFieldService,
-    private readonly productAuctionLogService: ProductAuctionLogService
+    private readonly productAuctionLogService: ProductAuctionLogService,
+    private readonly catalogService: CatalogService
   ) {}
 
   async create(createProductAuctionInput: CreateProductAuctionInput , req: Request)
@@ -86,12 +89,20 @@ export class ProductAuctionService {
 
   async getAuctioningProductByCatalog(Catalog_Name: string)
   : Promise<ProductAuction[]> {
-    let auctioningProduct = await this.getAuctioningProduct();
     
-    const result = auctioningProduct.filter(aP => {
-      return aP.Product_ID.Catalog_ID.Catalog_Name.toLowerCase().includes(Catalog_Name.toLowerCase())
-    })
+    let [ auctioningProduct, childCatalog]  = await Promise.all([
+      this.getAuctioningProduct(),
+      this.catalogService.getParentCatalog(Catalog_Name)
+    ]) 
 
+    let log : Catalog[] = []
+    const result = auctioningProduct.filter(async (aP) => {
+      log = childCatalog.filter((child) => {
+        return child.Catalog_ID === aP.Product_ID.Catalog_ID.Catalog_ID
+      })
+      // || aP.Product_ID.Catalog_ID.Catalog_Name.toLowerCase().includes(Catalog_Name.toLowerCase())
+    })
+    console.log(log[0].Product[0].Product_Auction)
     return result;
   }
 

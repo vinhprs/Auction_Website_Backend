@@ -99,7 +99,7 @@ type CurrencyLog {
 type Currency {
   Currency_ID: String!
   Total_Money: Float!
-  User_ID: User!
+  User_ID: User
 }
 
 type User {

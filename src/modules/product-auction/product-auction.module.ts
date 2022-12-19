@@ -7,6 +7,7 @@ import { ProductModule } from '../product/product.module';
 import { AuctionFieldModule } from '../auction-field/auction-field.module';
 import { UserModule } from '../user/user.module';
 import { ProductAuctionLogModule } from '../product-auction-log/product-auction-log.module';
+import { CatalogModule } from '../catalog/catalog.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { ProductAuctionLogModule } from '../product-auction-log/product-auction-
     ProductModule,
     AuctionFieldModule,
     UserModule,
-    ProductAuctionLogModule
+    ProductAuctionLogModule,
+    CatalogModule
   ],
   providers: [ProductAuctionResolver, ProductAuctionService],
   exports: [ ProductAuctionService ]

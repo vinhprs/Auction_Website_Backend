@@ -53,7 +53,7 @@ export class ProductAuctionResolver {
     let minTime = Number.MAX_VALUE
 
     this.sameDateAuction.forEach(x => {
-      for (let i = x.Start_Time.getTime(); i < x.End_Time.getTime(); i += x.Discount_Circle * 60 * 1000) {
+      for (let i = x.Start_Time.getTime(); i <= x.End_Time.getTime(); i += x.Discount_Circle * 60 * 1000) {
         if (i > now.getTime()) {
           if (minTime > i - now.getTime()) {
             minTime = i - now.getTime()

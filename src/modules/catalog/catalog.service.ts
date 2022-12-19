@@ -57,5 +57,31 @@ export class CatalogService {
     });
     return result;
   }
+
+  async getParentCatalog(Catalog_Name: string)
+  : Promise<Catalog[]> {
+    const children = await this.catalogRepository.findOne({
+      where: { Catalog_Name },
+      relations: { 
+        Product: true
+      }
+    });
+    // console.log(children)
+
+    const result = await this.dataSource.getTreeRepository(Catalog).findAncestors(children, {
+      relations: ["Product"]
+    });
+
+    const final = await this.catalogRepository.find({
+      where: {
+        Catalog_Id_Ref: {
+          Catalog_ID: result[0].Catalog_ID
+        },
+      },
+      relations: { Product: true }
+    })
+
+    return final;
+  }
   
 }

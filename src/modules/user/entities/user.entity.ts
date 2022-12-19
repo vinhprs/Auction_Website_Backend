@@ -80,10 +80,14 @@ export class User {
   Product: Product [];
 
   // Product_Auction relationship: 1-n
-  @OneToMany(() => ProductAuction, productAuction => productAuction.User_ID)
+  @OneToMany(() => ProductAuction, productAuction => productAuction.User_ID, {
+    cascade: true
+  })
   Product_Auction: ProductAuction [];
 
-  @OneToMany(() => UserBid, userBid => userBid.User_ID)
+  @OneToMany(() => UserBid, userBid => userBid.User_ID, {
+    cascade: true
+  })
   User_Bid: UserBid [];
 
   @OneToMany(() => Payment, payment => payment.User_ID)

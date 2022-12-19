@@ -86,10 +86,9 @@ export class UserService {
       bcrypt.hash(randomCode, 12)
     ]);
     
-    await Promise.all([
-      this.userRepository.save(user),
-      this.currencyService.signupInit(user)
-    ]) 
+    await this.userRepository.save(user);
+
+    await  this.currencyService.signupInit(user);
     return user;
   }
 

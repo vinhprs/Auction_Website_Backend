@@ -14,13 +14,13 @@ export class Currency {
   @Column({type: 'decimal', precision: 10, scale: 2})
   Total_Money: number;
 
-  @OneToOne(() => User, user => user.Currency, {
-    eager: true
-  })
-  @Field(() => User)
+  @OneToOne(() => User, user => user.Currency)
+  @Field(() => User, {nullable: true})
   @JoinColumn({name: "User_ID"})
   User_ID: User;
 
-  @OneToMany(() => CurrencyLog, cL => cL.Currency)
+  @OneToMany(() => CurrencyLog, cL => cL.Currency, {
+    cascade: true
+  })
   Currency_Log: CurrencyLog [];
 }
