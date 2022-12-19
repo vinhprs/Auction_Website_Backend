@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "@nestjs/graphql";
+import { ProductAuction } from "src/modules/product-auction/entities/product-auction.entity";
 import { Stream } from "stream";
 import { User } from "../../modules/user/entities/user.entity";
 
@@ -40,4 +41,9 @@ export interface FileUpload {
     mimetype: string;
     encoding: string;
     createReadStream: () => Stream;
+}
+
+export interface Product_Auction_Operating {
+    Product_Auction: ProductAuction[];
+    isOperation: boolean[];
 }

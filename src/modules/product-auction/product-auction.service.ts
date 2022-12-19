@@ -90,19 +90,22 @@ export class ProductAuctionService {
   async getAuctioningProductByCatalog(Catalog_Name: string)
   : Promise<ProductAuction[]> {
     
-    let [ auctioningProduct, childCatalog]  = await Promise.all([
-      this.getAuctioningProduct(),
-      this.catalogService.getParentCatalog(Catalog_Name)
-    ]) 
+    let auctioningProduct  = await this.getAuctioningProduct()
 
-    let log : Catalog[] = []
-    const result = auctioningProduct.filter(async (aP) => {
-      log = childCatalog.filter((child) => {
-        return child.Catalog_ID === aP.Product_ID.Catalog_ID.Catalog_ID
-      })
-      // || aP.Product_ID.Catalog_ID.Catalog_Name.toLowerCase().includes(Catalog_Name.toLowerCase())
-    })
-    console.log(log[0].Product[0].Product_Auction)
+    if(Catalog_Name.toLowerCase() === 'seafood') {
+      Catalog_Name = 'fish crab shrimp'
+    } else if(Catalog_Name.toLowerCase() === 'vegatables') {
+      Catalog_Name = 'cruciferous mushroom edible plant stem'
+    } else if(Catalog_Name.toLowerCase() === 'meat') {
+      Catalog_Name = 'beef goat meat'
+    } else if(Catalog_Name.toLowerCase() === 'fruit') {
+      Catalog_Name = 'mango orange'
+    }
+
+    const result = auctioningProduct.filter(aP => 
+      Catalog_Name.toLowerCase().includes(aP.Product_ID.Catalog_ID.Catalog_Name.toLowerCase())
+    )
+
     return result;
   }
 
