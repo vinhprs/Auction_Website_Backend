@@ -116,7 +116,8 @@ type User {
   isAdmin: Boolean
   isActive: Boolean
   isConfirmEmail: Boolean
-  Default_Address_ID: Address
+  Address: [Address!]!
+  Default_Address_ID: Address!
 }
 
 type WeightFee {

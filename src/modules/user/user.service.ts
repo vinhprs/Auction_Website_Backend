@@ -23,13 +23,15 @@ export class UserService {
   ) {}
 
   async getUserById(User_ID: string) : Promise<User> {
-    return await this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { User_ID },
       relations: {
         Product: true,
-        Currency: true
+        Currency: true,
+        Address: true
       }
     });
+    return user;
   }
 
   async getUserByEmail(Email: string) : Promise<User> {
@@ -160,6 +162,20 @@ export class UserService {
     user.Default_Address_ID = address;
 
     await this.userRepository.save(user);
+  }
+
+  async getUserAddress(User_ID: string)
+  : Promise<Address[]> {
+    const user = await this.getUserById(User_ID);
+
+    return user.Address
+  }
+
+  async userDefaultAddress(User_ID: string)
+  : Promise<Address> {
+    const user = await this.getUserById(User_ID);
+    
+    return user.Default_Address_ID;
   }
 
 }

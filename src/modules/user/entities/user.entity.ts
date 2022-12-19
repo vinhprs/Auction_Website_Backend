@@ -70,13 +70,16 @@ export class User {
   isConfirmEmail: boolean;
 
   // Address relationship: 1-1
-  @OneToOne(() => Address)
-  @Field(() => Address, {nullable: true, defaultValue: null})
+  @OneToOne(() => Address, {
+    eager: true
+  })
   @JoinColumn({name: "Default_Address_ID"})
   Default_Address_ID: Address
 
   // Address relationship: 1-n
-  @OneToMany(() => Address, address => address.User_ID)
+  @OneToMany(() => Address, address => address.User_ID, {
+    eager: true
+  })
   Address: Address [];
 
   // Product relationship: 1-n
