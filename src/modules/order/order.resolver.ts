@@ -5,6 +5,7 @@ import { CreateOrderInput } from './dto/create-order.input';
 import { Request } from 'express';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Address } from '../address/entities/address.entity';
+import { ProductAuction } from '../product-auction/entities/product-auction.entity';
 
 @Resolver(() => Order)
 export class OrderResolver {
@@ -40,6 +41,18 @@ export class OrderResolver {
     try {
       const { Order_ID } = order;
       return await this.orderService.getOrderAddress(Order_ID);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @ResolveField(() => ProductAuction)
+  async Product_Auction_ID(
+    @Parent() order: Order
+  ) : Promise<ProductAuction> {
+    try {
+      const { Order_ID } = order;
+      return await this.orderService.getProductOrdered(Order_ID);
     } catch(e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }

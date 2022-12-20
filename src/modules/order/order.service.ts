@@ -71,7 +71,8 @@ export class OrderService {
       where: { Order_ID },
       relations: {
         User_ID: true,
-        Address_ID: true
+        Address_ID: true,
+        Product_Auction_ID: true
       }
     })
   }
@@ -82,7 +83,10 @@ export class OrderService {
       where: {
         Status: false
       },
-      relations: { User_ID: true }
+      relations: { 
+        User_ID: true,
+        Product_Auction_ID: true
+      }
     });
 
     return order.filter(o => o.User_ID.User_ID === User_ID);
@@ -92,5 +96,12 @@ export class OrderService {
     const order = await this.getOrderById(Oder_ID);
 
     return order.Address_ID;
+  }
+
+  async getProductOrdered(Order_ID: string)
+  : Promise<ProductAuction> {
+    const order = await this.getOrderById(Order_ID);
+  
+    return order.Product_Auction_ID;
   }
 }
