@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
 import { Repository } from 'typeorm';
+import { Address } from '../address/entities/address.entity';
 import { ProductAuction } from '../product-auction/entities/product-auction.entity';
 import { ProductAuctionService } from '../product-auction/product-auction.service';
 import { UserBidService } from '../user-bid/user-bid.service';
@@ -62,5 +63,34 @@ export class OrderService {
     await this.productAuctionService.updateSold(productAuction);
 
     return await this.orderRepository.save(newOrder)
+  }
+
+  async getOrderById(Order_ID: string) : Promise<Order>
+  {
+    return await this.orderRepository.findOne({
+      where: { Order_ID },
+      relations: {
+        User_ID: true,
+        Address_ID: true
+      }
+    })
+  }
+
+  async getUserOrder(User_ID: string)
+  : Promise<Order[]> {
+    const order = await this.orderRepository.find({
+      where: {
+        Status: false
+      },
+      relations: { User_ID: true }
+    });
+
+    return order.filter(o => o.User_ID.User_ID === User_ID);
+  }
+
+  async getOrderAddress(Oder_ID: string) : Promise<Address> {
+    const order = await this.getOrderById(Oder_ID);
+
+    return order.Address_ID;
   }
 }

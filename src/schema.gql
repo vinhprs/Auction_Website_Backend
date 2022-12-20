@@ -159,6 +159,7 @@ type Query {
   getListCatalog: [Catalog!]!
   getSubCatalogByName(Catalog_Name: String!): [Catalog!]!
   deliveryFee(id: Int!): DeliveryFee!
+  getUserOrder(User_ID: String!): [Order!]!
   getCurrentBid(getCurrentBidInput: GetCurrentBidInput!): UserBid!
   getProductAuctionById(Product_Auction_ID: String!): ProductAuction!
   getMinTimeToDiscount: Float!
