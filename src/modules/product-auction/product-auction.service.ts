@@ -13,8 +13,7 @@ import { ProductAuctionLog } from '../product-auction-log/entities/product-aucti
 import { Product } from '../product/entities/product.entity';
 import { AuctionField } from '../auction-field/entities/auction-field.entity';
 import { User } from '../user/entities/user.entity';
-import { CatalogService } from '../catalog/catalog.service';
-import { Catalog } from '../catalog/entities/catalog.entity';
+
 @Injectable()
 export class ProductAuctionService {
   
@@ -25,7 +24,6 @@ export class ProductAuctionService {
     private readonly userService: UserService,
     private readonly auctionFieldService: AuctionFieldService,
     private readonly productAuctionLogService: ProductAuctionLogService,
-    private readonly catalogService: CatalogService
   ) {}
 
   async create(createProductAuctionInput: CreateProductAuctionInput , req: Request)
@@ -171,4 +169,12 @@ export class ProductAuctionService {
       this.creatProductAuctionLog(Current_Price, Product_Auction)
     ]);
   }
+
+  async updateSold(productAuction: ProductAuction)
+  : Promise<ProductAuction> {
+    productAuction.isSold = true;
+
+    return await this.productAuctionRepository.save(productAuction);
+  }
+
 }

@@ -16,6 +16,7 @@ import { CurrencyModule } from '../currency/currency.module';
     UserBidLogModule,
     CurrencyModule
   ],
-  providers: [UserBidResolver, UserBidService]
+  providers: [UserBidResolver, UserBidService],
+  exports: [ UserBidService ]
 })
 export class UserBidModule {}

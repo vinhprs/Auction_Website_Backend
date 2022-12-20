@@ -16,8 +16,8 @@ export class Order {
   @Column({type: 'decimal', precision: 10, scale: 2})
   Total_Price: number;
 
-  @Field()
-  @Column()
+  @Field({nullable: true, defaultValue: false})
+  @Column({nullable: true, default: false})
   Status: boolean;
 
   @ManyToOne(() => User, user => user.Order)
@@ -36,7 +36,7 @@ export class Order {
   Address_ID!: Address;
 
   @ManyToOne(() => Payment, payment => payment.Order)
-  @Field(() => Payment)
-  @JoinColumn({name: "Payment_ID"})
+  @Field(() => Payment, {nullable: true, defaultValue: null})
+  @JoinColumn({name: "Payment_ID"} )
   Payment_ID: Payment;
 }

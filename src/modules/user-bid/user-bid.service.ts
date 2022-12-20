@@ -30,12 +30,7 @@ export class UserBidService {
     const { Price, Product_Auction_ID } =  createUserBidInput;
     const User_ID = getUserIdFromRequest(req);
 
-    const existBid = await this.userBidRepository.findOne({
-      where: {
-        User: { User_ID },
-        Product_Auction: { Product_Auction_ID }
-      }
-    });
+    const existBid = await this.existBid(User_ID, Product_Auction_ID);
 
     if(!existBid) {
       return await this.createFirstBid(createUserBidInput, User_ID)
@@ -43,6 +38,18 @@ export class UserBidService {
 
     return await this.nextBid(createUserBidInput, existBid);
 
+  }
+
+  async existBid(User_ID: string, Product_Auction_ID: string)
+  : Promise<UserBid> {
+    const userBid = await this.userBidRepository.findOne({
+      where: {
+        User: { User_ID },
+        Product_Auction: { Product_Auction_ID }
+      }
+    });
+
+    return userBid;
   }
 
   async createFirstBid(createUserBidInput: CreateUserBidInput, User_ID: string) 
@@ -95,7 +102,7 @@ export class UserBidService {
     
     await Promise.all([
       this.currencyService.changeCurrency(userCurrency),
-      this.currencyService.genCurrencyLog(userCurrency, `-${bidFee} for your bid`)
+      this.currencyService.genCurrencyLog(userCurrency, `-${bidFee} your bid for ${productAuction.Product_ID.Product_Name}`)
     ]);
   }
 

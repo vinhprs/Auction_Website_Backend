@@ -57,11 +57,11 @@ type Payment {
 type Order {
   Order_ID: String!
   Total_Price: Float!
-  Status: Boolean!
+  Status: Boolean
   User_ID: User!
   Product_Auction_ID: ProductAuction!
   Address_ID: Address!
-  Payment_ID: Payment!
+  Payment_ID: Payment
 }
 
 type ProductAuction {
@@ -158,8 +158,7 @@ type Query {
   getListCatalog: [Catalog!]!
   getSubCatalogByName(Catalog_Name: String!): [Catalog!]!
   deliveryFee(id: Int!): DeliveryFee!
-  order(id: Int!): Order!
-  payment(id: Int!): Payment!
+  getCurrentBid(getCurrentBidInput: GetCurrentBidInput!): UserBid!
   getProductAuctionById(Product_Auction_ID: String!): ProductAuction!
   getMinTimeToDiscount: Float!
   getSimilartProductAuction(Product_Auction_ID: String!): [ProductAuction!]!
@@ -168,7 +167,7 @@ type Query {
   searchAuctioningProduct(Product_Name: String!): [ProductAuction!]!
   getOperatingAuctionField: [AuctionField!]!
   getAvailableAuctionField: [AuctionField!]!
-  getCurrentBid(getCurrentBidInput: GetCurrentBidInput!): UserBid!
+  payment(id: Int!): Payment!
 }
 
 input PaginationInput {
@@ -197,15 +196,13 @@ type Mutation {
   createDeliveryFee(createDeliveryFeeInput: CreateDeliveryFeeInput!): DeliveryFee!
   updateDeliveryFee(updateDeliveryFeeInput: UpdateDeliveryFeeInput!): DeliveryFee!
   removeDeliveryFee(id: Int!): DeliveryFee!
-  createOrder(createOrderInput: CreateOrderInput!): Order!
-  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
-  removeOrder(id: Int!): Order!
+  orderProductAuction(Product_Auction_ID: String!): Order!
+  createUserBid(createUserBidInput: CreateUserBidInput!): UserBid!
+  createProductAuction(CreateProductAuctionInput: CreateProductAuctionInput!): ProductAuction!
+  createAuctionField(createAuctionFieldInput: CreateAuctionFieldInput!): AuctionField!
   createPayment(createPaymentInput: CreatePaymentInput!): Payment!
   updatePayment(updatePaymentInput: UpdatePaymentInput!): Payment!
   removePayment(id: Int!): Payment!
-  createProductAuction(CreateProductAuctionInput: CreateProductAuctionInput!): ProductAuction!
-  createAuctionField(createAuctionFieldInput: CreateAuctionFieldInput!): AuctionField!
-  createUserBid(createUserBidInput: CreateUserBidInput!): UserBid!
   signup(signupUserInput: SignupUserInput!): JwtPayload!
   login(loginUserInput: LoginUserInput!): JwtPayload!
   forgotPassword(email: String!): Boolean!
@@ -266,26 +263,9 @@ input UpdateDeliveryFeeInput {
   id: Int!
 }
 
-input CreateOrderInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateOrderInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreatePaymentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdatePaymentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+input CreateUserBidInput {
+  Product_Auction_ID: String!
+  Price: Float!
 }
 
 input CreateProductAuctionInput {
@@ -303,9 +283,15 @@ input CreateAuctionFieldInput {
   isOperation: Boolean = false
 }
 
-input CreateUserBidInput {
-  Product_Auction_ID: String!
-  Price: Float!
+input CreatePaymentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePaymentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 input SignupUserInput {
