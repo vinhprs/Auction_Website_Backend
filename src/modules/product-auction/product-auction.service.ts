@@ -80,7 +80,7 @@ export class ProductAuctionService {
 
     let result : ProductAuction[] = [];
     operatingAuction.forEach(p => {
-      result = result.concat(p.Product_Auction)
+      result = p.Product_Auction.filter(pA => pA.isSold == false)
     });
     return result;
   }

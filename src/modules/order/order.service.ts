@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
@@ -30,6 +31,10 @@ export class OrderService {
       this.userService.getUserById(userId),
       this.userBidService.existBid(userId, Product_Auction_ID)
     ]);
+
+    if(productAuction.isSold === true) {
+      throw new NotFoundException('This product is sold!')
+    }
 
     if(!existBid) {
       return await this.firstOrder(newOrder, productAuction, user)
