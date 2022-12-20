@@ -168,6 +168,9 @@ export class UserService {
   : Promise<Address[]> {
     const user = await this.getUserById(User_ID);
 
+    if(!user.Address) {
+      throw new NotFoundException('Please add your address')
+    };
     return user.Address
   }
 
@@ -175,6 +178,9 @@ export class UserService {
   : Promise<Address> {
     const user = await this.getUserById(User_ID);
     
+    if(!user.Default_Address_ID) {
+      throw new NotFoundException('Please add your address')
+    };
     return user.Default_Address_ID;
   }
 

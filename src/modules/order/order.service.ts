@@ -50,7 +50,6 @@ export class OrderService {
 
   async newOrder(newOrder: Order, productAuction: ProductAuction, user: User)
   : Promise<Order> {
-    console.log(user)
     newOrder.Total_Price = productAuction.Current_Price;
     newOrder.User_ID = user;
     newOrder.Product_Auction_ID = productAuction;
