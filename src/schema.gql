@@ -8,6 +8,7 @@ type Address {
   Phone: String!
   Address_Name: String!
   Address_District: String!
+  District_ID: Int
   User_ID: User!
 }
 
@@ -223,6 +224,7 @@ input UpdateUserInput {
 input CreateAddressInput {
   Address_Name: String!
   Address_District: String!
+  District_ID: Int!
   Reciever_Name: String!
   Phone: String!
 }

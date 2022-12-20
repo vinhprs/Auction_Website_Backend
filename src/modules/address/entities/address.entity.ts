@@ -1,4 +1,4 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Order } from '../../order/entities/order.entity';
@@ -26,6 +26,10 @@ export class Address {
   @Field()
   @Column()
   Address_District: string;
+
+  @Field(() => Int, {nullable: true, defaultValue: null})
+  @Column({type: 'int', nullable: true, default: null})
+  District_ID: number;
 
   // // User relationship: n-1
   @ManyToOne(() => User, user => user.Address)

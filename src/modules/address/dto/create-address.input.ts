@@ -8,6 +8,9 @@ export class CreateAddressInput {
   @Field(() => String)
   Address_District: string;
 
+  @Field(() => Int)
+  District_ID: number;
+
   @Field(() => String)
   Reciever_Name: string;
 

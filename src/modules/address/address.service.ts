@@ -18,13 +18,14 @@ export class AddressService {
   ) {}
 
   async create(createAddressInput: CreateAddressInput, req: Request) {
-    const { Address_District, Address_Name, Reciever_Name,Phone } = createAddressInput;
+    const { Address_District, District_ID, Address_Name, Reciever_Name,Phone } = createAddressInput;
     const userId = getUserIdFromRequest(req);
     const user = await this.userService.getUserById(userId);
 
     const address = new Address();
     address.User_ID = user;
     address.Address_District = Address_District;
+    address.District_ID = District_ID;
     address.Address_Name = Address_Name;
     address.Reciever_Name = Reciever_Name;
     address.Phone = Phone;
