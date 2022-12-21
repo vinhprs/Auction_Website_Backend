@@ -13,11 +13,11 @@ export class UserBid {
   @JoinColumn({name: "User_ID"})
   User?: User;
 
-  @Field({nullable: true, defaultValue: null})
   @PrimaryColumn()
   Product_Auction_ID: string;
   @ManyToOne(() => ProductAuction, productAuction => productAuction.User_Bid)
   @JoinColumn({name: "Product_Auction_ID"})
+  @Field(() => ProductAuction ,{nullable: true, defaultValue: null})
   Product_Auction?: ProductAuction;
 
   @Field(() => Float, {nullable: true, defaultValue: null})
