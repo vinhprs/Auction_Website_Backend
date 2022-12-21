@@ -35,7 +35,9 @@ export class PaymentService {
     newPayment.Total = total;
     newPayment.Payment_Method = method;
     // update user currency
-    userCurrency.Total_Money = +userCurrency.Total_Money - total;
+    if(newPayment.Payment_Method.toLowerCase() == 'wallet') {
+      userCurrency.Total_Money = +userCurrency.Total_Money - total;
+    }
 
     await Promise.all([
       this.currencyService.changeCurrency(userCurrency),
