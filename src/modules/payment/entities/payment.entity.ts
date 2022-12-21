@@ -10,7 +10,7 @@ export class Payment {
   @PrimaryGeneratedColumn('uuid')
   Payment_ID: string;
 
-  @OneToMany(() => Order, order => order)
+  @OneToMany(() => Order, order => order.Payment_ID)
   @Field(() => Order)
   @JoinColumn({name: "Order_ID"})
   Order: Order [];

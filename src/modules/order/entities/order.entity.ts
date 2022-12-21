@@ -30,10 +30,10 @@ export class Order {
   @JoinColumn({name: "Product_Auction_ID"})
   Product_Auction_ID: ProductAuction;
 
-  @OneToOne(() => Address)
-  @Field(() => Address)
-  @JoinColumn({name: "Address_ID", referencedColumnName: "Address_ID"})
-  Address_ID!: Address;
+  @ManyToOne(() => Address, address => address.Order)
+  @Field(() => Address, {nullable: true, defaultValue: null})
+  @JoinColumn({name: "Address_ID"})
+  Address_ID: Address;
 
   @ManyToOne(() => Payment, payment => payment.Order)
   @Field(() => Payment, {nullable: true, defaultValue: null})
