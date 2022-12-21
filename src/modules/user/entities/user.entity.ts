@@ -100,7 +100,9 @@ export class User {
   @OneToMany(() => Payment, payment => payment.User_ID)
   Payment: Payment [];
 
-  @OneToMany(() => Order, order => order.User_ID)
+  @OneToMany(() => Order, order => order.User_ID, {
+    eager: true
+  })
   Order: Order [];
 
   @OneToOne(() => Currency, currency => currency.User_ID)

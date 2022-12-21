@@ -20,4 +20,15 @@ export class PaymentResolver {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }
   }
+
+  @Query(() => Payment)
+  async getLastestPayment(
+    @Args('Payment_ID') Payment_ID: string
+  ) : Promise<Payment> {
+    try {
+      return this.paymentService.getLastestPayment(Payment_ID);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
 }

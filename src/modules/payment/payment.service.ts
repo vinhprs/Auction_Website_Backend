@@ -47,4 +47,15 @@ export class PaymentService {
     await this.orderService.updateOrderStatus(Order_ID, newPayment);
     return newPayment;
   } 
+
+  async getLastestPayment(Payment_ID: string)
+  : Promise<Payment> {
+    const payment = await this.paymentRepository.findOne({
+      where: { Payment_ID },
+      relations: {
+        User_ID: true
+      }
+    })
+    return payment;
+  }
 }
