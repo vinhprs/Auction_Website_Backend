@@ -32,4 +32,15 @@ export class UserBidResolver {
     }
   }
 
+  @Query(() => [UserBid])
+  async getUserBidding(
+    @Args('User_ID') User_ID: string
+  ) : Promise<UserBid[]> {
+    try {
+      return await this.userBidService.getUserBidding(User_ID);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
 }

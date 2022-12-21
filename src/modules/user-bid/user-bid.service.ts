@@ -120,4 +120,20 @@ export class UserBidService {
     }
     return result;
   }
+
+  async getUserBidding(User_ID: string)
+  : Promise<UserBid[]> {
+    const result = await this.userBidRepository.find({
+      where: {
+        User: { User_ID }
+      },
+      relations: { Product_Auction: true }
+    });
+
+    if(!result) {
+      throw new NotFoundException("Can not find current bid!")
+    }
+
+    return result;
+  }
 }
