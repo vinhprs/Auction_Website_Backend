@@ -19,6 +19,10 @@ export class Payment {
   @Column({type: 'decimal', precision: 10, scale: 2})
   Total: number;
 
+  @Field(() => String)
+  @Column()
+  Payment_Method: string;
+
   @ManyToOne(() => User, user => user.Payment)
   @Field(() => User)
   @JoinColumn({name: "User_ID"})
