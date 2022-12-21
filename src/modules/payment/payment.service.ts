@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePaymentInput } from './dto/create-payment.input';
-import { UpdatePaymentInput } from './dto/update-payment.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Request } from 'express';
+import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
+import { Repository } from 'typeorm';
+import { CurrencyService } from '../currency/currency.service';
+import { OrderService } from '../order/order.service';
+import { UserService } from '../user/user.service';
+import { CreatePaymentInput } from './dto/createPayment.input';
+import { Payment } from './entities/payment.entity';
 
 @Injectable()
 export class PaymentService {
-  create(createPaymentInput: CreatePaymentInput) {
-    return 'This action adds a new payment';
-  }
 
-  findAll() {
-    return `This action returns all payment`;
-  }
+  constructor(
+    @InjectRepository(Payment)
+    private readonly paymentRepository: Repository<Payment>,
+    private readonly userService: UserService,
+    private readonly currencyService: CurrencyService,
+    private readonly orderService: OrderService,
+    private readonly currencyLogService: CurrencyService
+  ) {}
 
-  findOne(id: number) {
-    return `This action returns a #${id} payment`;
-  }
+  async create(createPaymentInput: CreatePaymentInput, req: Request)
+  : Promise<Payment> {
+    const { Order_ID, total } = createPaymentInput;
+    const userId = getUserIdFromRequest(req);
+    const [ user, userCurrency ] = await Promise.all([
+      this.userService.getUserById(userId),
+      this.currencyService.findUserCurrency(userId)
+    ]);
 
-  update(id: number, updatePaymentInput: UpdatePaymentInput) {
-    return `This action updates a #${id} payment`;
-  }
+    const newPayment = new Payment();
+    newPayment.User_ID = user;
+    newPayment.Total = total;
+    // update user currency
+    userCurrency.Total_Money = +userCurrency.Total_Money - total;
 
-  remove(id: number) {
-    return `This action removes a #${id} payment`;
-  }
+    await Promise.all([
+      this.currencyService.changeCurrency(userCurrency),
+      this.currencyLogService.genCurrencyLog(userCurrency, `-${total} paid for your order`),
+      this.paymentRepository.save(newPayment),
+    ]);
+    await this.orderService.updateOrderStatus(Order_ID, newPayment);
+    return newPayment;
+  } 
 }

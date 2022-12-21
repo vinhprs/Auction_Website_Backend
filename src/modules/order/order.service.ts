@@ -5,6 +5,7 @@ import { Request } from 'express';
 import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
 import { Repository } from 'typeorm';
 import { Address } from '../address/entities/address.entity';
+import { Payment } from '../payment/entities/payment.entity';
 import { ProductAuction } from '../product-auction/entities/product-auction.entity';
 import { ProductAuctionService } from '../product-auction/product-auction.service';
 import { UserBidService } from '../user-bid/user-bid.service';
@@ -74,6 +75,16 @@ export class OrderService {
         Address_ID: true,
         Product_Auction_ID: true
       }
+    })
+  }
+
+  async updateOrderStatus(Order_ID: string[], payment: Payment)
+  : Promise<void> {
+    Order_ID.forEach(async (o) => {
+      const order = await this.getOrderById(o);
+      order.Status = true;
+      order.Payment_ID = payment;
+      await this.orderRepository.save(order);
     })
   }
 
