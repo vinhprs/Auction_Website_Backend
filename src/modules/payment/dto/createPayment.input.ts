@@ -7,4 +7,7 @@ export class CreatePaymentInput {
 
   @Field(() => Float)
   total: number;
+
+  @Field(() => String)
+  method: string;
 }

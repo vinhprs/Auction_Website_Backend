@@ -23,7 +23,7 @@ export class PaymentService {
 
   async create(createPaymentInput: CreatePaymentInput, req: Request)
   : Promise<Payment> {
-    const { Order_ID, total } = createPaymentInput;
+    const { Order_ID, total, method } = createPaymentInput;
     const userId = getUserIdFromRequest(req);
     const [ user, userCurrency ] = await Promise.all([
       this.userService.getUserById(userId),
@@ -33,6 +33,7 @@ export class PaymentService {
     const newPayment = new Payment();
     newPayment.User_ID = user;
     newPayment.Total = total;
+    newPayment.Payment_Method = method;
     // update user currency
     userCurrency.Total_Money = +userCurrency.Total_Money - total;
 
