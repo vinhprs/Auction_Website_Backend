@@ -2,16 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Address {
-  Address_ID: String!
-  Reciever_Name: String
-  Phone: String!
-  Address_Name: String!
-  Address_District: String!
-  District_ID: Int
-  User_ID: User!
-}
-
 type Catalog {
   Catalog_ID: String!
   Catalog_Name: String!
@@ -26,6 +16,19 @@ type ProductImage {
   Product_Image_ID: String!
   Product_ID: Product!
   Product_Image_Url: String!
+}
+
+type Product {
+  Product_ID: String!
+  Product_Name: String!
+  Weight: Float!
+  Price: Float!
+  User_Note: String
+  Product_Info: String
+  User_ID: User!
+  Catalog_ID: Catalog!
+  ProductImage: ProductImage
+  Product_Image: [ProductImage!]!
 }
 
 type AuctionField {
@@ -48,23 +51,6 @@ type UserBid {
   Time: DateTime
 }
 
-type Payment {
-  Payment_ID: String!
-  Order: Order!
-  Total: Float!
-  User_ID: User!
-}
-
-type Order {
-  Order_ID: String!
-  Total_Price: Float!
-  Status: Boolean
-  User_ID: User!
-  Product_Auction_ID: ProductAuction!
-  Address_ID: Address!
-  Payment_ID: Payment
-}
-
 type ProductAuction {
   Product_Auction_ID: String!
   Weight: Float!
@@ -77,17 +63,33 @@ type ProductAuction {
   isSold: Boolean!
 }
 
-type Product {
-  Product_ID: String!
-  Product_Name: String!
-  Weight: Float!
-  Price: Float!
-  User_Note: String
-  Product_Info: String
+type Payment {
+  Payment_ID: String!
+  Order: Order!
+  Total: Float!
+  Payment_Method: String!
   User_ID: User!
-  Catalog_ID: Catalog!
-  ProductImage: ProductImage
-  Product_Image: [ProductImage!]!
+}
+
+type Order {
+  Order_ID: String!
+  Total_Price: Float!
+  Status: Boolean
+  User_ID: User!
+  Product_Auction_ID: ProductAuction!
+  Address_ID: Address
+  Payment_ID: Payment
+}
+
+type Address {
+  Address_ID: String!
+  Reciever_Name: String
+  Phone: String!
+  Address_Name: String!
+  Address_District: String!
+  District_ID: Int
+  User_ID: User!
+  Order: Order!
 }
 
 type CurrencyLog {
@@ -286,6 +288,7 @@ input CreateAuctionFieldInput {
 input CreatePaymentInput {
   Order_ID: [String!]!
   total: Float!
+  method: String!
 }
 
 input SignupUserInput {
