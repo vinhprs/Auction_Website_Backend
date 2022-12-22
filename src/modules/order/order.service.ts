@@ -56,7 +56,11 @@ export class OrderService {
     newOrder.Total_Price = userBid.Price;
     newOrder.Address_ID = userBid.User.Default_Address_ID;
 
-    return await this.orderRepository.save(newOrder);
+    await Promise.all([
+      this.productAuctionService.updateSold(productAuction),
+      this.orderRepository.save(newOrder)
+    ]);
+    return newOrder 
   }
 
   async firstOrder(newOrder: Order ,productAuction: ProductAuction, user: User)

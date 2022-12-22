@@ -17,19 +17,17 @@ export class TasksService {
     private readonly userBidService: UserBidService,
   ) {}
   
-  private sameDateAuction: AuctionField[] = [];
-
-  @Cron('30 54 14 * * *')
+  @Cron('30 17 21 * * *')
   async fieldOperating() {
     let auctionField = await this.auctionFieldService.getAll();
     const now = new Date(Date.now())
-    this.sameDateAuction = auctionField.filter(a => 
+    const sameDateAuction = auctionField.filter(a => 
       a.Start_Time.getFullYear() === now.getFullYear() &&
       a.Start_Time.getMonth() === now.getMonth() &&
       a.Start_Time.getDate() === now.getDate()
     );
 
-    this.sameDateAuction.forEach(async (a) => {
+    sameDateAuction.forEach(async (a) => {
       const { hour, minute, second } = formatTime(a.Start_Time);
       const endTime = a.End_Time;
 
@@ -42,17 +40,29 @@ export class TasksService {
 
   @Interval(60*1000)
   async discountInterval() {
-    this.sameDateAuction.forEach(async (a) => {
+    let auctionField = await this.auctionFieldService.getAll();
+    const now = new Date(Date.now())
+    const sameDateAuction = auctionField.filter(a => 
+      a.Start_Time.getFullYear() === now.getFullYear() &&
+      a.Start_Time.getMonth() === now.getMonth() &&
+      a.Start_Time.getDate() === now.getDate()
+    );
+   
+    sameDateAuction.forEach((a) => {
       // next discount base on discount cycle
-      let nextDiscount = new Date(a.Start_Time);
+      let nextDiscount = new Date();
       nextDiscount.setMinutes(nextDiscount.getMinutes() + a.Discount_Circle);
-      a.Start_Time.setMinutes(a.Start_Time.getMinutes() + a.Discount_Circle);
-
       a.Product_Auction.forEach(async (pA) => {
-        await Promise.all([
-          this.discountProduct(pA, nextDiscount),
-          this.userBidService.getBidWinner(pA.Product_Auction_ID),
-        ])
+        if(pA.isSold === false) {
+          await Promise.all([
+            this.discountProduct(pA.Product_Auction_ID, nextDiscount),
+            this.userBidService.getBidWinner(pA.Product_Auction_ID)
+          ])
+        }
+        else {
+          pA.isSold = true;
+          await this.productAuctionService.updateSold(pA)
+        }
       });
     })
   }
@@ -75,10 +85,10 @@ export class TasksService {
       job.start();
     }
 
-  async discountProduct(Product_Auction: ProductAuction ,nextDiscount: Date) : Promise<void> {
+  async discountProduct(Product_Auction_ID: string ,nextDiscount: Date) : Promise<void> {
     const { hour, minute, second } = formatTime(nextDiscount);
     const job = new CronJob(`${second} ${minute} ${hour} * * *`, async() => {
-      await this.productAuctionService.productDiscount(Product_Auction)
+      await this.productAuctionService.productDiscount(Product_Auction_ID)
     });
 
     job.start();

@@ -157,11 +157,13 @@ export class ProductAuctionService {
     await this.productAuctionLogService.create(newAuctionLog);
   }
 
-  async productDiscount(Product_Auction: ProductAuction)
+  async productDiscount(Product_Auction_ID: string)
   : Promise<void> {
+    const Product_Auction = await this.getProductAuctionById(Product_Auction_ID);
     if(Product_Auction.isSold) {
       return;
     }
+    console.log(Product_Auction.isSold)
     let { Current_Price, Discount_Rate } = Product_Auction;
     Current_Price = Current_Price - (Current_Price * (Discount_Rate/100));
     Product_Auction.Current_Price = Current_Price;
@@ -176,6 +178,7 @@ export class ProductAuctionService {
   : Promise<ProductAuction> {
     productAuction.isSold = true;
 
+    console.log("da update sold")
     return await this.productAuctionRepository.save(productAuction);
   }
 

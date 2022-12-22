@@ -171,10 +171,7 @@ export class UserBidService {
     const result = listWinner.sort((a: UserBid, b: UserBid) => a.Time.getTime() - b.Time.getTime())[0];
 
     if(result) {
-      await Promise.all([
-        this.orderService.winnerBidGenOrder(productAuction, result),
-        this.productAuctionService.updateSold(productAuction)
-      ]) 
+      await this.orderService.winnerBidGenOrder(productAuction, result)
       return result;
     }
     

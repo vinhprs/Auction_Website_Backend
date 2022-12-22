@@ -70,11 +70,12 @@ export class CurrencyService {
   : Promise<void> {
     const bidFee = productAuction.Starting_Price * (5/100);
     userBid.forEach(async (u) => {
-      u.User.Currency.Total_Money += +bidFee;
+      let userCurrency = await this.findUserCurrency(u.User.User_ID);
+      userCurrency.Total_Money = +userCurrency.Total_Money + +bidFee;
       await Promise.all([
-        this.currencyLogService.genCurrencyLog(u.User.Currency, `refund ${bidFee.toFixed(2)} for 
+        this.currencyLogService.genCurrencyLog(userCurrency, `refund ${bidFee.toFixed(2)} for 
         ${productAuction.Product_ID.Product_Name}`),
-        this.currencyRepository.save(u.User.Currency)
+        this.currencyRepository.save(userCurrency)
       ])
     });
 
