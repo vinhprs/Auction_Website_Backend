@@ -42,7 +42,7 @@ export class OrderService {
     }
 
     if(!existBid) {
-      return await this.firstOrder(newOrder, productAuction, user)
+      return await this.firstOrder(newOrder, productAuction, user, req)
     }
 
     return await this.newOrder(newOrder, productAuction, user);
@@ -63,7 +63,7 @@ export class OrderService {
     return newOrder 
   }
 
-  async firstOrder(newOrder: Order ,productAuction: ProductAuction, user: User)
+  async firstOrder(newOrder: Order ,productAuction: ProductAuction, user: User, req: Request)
   : Promise<Order> {
     const bidInput = { 
       Product_Auction_ID: productAuction.Product_Auction_ID, 
@@ -71,8 +71,7 @@ export class OrderService {
     }
     await Promise.all([
       this.newOrder(newOrder, productAuction, user),
-      this.userBidService.createFirstBid(bidInput ,user.User_ID ),
-      this.userBidService.userBidFee(user.User_ID, productAuction)
+      this.userBidService.create(bidInput ,req),
     ]);
 
     return newOrder;
