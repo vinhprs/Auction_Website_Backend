@@ -67,6 +67,7 @@ export class OrderService {
   : Promise<Order> {
     await Promise.all([
       this.newOrder(newOrder, productAuction, user),
+      this.userBidService.createFirstBid(productAuction, productAuction.Current_Price, user.User_ID ),
       this.userBidService.userBidFee(user.User_ID, productAuction)
     ]);
 
