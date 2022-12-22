@@ -10,6 +10,8 @@ import { forwardRef } from '@nestjs/common/utils';
 import { Inject } from '@nestjs/common/decorators';
 import { CurrencyLogService } from '../currency-log/currency-log.service';
 import { CurrencyLog } from '../currency-log/entities/currency-log.entity';
+import { UserBid } from '../user-bid/entities/user-bid.entity';
+import { ProductAuction } from '../product-auction/entities/product-auction.entity';
 
 
 @Injectable()
@@ -62,5 +64,19 @@ export class CurrencyService {
   async genCurrencyLog(userCurrency: Currency, amount: string)
   : Promise<CurrencyLog> {
     return await this.currencyLogService.genCurrencyLog(userCurrency, amount);
+  }
+
+  async refund(userBid: UserBid[], productAuction: ProductAuction)
+  : Promise<void> {
+    const bidFee = productAuction.Starting_Price * (5/100);
+    userBid.forEach(async (u) => {
+      u.User.Currency.Total_Money += +bidFee;
+      await Promise.all([
+        this.currencyLogService.genCurrencyLog(u.User.Currency, `refund ${bidFee.toFixed(2)} for 
+        ${productAuction.Product_ID.Product_Name}`),
+        this.currencyRepository.save(u.User.Currency)
+      ])
+    });
+
   }
 }

@@ -2,7 +2,7 @@ import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/commo
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
-import { MoreThan, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CurrencyService } from '../currency/currency.service';
 import { OrderService } from '../order/order.service';
 import { ProductAuction } from '../product-auction/entities/product-auction.entity';
@@ -164,6 +164,9 @@ export class UserBidService {
       }),
       this.productAuctionService.getProductAuctionById(Product_Auction_ID)
     ]);
+    // refund currency for loser
+    await this.currencyService.refund(userBid, productAuction);
+
     let listWinner = userBid.filter(b => +b.Price >= +productAuction.Current_Price);
     const result = listWinner.sort((a: UserBid, b: UserBid) => a.Time.getTime() - b.Time.getTime())[0];
 
