@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import { CurrencyService } from '../currency/currency.service';
 import { ProductAuction } from '../product-auction/entities/product-auction.entity';
 import { ProductAuctionService } from '../product-auction/product-auction.service';
@@ -136,4 +136,18 @@ export class UserBidService {
 
     return result;
   }
+
+  // async getBidWinner(Product_Auction_ID: string)
+  // : Promise<UserBid> {
+  //   const result = await this.userBidRepository.findOne({
+  //     where: {
+  //       Product_Auction: { 
+  //         Product_Auction_ID,
+  //         isSold: false,
+  //         Current_Price: MoreThan()
+  //       },
+        
+  //     }
+  //   })
+  // }
 }

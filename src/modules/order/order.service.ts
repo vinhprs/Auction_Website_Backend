@@ -97,7 +97,8 @@ export class OrderService {
       },
       relations: { 
         User_ID: true,
-        Product_Auction_ID: true
+        Product_Auction_ID: true,
+        Address_ID: true
       }
     });
 
@@ -110,12 +111,15 @@ export class OrderService {
     const result = new TotalOrderResult();
     result.total = 0.00;
     result.weight = 0.00;
-
+    result.Address_ID = new Address();
     userOrder.forEach(o => {
       result.total += +o.Total_Price,
       result.weight += +o.Product_Auction_ID.Weight
-      result.Address_ID = o.Address_ID
+      console.log(o.Address_ID)
+      Object.assign(result.Address_ID, o.Address_ID)
     });
+
+    console.log(result)
 
     return result;
   }
