@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
-import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
+import { getUserIdFromRequest } from '../../utils/user-from-header.util';
 import { Repository } from 'typeorm';
 import { CurrencyService } from '../currency/currency.service';
 import { OrderService } from '../order/order.service';

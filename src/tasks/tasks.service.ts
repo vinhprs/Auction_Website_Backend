@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Cron, CronExpression, Interval } from '@nestjs/schedule';
+import { Cron, Interval } from '@nestjs/schedule';
 import { formatTime } from '../utils/date.util';
 import { AuctionFieldService } from '../modules/auction-field/auction-field.service';
 import { AuctionField } from '../modules/auction-field/entities/auction-field.entity';
 import { CronJob } from 'cron';
 import { ProductAuctionService } from '../modules/product-auction/product-auction.service';
-import { ProductAuction } from '../modules/product-auction/entities/product-auction.entity';
 import { UserBidService } from '../modules/user-bid/user-bid.service';
-import { OrderService } from '../modules/order/order.service';
 
 @Injectable()
 export class TasksService {
