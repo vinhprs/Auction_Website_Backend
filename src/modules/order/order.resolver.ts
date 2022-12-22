@@ -6,7 +6,7 @@ import { Request } from 'express';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Address } from '../address/entities/address.entity';
 import { ProductAuction } from '../product-auction/entities/product-auction.entity';
-import { TotalOrderResult } from 'src/common/entities/common.entity';
+import { TotalOrderResult } from '../../common/entities/common.entity';
 
 @Resolver(() => Order)
 export class OrderResolver {
