@@ -69,4 +69,15 @@ export class OrderResolver {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }
   }
+
+  @Query(() => [Order])
+  async getUserOrderHistory(
+    @Args("User_ID") User_ID: string
+  ) : Promise<Order[]> {
+    try {
+      return await this.orderService.getUserOrderHistory(User_ID);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
 }

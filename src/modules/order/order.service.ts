@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { TotalOrderResult } from '../../common/entities/common.entity';
 import { getUserIdFromRequest } from '../../utils/user-from-header.util';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { Address } from '../address/entities/address.entity';
 import { Payment } from '../payment/entities/payment.entity';
 import { ProductAuction } from '../product-auction/entities/product-auction.entity';
@@ -155,5 +155,20 @@ export class OrderService {
     const order = await this.getOrderById(Order_ID);
   
     return order.Product_Auction_ID;
+  }
+
+  async getUserOrderHistory(User_ID: string)
+  : Promise<Order[]> {
+    const order = await this.orderRepository.find({
+      relations: { 
+        User_ID: true,
+        Payment_ID: true
+      },
+      where: {
+        Status: true,
+      }
+    });
+    const result = order.filter(o => o.User_ID.User_ID === User_ID && o.Payment_ID != null)
+    return result;
   }
 }

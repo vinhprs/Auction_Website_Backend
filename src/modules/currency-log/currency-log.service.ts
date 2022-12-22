@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Currency } from '../currency/entities/currency.entity';
+import { PaginationInput } from '../product/dto/create-product.input';
 import { CurrencyLog } from './entities/currency-log.entity';
 
 @Injectable()
@@ -35,5 +36,18 @@ export class CurrencyLogService {
     
     const result = currencyLog.filter(cL => cL.Currency.User_ID.User_ID === User_ID);
     return result.slice(0, 5);
+  }
+
+  async getCurrencyLog() : Promise<CurrencyLog[]>
+  {
+    let currencyLog = await this.currencyLogRepository.find({
+      relations: {
+        Currency: true,
+      },
+      order: {
+        Time: 'DESC'
+      },
+    });
+    return currencyLog.slice(0, 50);
   }
 }

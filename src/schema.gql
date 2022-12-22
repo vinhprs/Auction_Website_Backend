@@ -158,6 +158,7 @@ type Query {
   getUserById(User_ID: String!): User!
   getCurrentByUser(User_ID: String!): Currency!
   getLastCurrencyLog(User_ID: String!): [CurrencyLog!]!
+  getCurrencyLog(paginationInput: PaginationInput!): [CurrencyLog!]!
   getAllProduct(paginationInput: PaginationInput!): [Product!]!
   getProductByCatalogName(Catalog_Name: String!): [Product!]!
   getProductById(Product_ID: String!): Product!
@@ -170,6 +171,7 @@ type Query {
   deliveryFee(id: Int!): DeliveryFee!
   getUserOrder(User_ID: String!): [Order!]!
   userOrderTotal(User_ID: String!): TotalOrderResult!
+  getUserOrderHistory(User_ID: String!): [Order!]!
   getCurrentBid(getCurrentBidInput: GetCurrentBidInput!): UserBid!
   getUserBidding(User_ID: String!): [UserBid!]!
   getWinnerBid(Product_Auction_ID: String!): UserBid!
