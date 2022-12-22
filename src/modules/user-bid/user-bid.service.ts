@@ -72,11 +72,9 @@ export class UserBidService {
     newUserBid.User = user;
     newUserBid.Product_Auction = productAuction;
 
-    await Promise.all([
-      this.userBidRepository.save(newUserBid),
-      this.userBidFee(User_ID, productAuction),
-      this.genUserBidLog(newUserBid)
-    ]) 
+    await this.userBidRepository.save(newUserBid);
+    await this.userBidFee(User_ID, productAuction),
+    await this.genUserBidLog(newUserBid)
     return newUserBid;
   }
 
