@@ -195,6 +195,7 @@ type Query {
   getFieldTotalProduct: [AuctionField!]!
   getOperatingAuctionField: [AuctionField!]!
   getAvailableAuctionField: [AuctionField!]!
+  getAllAuctionField: [AuctionField!]!
   getLastestPayment(Payment_ID: String!): Payment!
 }
 

@@ -14,6 +14,7 @@ import { UserBidService } from '../user-bid/user-bid.service';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { Order } from './entities/order.entity';
+import { CurrencyService } from '../currency/currency.service';
 
 @Injectable()
 export class OrderService {
@@ -24,7 +25,8 @@ export class OrderService {
     private readonly userService: UserService,
     @Inject(forwardRef(() => UserBidService))
     private readonly userBidService: UserBidService,
-    private readonly productAuctionService: ProductAuctionService
+    private readonly productAuctionService: ProductAuctionService,
+    private readonly currencyService: CurrencyService
   ) {}
 
   async orderProductAuction(Product_Auction_ID: string, req: Request)
@@ -107,6 +109,13 @@ export class OrderService {
       order.Status = true;
       order.Payment_ID = payment;
       await this.orderRepository.save(order);
+      const userCurrency = await this.currencyService.
+      findUserCurrency(order.Product_Auction_ID.User_ID.User_ID)
+      userCurrency.Total_Money = +userCurrency.Total_Money + (+payment.Total * 0.95);
+      await Promise.all([
+        this.currencyService.changeCurrency(userCurrency),
+        this.currencyService.genCurrencyLog(userCurrency, `Your product: ${order.Product_Auction_ID.Product_ID.Product_Name} is sold successfully +${userCurrency.Total_Money}`)
+      ])
     })
   }
 

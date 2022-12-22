@@ -6,6 +6,7 @@ import { Order } from './entities/order.entity';
 import { UserBidModule } from '../user-bid/user-bid.module';
 import { UserModule } from '../user/user.module';
 import { ProductAuctionModule } from '../product-auction/product-auction.module';
+import { CurrencyModule } from '../currency/currency.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { ProductAuctionModule } from '../product-auction/product-auction.module'
     forwardRef(() => UserBidModule),
     UserModule,
     ProductAuctionModule,
-    UserBidModule
+    UserBidModule,
+    CurrencyModule
   ],
   providers: [OrderResolver, OrderService],
   exports: [ OrderService ]
