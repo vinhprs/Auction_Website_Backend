@@ -165,13 +165,16 @@ export class UserBidService {
       this.productAuctionService.getProductAuctionById(Product_Auction_ID)
     ]);
     // refund currency for loser
-    await this.currencyService.refund(userBid, productAuction);
 
     let listWinner = userBid.filter(b => +b.Price >= +productAuction.Current_Price);
-    const result = listWinner.sort((a: UserBid, b: UserBid) => a.Time.getTime() - b.Time.getTime())[0];
+    let result = listWinner.sort((a: UserBid, b: UserBid) => a.Time.getTime() - b.Time.getTime())[0];
 
     if(result) {
-      await this.orderService.winnerBidGenOrder(productAuction, result)
+      let loserBid = userBid.filter(u => u.User.User_ID != result.User.User_ID)
+      await Promise.all([
+        this.orderService.winnerBidGenOrder(productAuction, result),
+        this.currencyService.refund(userBid, productAuction)
+      ])
       return result;
     }
     

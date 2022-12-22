@@ -178,7 +178,6 @@ export class ProductAuctionService {
   : Promise<ProductAuction> {
     productAuction.isSold = true;
 
-    console.log("da update sold")
     return await this.productAuctionRepository.save(productAuction);
   }
 
