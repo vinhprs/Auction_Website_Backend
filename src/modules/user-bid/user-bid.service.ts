@@ -132,7 +132,10 @@ export class UserBidService {
   : Promise<UserBid[]> {
     const result = await this.userBidRepository.find({
       where: {
-        User: { User_ID }
+        User: { User_ID },
+        Product_Auction: {
+          isSold: false
+        }
       },
       relations: { Product_Auction: true }
     });
