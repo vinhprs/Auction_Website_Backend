@@ -1,4 +1,5 @@
-import { Field, ObjectType } from "@nestjs/graphql";
+import { Field, Float, ObjectType } from "@nestjs/graphql";
+import { Address } from "src/modules/address/entities/address.entity";
 import { ProductAuction } from "src/modules/product-auction/entities/product-auction.entity";
 import { Stream } from "stream";
 import { User } from "../../modules/user/entities/user.entity";
@@ -35,6 +36,17 @@ export class SendEmailData {
     @Field()
     template: string;
 }
+
+@ObjectType()
+export class TotalOrderResult {
+    @Field(() => Float, {nullable: true, defaultValue: 0})
+    total: number;
+    @Field(() => Float, {nullable: true, defaultValue: 0})
+    weight: number;
+    @Field(() => Address, {nullable: true, defaultValue: null})
+    Address_ID: Address
+}
+
 
 export interface FileUpload {
     filename: string;

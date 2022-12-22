@@ -8,7 +8,6 @@ import { ProductAuction } from '../product-auction/entities/product-auction.enti
 import { ProductAuctionService } from '../product-auction/product-auction.service';
 import { UserBidLog } from '../user-bid-log/entities/user-bid-log.entity';
 import { UserBidLogService } from '../user-bid-log/user-bid-log.service';
-import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { CreateUserBidInput, GetCurrentBidInput } from './dto/create-user-bid.input';
 import { UserBid } from './entities/user-bid.entity';
@@ -113,7 +112,8 @@ export class UserBidService {
       where: {
         User: { User_ID },
         Product_Auction: { Product_Auction_ID }
-      }
+      },
+      relations: { Product_Auction: true }
     });
     if(!result) {
       throw new NotFoundException("Can not find current bid!")

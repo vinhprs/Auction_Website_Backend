@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
+import { TotalOrderResult } from 'src/common/entities/common.entity';
 import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
 import { Repository } from 'typeorm';
 import { Address } from '../address/entities/address.entity';
@@ -101,6 +102,22 @@ export class OrderService {
     });
 
     return order.filter(o => o.User_ID.User_ID === User_ID);
+  }
+
+  async userOrderTotal(User_ID: string)
+  : Promise<TotalOrderResult> {
+    const userOrder = await this.getUserOrder(User_ID);
+    const result = new TotalOrderResult();
+    result.total = 0.00;
+    result.weight = 0.00;
+
+    userOrder.forEach(o => {
+      result.total += +o.Total_Price,
+      result.weight += +o.Product_Auction_ID.Weight
+      result.Address_ID = o.Address_ID
+    });
+
+    return result;
   }
 
   async getOrderAddress(Oder_ID: string) : Promise<Address> {

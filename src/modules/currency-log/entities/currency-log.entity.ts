@@ -17,6 +17,10 @@ export class CurrencyLog {
   @Column({type: 'decimal', precision: 10, scale: 2 })
   Total_Amount: number;
 
+  @Field(() => Date)
+  @Column()
+  Time: Date;
+
   @ManyToOne(() => Currency, currency => currency.Currency_Log)
   @Field(() => Currency)
   @JoinColumn({name: "Currency_ID"})

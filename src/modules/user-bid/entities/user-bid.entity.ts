@@ -18,7 +18,7 @@ export class UserBid {
   @ManyToOne(() => ProductAuction, productAuction => productAuction.User_Bid)
   @JoinColumn({name: "Product_Auction_ID"})
   @Field(() => ProductAuction ,{nullable: true, defaultValue: null})
-  Product_Auction?: ProductAuction;
+  Product_Auction: ProductAuction;
 
   @Field(() => Float, {nullable: true, defaultValue: null})
   @Column({ type: 'decimal', precision: 10, scale: 2 })

@@ -6,6 +6,7 @@ import { Request } from 'express';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Address } from '../address/entities/address.entity';
 import { ProductAuction } from '../product-auction/entities/product-auction.entity';
+import { TotalOrderResult } from 'src/common/entities/common.entity';
 
 @Resolver(() => Order)
 export class OrderResolver {
@@ -29,6 +30,17 @@ export class OrderResolver {
   ) : Promise<Order[]> {
     try {
       return await this.orderService.getUserOrder(User_ID);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @Query(() => TotalOrderResult)
+  async userOrderTotal(
+    @Args('User_ID') User_ID: string
+  ) : Promise<TotalOrderResult> {
+    try {
+      return await this.orderService.userOrderTotal(User_ID);
     } catch(e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }

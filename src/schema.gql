@@ -96,6 +96,7 @@ type CurrencyLog {
   Currency_Log_ID: String!
   Currency_Log_Value: String!
   Total_Amount: Float!
+  Time: DateTime!
   Currency: Currency!
 }
 
@@ -146,6 +147,12 @@ type JwtPayload {
   userInfo: User
 }
 
+type TotalOrderResult {
+  total: Float
+  weight: Float
+  Address_ID: Address
+}
+
 type Query {
   getUserByEmail(Email: String!): User!
   getUserById(User_ID: String!): User!
@@ -162,6 +169,7 @@ type Query {
   getSubCatalogByName(Catalog_Name: String!): [Catalog!]!
   deliveryFee(id: Int!): DeliveryFee!
   getUserOrder(User_ID: String!): [Order!]!
+  userOrderTotal(User_ID: String!): TotalOrderResult!
   getCurrentBid(getCurrentBidInput: GetCurrentBidInput!): UserBid!
   getUserBidding(User_ID: String!): [UserBid!]!
   getProductAuctionById(Product_Auction_ID: String!): ProductAuction!
