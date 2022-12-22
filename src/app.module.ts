@@ -88,7 +88,8 @@ import { Evaluate } from './modules/evaluate/entities/evaluate.entity';
         origin: [
           "http://localhost:3000",
           "https://freshauc.netlify.app",
-          "https://www.sandbox.paypal.com"
+          "https://www.sandbox.paypal.com",
+          "http://freshauc.xyz/"
         ]
       }
     }),

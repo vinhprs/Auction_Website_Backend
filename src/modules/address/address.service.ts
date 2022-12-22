@@ -22,6 +22,7 @@ export class AddressService {
     const userId = getUserIdFromRequest(req);
     const user = await this.userService.getUserById(userId);
 
+    console.log(user)
     const address = new Address();
     address.User_ID = user;
     address.Address_District = Address_District;
@@ -30,7 +31,6 @@ export class AddressService {
     address.Reciever_Name = Reciever_Name;
     address.Phone = Phone;
     await this.addressRepository.save(address);
-
     if(!user.Default_Address_ID) {
       await this.userService.updateDefaultAddress(user, address);
     }
