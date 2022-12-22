@@ -264,4 +264,14 @@ export class ProductAuctionService {
     return result;
   }
 
+  async adminDashboardSales() : Promise<ProductAuction[]>
+  {
+    const result = await this.findSold();
+    return result.filter(r => r.Order.Payment_ID);
+  }
+
+  async adminDashBoardAuction()
+  : Promise<AuctionField[]> {
+    return await this.auctionFieldService.getAll();
+  }
 }

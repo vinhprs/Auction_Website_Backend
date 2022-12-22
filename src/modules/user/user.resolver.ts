@@ -21,6 +21,16 @@ export class UserResolver {
     }
   }
 
+  @Query(() => [User])
+  async getAllUser()
+  : Promise<User[]> {
+    try {
+      return await this.userService.getAll();
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
   @Query(() => User)
   async getUserById(
     @Args("User_ID") User_ID: string 

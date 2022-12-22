@@ -139,6 +139,26 @@ export class ProductAuctionResolver {
     }
   }
 
+  @Query(() => [ProductAuction])
+  async adminDashboardSales()
+  : Promise<ProductAuction[]> {
+    try {
+      return await this.productAuctionService.adminDashboardSales();
+    } catch (e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @Query(() => [AuctionField])
+  async adminDashBoardAuction()
+  : Promise<AuctionField[]> {
+    try {
+      return await this.productAuctionService.adminDashBoardAuction();
+    } catch (e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
   @ResolveField(() => [ProductAuction])
   async Product_ID(
     @Parent() productAuction: ProductAuction

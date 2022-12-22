@@ -12,6 +12,7 @@ import { UserBidLogService } from '../user-bid-log/user-bid-log.service';
 import { UserService } from '../user/user.service';
 import { CreateUserBidInput, GetCurrentBidInput } from './dto/create-user-bid.input';
 import { UserBid } from './entities/user-bid.entity';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class UserBidService {

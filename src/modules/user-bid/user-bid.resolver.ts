@@ -4,6 +4,7 @@ import { UserBid } from './entities/user-bid.entity';
 import { CreateUserBidInput, GetCurrentBidInput } from './dto/create-user-bid.input';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Request } from 'express';
+import { User } from '../user/entities/user.entity';
 
 @Resolver(() => UserBid)
 export class UserBidResolver {

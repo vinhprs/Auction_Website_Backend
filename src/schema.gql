@@ -164,6 +164,7 @@ type AdminProductResult {
 
 type Query {
   getUserByEmail(Email: String!): User!
+  getAllUser: [User!]!
   getUserById(User_ID: String!): User!
   getCurrentByUser(User_ID: String!): Currency!
   getLastCurrencyLog(User_ID: String!): [CurrencyLog!]!
@@ -193,6 +194,8 @@ type Query {
   getAdminProductCount: AdminProductResult!
   getAdminProductInfo: [ProductAuction!]!
   getFieldTotalProduct: [AuctionField!]!
+  adminDashboardSales: [ProductAuction!]!
+  adminDashBoardAuction: [AuctionField!]!
   getOperatingAuctionField: [AuctionField!]!
   getAvailableAuctionField: [AuctionField!]!
   getAllAuctionField: [AuctionField!]!

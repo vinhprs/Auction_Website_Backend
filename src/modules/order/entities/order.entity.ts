@@ -35,7 +35,9 @@ export class Order {
   @JoinColumn({name: "Address_ID"})
   Address_ID: Address;
 
-  @ManyToOne(() => Payment, payment => payment.Order)
+  @ManyToOne(() => Payment, payment => payment.Order, {
+    eager: true
+  })
   @Field(() => Payment, {nullable: true, defaultValue: null})
   @JoinColumn({name: "Payment_ID"} )
   Payment_ID: Payment;
