@@ -61,7 +61,9 @@ export class ProductAuction {
   @OneToMany(() => UserBid, userBid => userBid.Product_Auction_ID)
   User_Bid: UserBid [];
 
-  @OneToOne(() => Order, order => order.Product_Auction_ID)
+  @OneToOne(() => Order, order => order.Product_Auction_ID, {
+    eager: true
+  })
   Order: Order;
 
   @OneToOne(() => Evaluate, evaluate => evaluate.Product_Auction)

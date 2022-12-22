@@ -1,4 +1,4 @@
-import { Field, Float, ObjectType } from "@nestjs/graphql";
+import { Field, Float, Int, ObjectType } from "@nestjs/graphql";
 import { Address } from "src/modules/address/entities/address.entity";
 import { ProductAuction } from "src/modules/product-auction/entities/product-auction.entity";
 import { Stream } from "stream";
@@ -45,6 +45,18 @@ export class TotalOrderResult {
     weight: number;
     @Field(() => Address, {nullable: true, defaultValue: null})
     Address_ID: Address
+}
+
+@ObjectType()
+export class AdminProductResult {
+    @Field(() => Int, {nullable: true, defaultValue: 0})
+    totalProduct: number;
+    @Field(() => Int, {nullable: true, defaultValue: 0})
+    ordered: number;
+    @Field(() => Int, {nullable: true, defaultValue: 0})
+    sold: number;
+    @Field(() => Int, {nullable: true, defaultValue: 0})
+    selling: number;
 }
 
 

@@ -153,12 +153,19 @@ type TotalOrderResult {
   Address_ID: Address
 }
 
+type AdminProductResult {
+  totalProduct: Int
+  ordered: Int
+  sold: Int
+  selling: Int
+}
+
 type Query {
   getUserByEmail(Email: String!): User!
   getUserById(User_ID: String!): User!
   getCurrentByUser(User_ID: String!): Currency!
   getLastCurrencyLog(User_ID: String!): [CurrencyLog!]!
-  getCurrencyLog(paginationInput: PaginationInput!): [CurrencyLog!]!
+  getCurrencyLog: [CurrencyLog!]!
   getAllProduct(paginationInput: PaginationInput!): [Product!]!
   getProductByCatalogName(Catalog_Name: String!): [Product!]!
   getProductById(Product_ID: String!): Product!
@@ -181,6 +188,7 @@ type Query {
   getAuctioningProduct: [ProductAuction!]!
   getAuctioningProductByCatalog(Catalog_Name: String!): [ProductAuction!]!
   searchAuctioningProduct(Product_Name: String!): [ProductAuction!]!
+  getAdminProduct: AdminProductResult!
   getOperatingAuctionField: [AuctionField!]!
   getAvailableAuctionField: [AuctionField!]!
   getLastestPayment(Payment_ID: String!): Payment!

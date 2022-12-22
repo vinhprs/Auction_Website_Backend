@@ -6,13 +6,14 @@ import { ProductService } from '../product/product.service';
 import { UserService } from '../user/user.service';
 import { CreateProductAuctionInput } from './dto/create-product-auction.input';
 import { ProductAuction } from './entities/product-auction.entity';
-import { Request } from 'express';
+import e, { Request } from 'express';
 import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
 import { ProductAuctionLogService } from '../product-auction-log/product-auction-log.service';
 import { ProductAuctionLog } from '../product-auction-log/entities/product-auction-log.entity';
 import { Product } from '../product/entities/product.entity';
 import { AuctionField } from '../auction-field/entities/auction-field.entity';
 import { User } from '../user/entities/user.entity';
+import { AdminProductResult } from 'src/common/entities/common.entity';
 
 @Injectable()
 export class ProductAuctionService {
@@ -179,6 +180,40 @@ export class ProductAuctionService {
     productAuction.isSold = true;
 
     return await this.productAuctionRepository.save(productAuction);
+  }
+
+  async getAll() : Promise<ProductAuction[]> 
+  {
+    return await this.productAuctionRepository.find();
+  }
+
+  async fileSold() : Promise<number>
+  {
+    const result =  await this.productAuctionRepository.find({
+      relations: { Order: true },
+      where: {
+        Order: {
+          Status: true,
+        }
+      }
+    })
+    return result.length;
+  }
+
+  async getAdminProduct()
+  : Promise<AdminProductResult> {
+    let adminResult = new AdminProductResult();
+    adminResult.totalProduct = 0;
+    const auctionField = await this.auctionFieldService.getOperatingAuctionField();
+    auctionField.forEach(a => {
+      adminResult.totalProduct += a.Product_Auction.length;
+      console.log(a.Product_Auction.length)
+    });
+    let productAuction = await this.getAll();
+    adminResult.ordered = productAuction.filter(p => p.isSold == true).length;
+    adminResult.sold = await this.fileSold();
+    adminResult.selling = productAuction.filter(p => p.isSold == false).length;
+    return adminResult;
   }
 
 }

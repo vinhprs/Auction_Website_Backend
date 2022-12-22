@@ -8,6 +8,7 @@ import { Product } from '../product/entities/product.entity';
 import { AuctionField } from '../auction-field/entities/auction-field.entity';
 import { AuctionFieldService } from '../auction-field/auction-field.service';
 import { User } from '../user/entities/user.entity';
+import { AdminProductResult }  from '../../common/entities/common.entity'
 
 @Resolver(() => ProductAuction)
 export class ProductAuctionResolver {
@@ -108,6 +109,16 @@ export class ProductAuctionResolver {
     }
   }
 
+  @Query(() => AdminProductResult)
+  async getAdminProduct() 
+  : Promise<AdminProductResult> {
+    try {
+      return await this.productAuctionService.getAdminProduct();
+    } catch (e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
   @ResolveField(() => [ProductAuction])
   async Product_ID(
     @Parent() productAuction: ProductAuction
@@ -143,4 +154,5 @@ export class ProductAuctionResolver {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }
   }
+
 }
