@@ -55,6 +55,9 @@ export class ProductAuction {
   @Column({ default: false})
   isSold: boolean
 
+  @Field({nullable: true, defaultValue: null})
+  status: string;
+
   @OneToMany(() => ProductAuctionLog, productAuctionLog => productAuctionLog.Product_Auction_ID)
   ProductAuctionLog: ProductAuctionLog [];
 

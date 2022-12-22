@@ -25,6 +25,9 @@ export class AuctionField {
   @Column({ default: false })
   isOperation: boolean;
 
+  @Field(() => Int, {nullable: true, defaultValue: null})
+  totalProduct: number
+
   @OneToMany(() => ProductAuction, productAuction => productAuction.Auction_Field_ID, {
     eager: true
   })

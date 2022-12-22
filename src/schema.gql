@@ -37,6 +37,7 @@ type AuctionField {
   End_Time: DateTime!
   Discount_Circle: Int!
   isOperation: Boolean!
+  totalProduct: Int
 }
 
 """
@@ -61,6 +62,7 @@ type ProductAuction {
   Auction_Field_ID: AuctionField!
   User_ID: User
   isSold: Boolean!
+  status: String
 }
 
 type Payment {
@@ -188,7 +190,9 @@ type Query {
   getAuctioningProduct: [ProductAuction!]!
   getAuctioningProductByCatalog(Catalog_Name: String!): [ProductAuction!]!
   searchAuctioningProduct(Product_Name: String!): [ProductAuction!]!
-  getAdminProduct: AdminProductResult!
+  getAdminProductCount: AdminProductResult!
+  getAdminProductInfo: [ProductAuction!]!
+  getFieldTotalProduct: [AuctionField!]!
   getOperatingAuctionField: [AuctionField!]!
   getAvailableAuctionField: [AuctionField!]!
   getLastestPayment(Payment_ID: String!): Payment!

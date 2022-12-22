@@ -13,7 +13,7 @@ import { ProductAuctionLog } from '../product-auction-log/entities/product-aucti
 import { Product } from '../product/entities/product.entity';
 import { AuctionField } from '../auction-field/entities/auction-field.entity';
 import { User } from '../user/entities/user.entity';
-import { AdminProductResult } from 'src/common/entities/common.entity';
+import { AdminProductResult, FieldProductCountResult } from 'src/common/entities/common.entity';
 
 @Injectable()
 export class ProductAuctionService {
@@ -187,7 +187,7 @@ export class ProductAuctionService {
     return await this.productAuctionRepository.find();
   }
 
-  async fileSold() : Promise<number>
+  async findSold() : Promise<ProductAuction[]>
   {
     const result =  await this.productAuctionRepository.find({
       relations: { Order: true },
@@ -197,23 +197,71 @@ export class ProductAuctionService {
         }
       }
     })
-    return result.length;
+    return result;
   }
 
-  async getAdminProduct()
+  async findUnPaid() : Promise<ProductAuction[]>
+  {
+    const result =  await this.productAuctionRepository.find({
+      relations: { Order: true },
+      where: {
+        Order: {
+          Status: false,
+        },
+        isSold: true
+      }
+    })
+    return result;
+  }
+
+  async getAdminProductCount()
   : Promise<AdminProductResult> {
     let adminResult = new AdminProductResult();
     adminResult.totalProduct = 0;
+
     const auctionField = await this.auctionFieldService.getOperatingAuctionField();
     auctionField.forEach(a => {
       adminResult.totalProduct += a.Product_Auction.length;
-      console.log(a.Product_Auction.length)
     });
     let productAuction = await this.getAll();
     adminResult.ordered = productAuction.filter(p => p.isSold == true).length;
-    adminResult.sold = await this.fileSold();
-    adminResult.selling = productAuction.filter(p => p.isSold == false).length;
+    adminResult.sold = (await this.findSold()).length;
+    adminResult.selling = (await this.findUnPaid()).length;
     return adminResult;
+  }
+
+  async getAdminProductInfo()
+  :Promise<ProductAuction[]> {
+    let result: ProductAuction[] = [];
+
+    const [ productAuction, orderedProduct, soldProduct ]  = await Promise.all([
+      this.getAll(),
+      this.findUnPaid(),
+      this.findSold()
+    ]) 
+    this.setStatus(orderedProduct, "Ordered");
+    this.setStatus(soldProduct, "Sold out");
+    const sellingProduct = productAuction.filter(p => p.isSold === false)
+    this.setStatus(sellingProduct, "Selling");
+    result = result.concat(orderedProduct, soldProduct, sellingProduct);
+
+    return result;
+  }
+
+  setStatus(productAuction: ProductAuction[], value: string)
+  : void {
+    productAuction.forEach(p => p.status = value);
+  }
+
+  async getFieldProductCount() 
+  : Promise<AuctionField[]> {
+    let result: AuctionField[] = [];
+    const auctionField = await this.auctionFieldService.getOperatingAuctionField();
+    auctionField.forEach((a, index) => {
+      result[index] = a,
+      result[index].totalProduct = a.Product_Auction.length
+    })
+    return result;
   }
 
 }

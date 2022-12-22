@@ -110,10 +110,30 @@ export class ProductAuctionResolver {
   }
 
   @Query(() => AdminProductResult)
-  async getAdminProduct() 
+  async getAdminProductCount() 
   : Promise<AdminProductResult> {
     try {
-      return await this.productAuctionService.getAdminProduct();
+      return await this.productAuctionService.getAdminProductCount();
+    } catch (e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @Query(() => [ProductAuction])
+  async getAdminProductInfo()
+  : Promise<ProductAuction[]> {
+    try {
+      return await this.productAuctionService.getAdminProductInfo();
+    } catch (e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @Query(() => [AuctionField])
+  async getFieldTotalProduct()
+  : Promise<AuctionField[]> {
+    try {
+      return await this.productAuctionService.getFieldProductCount();
     } catch (e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }
