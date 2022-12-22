@@ -15,7 +15,7 @@ export class TasksService {
     private readonly userBidService: UserBidService,
   ) {}
   
-  @Cron('30 17 21 * * *')
+  @Cron('30 12 0 * * *')
   async fieldOperating() {
     let auctionField = await this.auctionFieldService.getAll();
     const now = new Date(Date.now())
