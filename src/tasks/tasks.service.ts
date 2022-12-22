@@ -6,17 +6,20 @@ import { AuctionField } from '../modules/auction-field/entities/auction-field.en
 import { CronJob } from 'cron';
 import { ProductAuctionService } from '../modules/product-auction/product-auction.service';
 import { ProductAuction } from '../modules/product-auction/entities/product-auction.entity';
+import { UserBidService } from '../modules/user-bid/user-bid.service';
+import { OrderService } from '../modules/order/order.service';
 
 @Injectable()
 export class TasksService {
   constructor(
     private readonly auctionFieldService: AuctionFieldService,
     private readonly productAuctionService: ProductAuctionService,
+    private readonly userBidService: UserBidService,
   ) {}
   
   private sameDateAuction: AuctionField[] = [];
 
-  @Cron('30 40 17 * * *')
+  @Cron('30 54 14 * * *')
   async fieldOperating() {
     let auctionField = await this.auctionFieldService.getAll();
     const now = new Date(Date.now())
@@ -46,7 +49,10 @@ export class TasksService {
       a.Start_Time.setMinutes(a.Start_Time.getMinutes() + a.Discount_Circle);
 
       a.Product_Auction.forEach(async (pA) => {
-        await this.discountProduct(pA, nextDiscount)
+        await Promise.all([
+          this.discountProduct(pA, nextDiscount),
+          this.userBidService.getBidWinner(pA.Product_Auction_ID),
+        ])
       });
     })
   }

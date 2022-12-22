@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
@@ -9,6 +9,7 @@ import { Address } from '../address/entities/address.entity';
 import { Payment } from '../payment/entities/payment.entity';
 import { ProductAuction } from '../product-auction/entities/product-auction.entity';
 import { ProductAuctionService } from '../product-auction/product-auction.service';
+import { UserBid } from '../user-bid/entities/user-bid.entity';
 import { UserBidService } from '../user-bid/user-bid.service';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
@@ -21,6 +22,7 @@ export class OrderService {
     @InjectRepository(Order)
     private readonly orderRepository: Repository<Order>,
     private readonly userService: UserService,
+    @Inject(forwardRef(() => UserBidService))
     private readonly userBidService: UserBidService,
     private readonly productAuctionService: ProductAuctionService
   ) {}
@@ -44,6 +46,17 @@ export class OrderService {
     }
 
     return await this.newOrder(newOrder, productAuction, user);
+  }
+
+  async winnerBidGenOrder(productAuction: ProductAuction, userBid: UserBid)
+  : Promise<Order> {
+    const newOrder = new Order();
+    newOrder.Product_Auction_ID = productAuction;
+    newOrder.User_ID = userBid.User;
+    newOrder.Total_Price = userBid.Price;
+    newOrder.Address_ID = userBid.User.Default_Address_ID;
+
+    return await this.orderRepository.save(newOrder);
   }
 
   async firstOrder(newOrder: Order ,productAuction: ProductAuction, user: User)

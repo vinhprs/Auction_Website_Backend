@@ -71,7 +71,6 @@ export class ProductAuctionService {
         Auction_Field_ID: true
       }
     });
-
     return result;
   }
 
@@ -160,6 +159,9 @@ export class ProductAuctionService {
 
   async productDiscount(Product_Auction: ProductAuction)
   : Promise<void> {
+    if(Product_Auction.isSold) {
+      return;
+    }
     let { Current_Price, Discount_Rate } = Product_Auction;
     Current_Price = Current_Price - (Current_Price * (Discount_Rate/100));
     Product_Auction.Current_Price = Current_Price;

@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { getUserIdFromRequest } from 'src/utils/user-from-header.util';
 import { MoreThan, Repository } from 'typeorm';
 import { CurrencyService } from '../currency/currency.service';
+import { OrderService } from '../order/order.service';
 import { ProductAuction } from '../product-auction/entities/product-auction.entity';
 import { ProductAuctionService } from '../product-auction/product-auction.service';
 import { UserBidLog } from '../user-bid-log/entities/user-bid-log.entity';
@@ -21,7 +22,9 @@ export class UserBidService {
     private readonly userService: UserService,
     private readonly productAuctionService: ProductAuctionService,
     private readonly currencyService: CurrencyService,
-    private readonly userBidLogService: UserBidLogService
+    private readonly userBidLogService: UserBidLogService,
+    @Inject(forwardRef(() => OrderService))
+    private readonly orderService: OrderService
   ) {}
 
   async create(createUserBidInput: CreateUserBidInput, req: Request)
@@ -158,9 +161,17 @@ export class UserBidService {
       }),
       this.productAuctionService.getProductAuctionById(Product_Auction_ID)
     ]);
-    const result = userBid.filter(b => b.Price >= productAuction.Current_Price && Math.max() &&
-                                        Math.min(b.Time.getTime()))[0];
+    let listWinner = userBid.filter(b => +b.Price >= +productAuction.Current_Price);
+    const result = listWinner.sort((a: UserBid, b: UserBid) => a.Time.getTime() - b.Time.getTime())[0];
+
+    if(result) {
+      await Promise.all([
+        this.orderService.winnerBidGenOrder(productAuction, result),
+        this.productAuctionService.updateSold(productAuction)
+      ]) 
+      return result;
+    }
     
-    return result;
+    return null;
   }
 }

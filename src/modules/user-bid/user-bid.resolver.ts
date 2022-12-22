@@ -48,7 +48,9 @@ export class UserBidResolver {
     @Args('Product_Auction_ID') Product_Auction_ID: string
   ) : Promise<UserBid> {
     try {
-      return await this.userBidService.getBidWinner(Product_Auction_ID);
+      const result = await this.userBidService.getBidWinner(Product_Auction_ID);
+
+      return result;
     } catch(e) {
       throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
     }
