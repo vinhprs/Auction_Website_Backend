@@ -6,11 +6,11 @@ import { ProductAuction } from '../../product-auction/entities/product-auction.e
 @ObjectType()
 @Entity()
 export class UserBid {
-  @Field({nullable: true, defaultValue: null})
   @PrimaryColumn()
   User_ID: string;
   @ManyToOne(() => User, user => user.User_Bid)
   @JoinColumn({name: "User_ID"})
+  @Field(() => User,{nullable: true, defaultValue: null})
   User?: User;
 
   @PrimaryColumn()

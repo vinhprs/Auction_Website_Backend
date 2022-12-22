@@ -42,6 +42,10 @@ export class UserBidService {
   async existBid(User_ID: string, Product_Auction_ID: string)
   : Promise<UserBid> {
     const userBid = await this.userBidRepository.findOne({
+      relations: {
+        Product_Auction: true,
+        User: true
+      },
       where: {
         User: { User_ID },
         Product_Auction: { Product_Auction_ID }
@@ -101,7 +105,7 @@ export class UserBidService {
     
     await Promise.all([
       this.currencyService.changeCurrency(userCurrency),
-      this.currencyService.genCurrencyLog(userCurrency, `-${bidFee} your bid for ${productAuction.Product_ID.Product_Name}`)
+      this.currencyService.genCurrencyLog(userCurrency, `-${bidFee.toFixed(2)} your bid for ${productAuction.Product_ID.Product_Name}`)
     ]);
   }
 
@@ -137,17 +141,26 @@ export class UserBidService {
     return result;
   }
 
-  // async getBidWinner(Product_Auction_ID: string)
-  // : Promise<UserBid> {
-  //   const result = await this.userBidRepository.findOne({
-  //     where: {
-  //       Product_Auction: { 
-  //         Product_Auction_ID,
-  //         isSold: false,
-  //         Current_Price: MoreThan()
-  //       },
-        
-  //     }
-  //   })
-  // }
+  async getBidWinner(Product_Auction_ID: string)
+  : Promise<UserBid> {
+    const [ userBid, productAuction ] = await Promise.all([
+      this.userBidRepository.find({
+        relations: {
+          Product_Auction: true,
+          User: true
+        },
+        where: {
+          Product_Auction: { 
+            Product_Auction_ID,
+            isSold: false
+          },
+        }
+      }),
+      this.productAuctionService.getProductAuctionById(Product_Auction_ID)
+    ]);
+    const result = userBid.filter(b => b.Price >= productAuction.Current_Price && Math.max() &&
+                                        Math.min(b.Time.getTime()))[0];
+    
+    return result;
+  }
 }

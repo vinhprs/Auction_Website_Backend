@@ -41,7 +41,7 @@ export class PaymentService {
 
     await Promise.all([
       this.currencyService.changeCurrency(userCurrency),
-      this.currencyLogService.genCurrencyLog(userCurrency, `-${total} paid for your order`),
+      this.currencyLogService.genCurrencyLog(userCurrency, `-${total.toFixed(2)} paid for your order`),
       this.paymentRepository.save(newPayment),
     ]);
     await this.orderService.updateOrderStatus(Order_ID, newPayment);

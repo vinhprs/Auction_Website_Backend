@@ -43,4 +43,15 @@ export class UserBidResolver {
     }
   }
 
+  @Query(() => UserBid)
+  async getWinnerBid(
+    @Args('Product_Auction_ID') Product_Auction_ID: string
+  ) : Promise<UserBid> {
+    try {
+      return await this.userBidService.getBidWinner(Product_Auction_ID);
+    } catch(e) {
+      throw new HttpException(e.message, e.status || HttpStatus.FORBIDDEN);
+    }
+  }
+
 }

@@ -112,14 +112,13 @@ export class OrderService {
     result.total = 0.00;
     result.weight = 0.00;
     result.Address_ID = new Address();
+    
     userOrder.forEach(o => {
       result.total += +o.Total_Price,
       result.weight += +o.Product_Auction_ID.Weight
       console.log(o.Address_ID)
       Object.assign(result.Address_ID, o.Address_ID)
     });
-
-    console.log(result)
 
     return result;
   }
