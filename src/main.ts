@@ -13,7 +13,8 @@ async function bootstrap() {
       "http://localhost:3000",
       "https://freshauc.netlify.app",
       "https://www.sandbox.paypal.com",
-      "http://freshauc.xyz"
+      "http://freshauc.xyz",
+      "https://freshauc.xyz"
     ],
     credentials: true,
   })
